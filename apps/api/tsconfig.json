@@ -1,0 +1,47 @@
+{
+  "extends": "../../packages/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    /* Strictness */
+    "strict": true,
+    "strictNullChecks": false,
+    "strictBindCallApply": false,
+
+    /* Bundling Configuration */
+    "module": "commonjs",
+    "incremental": true,
+    "noImplicitAny": false,
+
+    /* Mapping */
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "src/",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Formatting */
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+
+    /* Path Aliases */
+    "paths": {
+      "@components/*": ["components/*"],
+      "@entities/*": ["entities/*"],
+      "@constants/*": ["constants/*"],
+      "@exceptions/*": ["common/exceptions/*"],
+      "@decorators/*": ["common/decorators/*"],
+      "@guards/*": ["common/guards/*"],
+      "@helpers/*": ["helpers/*"],
+      "@pipes/*": ["pipes/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@shared/*": ["../../../packages/shared/src/*"]
+    }
+  },
+  "references": [
+    {"path": "../../packages/shared"}
+  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

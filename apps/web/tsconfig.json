@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+
+    /* Strictness */
+    "strict": true,
+
+    /* Bundling Configuration */
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": true,
+    "module": "Preserve",
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "incremental": true,
+
+    /* Path Aliases */
+    "paths": {
+      "@/*": ["./*"],
+      "@shared/*": ["../../packages/shared/src/*"]
+    }
+  },
+  "references": [
+    {"path": "../../packages/shared"},
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

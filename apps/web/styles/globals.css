@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 8%;
+    --foreground-heading: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 8%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 151.72, 34.12%, 50%;
+    --info: 212.39, 84.46%, 37.84%;
+    --danger: 356.44, 47.87%, 41.37%;
+    --danger-foreground: 356.19, 52.94%, 46.67%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 147, 60%, 53%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    --radius: 1rem;
+    --bruh: -50%, -50%;
+  }
+  .dark {
+    --background: 0, 0%, 9%;
+    --foreground: 0 0% 90%;
+    --foreground-heading: 0 0% 98%;
+    --card: 0, 0%, 9%;
+    --card-foreground: 0 0% 90%;
+    --popover: 0, 0%, 9%;
+    --popover-foreground: 0 0% 90%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer utilities {
+  .container-size-xs {
+    @apply mx-auto my-lg max-w-[405px];
+  }
+
+  .container-size-sm {
+    @apply mx-auto my-lg max-w-[605px];
+  }
+
+  .container-size-md {
+    @apply mx-auto my-lg max-w-[805px];
+  }
+}
+
+@layer debug {
+  :root {
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(240, 10%, 8%);
+    --foreground-heading: hsl(240 10% 3.9%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(240 10% 3.9%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(240 10% 3.9%);
+    --primary: rgb(240 5 10);
+    --primary-foreground: hsl(0 0% 98%);
+    --secondary: hsl(240 4.8% 95.9%);
+    --secondary-foreground: hsl(240 5.9% 10%);
+    --muted: hsl(240 4.8% 95.9%);
+    --muted-foreground: hsl(240 3.8% 46.1%);
+    --accent: hsl(240 4.8% 95.9%);
+    --accent-foreground: hsl(240 5.9% 10%);
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --success: hsl(151.72, 34.12%, 50%);
+    --info: hsl(212.39, 84.46%, 37.84%);
+    --danger: hsl(356.44, 47.87%, 41.37%);
+    --danger-foreground: hsl(356.19, 52.94%, 46.67%);
+    --border: hsl(240 5.9% 90%);
+    --input: hsl(240 5.9% 90%);
+    --ring: hsl(147, 60%, 53%);
+    --chart-1: hsl(12 76% 61%);
+    --chart-2: hsl(173 58% 39%);
+    --chart-3: hsl(197 37% 24%);
+    --chart-4: hsl(43 74% 66%);
+    --chart-5: hsl(27 87% 67%);
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: hsl(0, 0%, 9%);
+    --foreground: hsl(0, 0%, 90%);
+    --foreground-heading: hsl(0 0% 98%);
+    --card: hsl(240 10% 3.9%);
+    --card-foreground: hsl(0 0% 98%);
+    --popover: hsl(240 10% 3.9%);
+    --popover-foreground: hsl(0 0% 98%);
+    --primary: hsl(0 0% 98%);
+    --primary-foreground: hsl(240 5.9% 10%);
+    --secondary: hsl(240 3.7% 15.9%);
+    --secondary-foreground: hsl(0 0% 98%);
+    --muted: hsl(240 3.7% 15.9%);
+    --muted-foreground: hsl(240 5% 64.9%);
+    --accent: hsl(240 3.7% 15.9%);
+    --accent-foreground: hsl(0 0% 98%);
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(240 3.7% 15.9%);
+    --input: hsl(240 3.7% 15.9%);
+    --chart-1: hsl(220 70% 50%);
+    --chart-2: hsl(160 60% 45%);
+    --chart-3: hsl(30 80% 55%);
+    --chart-4: hsl(280 65% 60%);
+    --chart-5: hsl(340 75% 55%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    @apply overflow-y-scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground-heading;
+  }
+}
+
+.icon {
+  @apply w-4 h-4;
+}
+
+.icon-lg {
+  @apply w-5 h-5;
+}
+
+/* Some */
+
+/*.entry-list-item {*/
+/*  @apply rounded hover:bg-accent transition-colors;*/
+/*}*/
+
+/*.entry-list-item:hover .entry-list-item__icon {*/
+/*  @apply translate-x-0.5 transition-transform ease-out;*/
+/*}*/

@@ -1,0 +1,186 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { getLocalSession } from '@/lib/session';
+import { get } from '@/lib/neofetch';
+import { IEntry } from '@shared/types';
+import { createDefinition } from '@/lib/actions';
+
+interface IReference {
+  value: string;
+  id: string;
+}
+
+function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [description, setDescription] = useState('');
+  const [examplePrompt, setExamplePrompt] = useState('');
+  const [examples, setExamples] = useState<string[]>([]);
+
+  const [reference, setReference] = useState('');
+  const [entryReference, setEntryReference] = useState<IReference>();
+  const [synonyms, setSynonyms] = useState<IReference[]>([]);
+  const [opposites, setOpposites] = useState<IReference[]>([]);
+  const [compares, setCompares] = useState<IReference[]>([]);
+
+  const [entries, setEntries] = useState<IEntry[]>([]);
+
+  useEffect(() => {
+    async function fetchEntries() {
+      const user = await getLocalSession();
+      const res = await get<IEntry[]>('entries/get-by-user/' + user?.id);
+
+      setEntries(res);
+    }
+
+    fetchEntries();
+  }, []);
+
+  const handleCreate = async () => {
+    await createDefinition({ description, examples, parentEntry: entryId });
+
+    setDescription('');
+    setExamplePrompt('');
+    setExamples([]);
+    setIsOpen(false);
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <div className="flex cursor-pointer items-center justify-center rounded-xl border p-3 transition-colors hover:bg-secondary">
+          Add new
+        </div>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create definition</DialogTitle>
+          <DialogDescription>
+            Create your definition here. Add more complex cases, specify examples, set up references
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="flex flex-col gap-2">
+            <p className="text">Description</p>
+            <Input
+              id="definitionDescription"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="col-span-3"
+              placeholder="Description"
+              autoComplete="off"
+            />
+          </div>
+          <div className="flex flex-col gap-xs">
+            <p className="text">Examples</p>
+            <div className="flex items-center justify-between gap-xs">
+              <Input
+                id="definitionExample"
+                value={examplePrompt}
+                onChange={(e) => setExamplePrompt(e.target.value)}
+                placeholder="Type your example"
+              />
+              <Button
+                size="sm"
+                onClick={() => {
+                  setExamples([...examples, examplePrompt]);
+                  setExamplePrompt('');
+                }}
+              >
+                Add
+              </Button>
+            </div>
+            {examples.map((item) => (
+              <p key={item}>• {item}</p>
+            ))}
+          </div>
+          <div className="flex flex-col gap-2">
+            <p>References</p>
+            <div className="flex justify-between gap-xs">
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a reference" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="synonym" onSelect={(e) => setReference('synonym')}>
+                      Synonym
+                    </SelectItem>
+                    <SelectItem value="opposite" onSelect={(e) => setReference('opposite')}>
+                      Opposite
+                    </SelectItem>
+                    <SelectItem value="compare" onSelect={(e) => setReference('compare')}>
+                      Compare
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select an entry" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {entries.map((item) => (
+                      <SelectItem
+                        value={item._id}
+                        key={item._id}
+                        onSelect={() => setEntryReference(item)}
+                      >
+                        {item.value}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              size="sm"
+              onClick={() => {
+                if (reference === 'synonym') {
+                  setSynonyms([...synonyms, entryReference]);
+                }
+                if (reference === 'opposite') {
+                  setOpposites([...opposites, entryReference]);
+                } else {
+                  setCompares([...compares, entryReference]);
+                }
+              }}
+              className="mt-xs"
+            >
+              Add
+            </Button>
+          </div>
+        </div>
+        {synonyms.map((item) => (
+          <div>• {item.value}</div>
+        ))}
+        <DialogFooter>
+          <Button onClick={handleCreate}>Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export default DefinitionsSectionAdd;
