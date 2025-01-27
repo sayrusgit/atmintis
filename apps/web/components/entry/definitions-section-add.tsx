@@ -23,7 +23,8 @@ import {
 import { getLocalSession } from '@/lib/session';
 import { get } from '@/lib/neofetch';
 import { IEntry } from '@shared/types';
-import { createDefinition } from '@/lib/actions';
+import { createDefinitionAction } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 interface IReference {
   value: string;
@@ -31,6 +32,8 @@ interface IReference {
 }
 
 function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [description, setDescription] = useState('');
@@ -57,12 +60,21 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
   }, []);
 
   const handleCreate = async () => {
-    await createDefinition({ description, examples, parentEntry: entryId });
+    await createDefinitionAction({
+      description,
+      examples,
+      synonyms,
+      opposites,
+      compares,
+      parentEntry: entryId,
+    });
 
     setDescription('');
     setExamplePrompt('');
     setExamples([]);
     setIsOpen(false);
+
+    router.refresh();
   };
 
   return (
@@ -117,25 +129,19 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
           <div className="flex flex-col gap-2">
             <p>References</p>
             <div className="flex justify-between gap-xs">
-              <Select>
+              <Select onValueChange={setReference}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select a reference" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="synonym" onSelect={(e) => setReference('synonym')}>
-                      Synonym
-                    </SelectItem>
-                    <SelectItem value="opposite" onSelect={(e) => setReference('opposite')}>
-                      Opposite
-                    </SelectItem>
-                    <SelectItem value="compare" onSelect={(e) => setReference('compare')}>
-                      Compare
-                    </SelectItem>
+                    <SelectItem value="synonym">Synonym</SelectItem>
+                    <SelectItem value="opposite">Opposite</SelectItem>
+                    <SelectItem value="compare">Compare</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <Select>
+              <Select onValueChange={(value) => setEntryReference(JSON.parse(value))}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select an entry" />
                 </SelectTrigger>
@@ -143,9 +149,8 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
                   <SelectGroup>
                     {entries.map((item) => (
                       <SelectItem
-                        value={item._id}
+                        value={JSON.stringify({ id: item._id, value: item.value })}
                         key={item._id}
-                        onSelect={() => setEntryReference(item)}
                       >
                         {item.value}
                       </SelectItem>
@@ -157,14 +162,18 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
             <Button
               size="sm"
               onClick={() => {
-                if (reference === 'synonym') {
+                if (reference === 'synonym' && entryReference) {
                   setSynonyms([...synonyms, entryReference]);
                 }
-                if (reference === 'opposite') {
+                if (reference === 'opposite' && entryReference) {
                   setOpposites([...opposites, entryReference]);
-                } else {
+                }
+                if (reference === 'compare' && entryReference) {
                   setCompares([...compares, entryReference]);
                 }
+
+                setReference('');
+                setEntryReference(undefined);
               }}
               className="mt-xs"
             >
@@ -173,7 +182,13 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
           </div>
         </div>
         {synonyms.map((item) => (
-          <div>• {item.value}</div>
+          <div key={item.id + Date.now()}>• {item.value}</div>
+        ))}
+        {opposites.map((item) => (
+          <div key={item.id + Date.now()}>• {item.value}</div>
+        ))}
+        {compares.map((item) => (
+          <div key={item.id + Date.now()}>• {item.value}</div>
         ))}
         <DialogFooter>
           <Button onClick={handleCreate}>Create</Button>

@@ -13,18 +13,21 @@ const secret = process.env.JWT || '';
 const encodedKey = new TextEncoder().encode(secret);
 
 export const createSession = async (
-  username: string,
+  login: string,
   password: string,
-): Promise<ILoginData | undefined> => {
+  mfaCode?: string,
+): Promise<ILoginData | IError> => {
   try {
     const rawRes = await fetch('http://localhost:5000/api/auth/login', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: mfaCode
+        ? JSON.stringify({ login, password, mfaCode })
+        : JSON.stringify({ login, password }),
     });
-    const res = await rawRes.json();
+    const res: ILoginData = await rawRes.json();
 
-    if (!res.success) return;
+    if (!res?.success) return res as unknown as IError;
 
     const cookieStore = await cookies();
 
@@ -45,8 +48,14 @@ export const createSession = async (
     });
 
     return res;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
+
+    return {
+      statusCode: 500,
+      message: 'Something went wrong',
+      error: err.message,
+    };
   }
 };
 
@@ -63,7 +72,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       credentials: 'include',
       headers,
     });
-    const res = await rawRes.json();
+    const res: ILoginData = await rawRes.json();
 
     if (!res.success) return;
 
@@ -115,10 +124,7 @@ export const getLocalSession = async (): Promise<ISession | undefined> => {
   try {
     const decodedSession = await decrypt(at);
 
-    let isRetry = false;
-    if (!decodedSession) {
-      const res = updateSession(rt || '');
-    }
+    if (!decodedSession) await updateSession(rt || '');
 
     return {
       id: decodedSession!.sub,

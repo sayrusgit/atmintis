@@ -13,7 +13,7 @@ import * as qrcode from 'qrcode';
 import { User, UserDocument } from '@entities/user.schema';
 import { ListsService } from '@components/data/services/lists.service';
 import { validateId } from '@helpers/ValidateId';
-import { IError, IResponse } from '@shared/types';
+import { IError, IMfaPayload, IResponse } from '@shared/types';
 import { DefinitionsService } from '@components/data/services/definitions.service';
 import { EntriesService } from '@components/data/services/entries.service';
 
@@ -38,9 +38,9 @@ export class UsersService {
     return this.userModel.findOne({ email });
   }
 
-  async getUserByNameOrEmail(username: string, email: string): Promise<UserDocument> {
+  async getUserByNameOrEmail(login: string): Promise<UserDocument> {
     return this.userModel.findOne({
-      $or: [{ email }, { username }],
+      $or: [{ email: login }, { username: login }],
     });
   }
 
@@ -177,7 +177,7 @@ export class UsersService {
     };
   }
 
-  async enableMfa(id: string): Promise<{ secret: string; qrcode: string }> {
+  async enableMfa(id: string): Promise<IMfaPayload> {
     const user = await this.isUser(id);
     if (user.mfa.isEnabled) throw new BadRequestException('2FA is already enabled');
 

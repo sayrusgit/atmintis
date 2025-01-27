@@ -3,6 +3,7 @@ import { getSession } from '@/lib/session';
 import SettingsPasswordSection from '@/components/settings/settings-password-section';
 import React from 'react';
 import SettingsProfilePicture from '@/components/settings/settings-profile-picture';
+import SettingsMfaSection from '@/components/settings/settings-mfa-section';
 
 async function Page() {
   const user = await getSession();
@@ -19,7 +20,8 @@ async function Page() {
           </div>
           <h2 className="my-sm text-2xl">Password</h2>
           <SettingsPasswordSection />
-          <h2 className="my-sm text-2xl">2FA</h2>
+          <h2 className="my-sm text-2xl">Multi-factor authentication</h2>
+          <SettingsMfaSection user={user} />
         </CardContent>
       </Card>
     </div>

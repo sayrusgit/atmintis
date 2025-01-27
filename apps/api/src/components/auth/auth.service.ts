@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   ForbiddenException,
+  HttpException,
+  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -44,6 +46,15 @@ export class AuthService {
     await this.updateRefreshToken(String(user._id), tokens.refreshToken);
 
     if (user.mfa.isEnabled) {
+      if (!data.mfaCode) throw new HttpException('Provide MFA code', HttpStatus.EXPECTATION_FAILED);
+
+      const isMfaCodeCorrect = await this.usersService.verifyMfa(
+        user.id,
+        data.mfaCode,
+        user.mfa.secret,
+      );
+      if (!isMfaCodeCorrect) throw new HttpException('Incorrect MFA code', HttpStatus.UNAUTHORIZED);
+
       return {
         success: true,
         message: 'Successfully logged in',
@@ -137,15 +148,12 @@ export class AuthService {
   }
 
   private async validateUserData(data: UserDataDto): Promise<UserDocument> {
-    const user = await this.usersService.getUserByNameOrEmail(data.username, data.email);
-    if (!user) throw new BadRequestException('Incorrect email or password');
+    const user = await this.usersService.getUserByNameOrEmail(data.login);
+    if (!user) throw new BadRequestException('Invalid username or email');
 
     const isPasswordValid = await this.usersService.checkUserPassword(data.password, user.password);
 
-    if (!(user && isPasswordValid))
-      throw new UnauthorizedException({
-        message: 'Incorrect credentials',
-      });
+    if (!(user && isPasswordValid)) throw new UnauthorizedException('Invalid password');
 
     return user;
   }

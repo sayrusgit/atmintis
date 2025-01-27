@@ -58,6 +58,11 @@ export interface IJwtPayload {
   role: string;
 }
 
+export interface IMfaPayload {
+  secret: string;
+  qrcode: string
+}
+
 export interface ISession {
   id: string;
   username: string;
@@ -131,7 +136,7 @@ export interface IDefinition {
 export interface IDefinitionReferences {
   value: string;
   id: string;
-  _id: string;
+  _id?: string;
 }
 
 export interface IPracticeSession {

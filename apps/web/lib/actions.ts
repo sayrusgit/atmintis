@@ -44,12 +44,10 @@ export async function addTagToEntryAction(entryId: string, tags: string[]) {
 
 export async function removeTagFromEntryAction(entryId: string, tags: string[]) {}
 
-export async function createDefinition(data: CreateDefinitionDto) {
+export async function createDefinitionAction(data: CreateDefinitionDto) {
   const user = await getLocalSession();
 
   await post('definitions', { ...data, userId: user?.id });
-
-  redirect('/entry/' + data.parentEntry);
 }
 
 export async function startListPracticeAction(listId: string) {

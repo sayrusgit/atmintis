@@ -1,7 +1,7 @@
 export class UserDataDto {
-  readonly username?: string;
-  readonly email?: string;
+  readonly login: string;
   readonly password: string;
+  readonly mfaCode?: string;
 }
 
 export class SignupDataDto {
