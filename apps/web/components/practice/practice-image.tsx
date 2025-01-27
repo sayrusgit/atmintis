@@ -11,7 +11,7 @@ function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
     setIsRevealed(!isRevealed);
   };
 
-  if (!ongoingEntry.imagePath)
+  if (!ongoingEntry.image)
     return (
       <div
         className="flex h-36 w-36 items-center justify-center rounded-xl bg-secondary/60"
@@ -28,7 +28,7 @@ function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
     >
       {isRevealed ? (
         <Image
-          src={'http://localhost:5000/static/entry-images/' + ongoingEntry.imagePath}
+          src={'http://localhost:5000/static/entry-images/' + ongoingEntry.image}
           alt="Entry image"
           height={144}
           width={144}
