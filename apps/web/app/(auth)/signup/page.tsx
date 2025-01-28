@@ -45,8 +45,8 @@ function Page() {
             <p className="text-sm text-red-400">Looks like you made a typo</p>
           )}
           <Input
-            id="passwordConfirmation"
-            name="passwordConfirmation"
+            id="confirmPassword"
+            name="confirmPassword"
             placeholder="Password"
             type="password"
           />

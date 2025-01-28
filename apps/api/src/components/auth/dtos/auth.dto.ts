@@ -1,3 +1,5 @@
+import { Length } from 'class-validator';
+
 export class UserDataDto {
   readonly login: string;
   readonly password: string;

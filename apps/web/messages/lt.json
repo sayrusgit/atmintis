@@ -1,0 +1,48 @@
+{
+  "header": {
+    "SearchPlaceholder": "Paieška",
+    "NewEntry": {
+      "button": "Naujas",
+      "title": "Naujas įrašas",
+      "form": {
+        "entryPlaceholder": "Įrašo pavadinimas",
+        "descriptionPlaceholder": "Įrašo aprašymas",
+        "type": "Tipas",
+        "types": {
+          "noun": "Daiktavardis",
+          "adjective": "Būdvardis",
+          "verb": "Veiksmažodis",
+          "adverb": "Prieveiksmis"
+        },
+        "list": "Pasirinkite sąrašą...",
+        "submit": "Sukurti",
+        "cancel": "Atšaukti"
+      }
+    },
+    "Nav": {
+      "theme": "Tema",
+      "themes": {
+        "light": "Šviesi",
+        "dark": "Tamsi"
+      },
+      "language": "Kalba",
+      "settings": "Nustatymai",
+      "shortcuts": "Klaviatūros nuorodos",
+      "logout": "Išeiti"
+    }
+  },
+  "root": {
+
+  },
+  "auth": {
+    "SignIn": {
+      "title": "Sign up",
+      "form": {
+        "loginPlaceholder": "Username or email",
+        "passwordPlaceholder": "Password",
+        "restorePassword": "Restore password",
+        "submit": "Sign In"
+      }
+    }
+  }
+}

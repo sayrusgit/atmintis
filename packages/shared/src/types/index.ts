@@ -25,6 +25,14 @@ export enum Role {
   PREMIUM_USER = 'premium_user',
 }
 
+export enum Locale {
+  EN = 'en',
+  LT = 'lt',
+  CZ = 'cz',
+  PL = 'pl',
+  DE = 'de',
+}
+
 export interface IUser {
   mfa: {
     isEnabled: boolean;
@@ -38,6 +46,7 @@ export interface IUser {
   password: string;
   role: Role;
   profilePicture: string;
+  locale: Locale;
 
   spaces: [],
   refreshToken: string;

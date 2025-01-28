@@ -6,10 +6,11 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { ROUTES } from '@constants/index';
+import { Locale, Role, ROUTES } from '@constants/index';
 import { UsersService } from '@components/users/users.service';
 import {
   CreateUserDto,
@@ -20,11 +21,13 @@ import { FileInterceptor, NoFilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@decorators/user.decorator';
 import { IMAGE_INTERCEPTOR_OPTIONS } from '@constants/multer-config';
 import { SharpPipe } from '../../common/pipes/sharp.pipe';
+import { Roles } from '@decorators/roles.decorator';
 
 @Controller(ROUTES.USERS)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Roles(Role.ADMIN)
   @Get()
   getUsers() {
     return this.usersService.getUsers();
@@ -55,6 +58,11 @@ export class UsersController {
   @UseInterceptors(FileInterceptor('file', IMAGE_INTERCEPTOR_OPTIONS))
   updateUserPicture(@Param('id') id: string, @UploadedFile(new SharpPipe()) filename: string) {
     return this.usersService.updateUserPicture(id, filename);
+  }
+
+  @Put('update-locale/:id')
+  updateUserLocale(@Param('id') id: string, @Query('locale') locale: Locale) {
+    return this.usersService.updateUserLocale(id, locale);
   }
 
   @Delete(':id')

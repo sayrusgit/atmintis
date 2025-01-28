@@ -1,8 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-
-const API_URL = 'http://localhost:5000/api';
+import { API_URL } from '@/lib/utils';
 
 type TMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -22,7 +21,13 @@ async function del<T>(url: string): Promise<T> {
   return await fetcher(url, 'DELETE');
 }
 
-const fetcher = async (url: string, method: TMethod = 'GET', body?: any, isFormData?: boolean) => {
+const fetcher = async (
+  endpoint: string,
+  method: TMethod = 'GET',
+  body?: any,
+  isFormData?: boolean,
+  isRaw?: boolean,
+) => {
   const cookieStore = await cookies();
   const at = cookieStore.get('accessToken')?.value || '';
 
@@ -32,13 +37,12 @@ const fetcher = async (url: string, method: TMethod = 'GET', body?: any, isFormD
   if (!isFormData && body) headers.set('Content-Type', 'application/json');
 
   try {
-    let raw = await fetch(API_URL + '/' + url, {
+    let raw = await fetch(API_URL + endpoint, {
       method,
       credentials: 'include',
       headers,
       body: isFormData ? body : JSON.stringify(body),
     });
-
     return await raw.json();
   } catch (err) {
     return {

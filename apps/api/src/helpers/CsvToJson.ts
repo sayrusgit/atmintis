@@ -46,7 +46,7 @@ export function csvToJson<T>(csvString: string): T[] {
       const jsonObject = {};
 
       headers.forEach((header, index) => {
-        jsonObject[header.trim()] = values[index]?.trim() || null;
+        jsonObject[header.trim()] = values[index] || 'undefined';
       });
 
       return jsonObject;

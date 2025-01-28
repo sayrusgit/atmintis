@@ -24,9 +24,13 @@ import { IUser } from '@shared/types';
 import Link from 'next/link';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import PageHeaderDialogContent from '@/components/page-header-dialog-content';
+import { updateUserLocaleAction } from '@/lib/actions';
+import { useTranslations } from 'use-intl';
 
-function NavUser({ user }: { user: IUser }) {
+function PageHeaderNav({ user }: { user: IUser }) {
   const { theme, setTheme } = useTheme();
+
+  const t = useTranslations('header.Nav');
 
   const toggleTheme = (themeToChange: string) => {
     if (theme === themeToChange) return;
@@ -79,14 +83,14 @@ function NavUser({ user }: { user: IUser }) {
           <DropdownMenuSeparator className="my-2" />
           <DropdownMenuGroup>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="text-md my-2">Theme</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger className="text-md my-2">{t('theme')}</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent className="mx-3 w-36 p-xs">
                   <span onClick={() => toggleTheme('dark')}>
                     <DropdownMenuItem className="text-md mb-1">
                       <div className="flex items-center justify-between">
                         <MoonIcon className="mr-2" />
-                        Dark
+                        {t('themes.dark')}
                       </div>
                     </DropdownMenuItem>
                   </span>
@@ -94,7 +98,7 @@ function NavUser({ user }: { user: IUser }) {
                     <DropdownMenuItem className="text-md">
                       <div className="flex items-center justify-between">
                         <SunIcon className="mr-2" />
-                        Light
+                        {t('themes.light')}
                       </div>
                     </DropdownMenuItem>
                   </span>
@@ -102,13 +106,18 @@ function NavUser({ user }: { user: IUser }) {
               </DropdownMenuPortal>
             </DropdownMenuSub>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="text-md my-2">Language</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger className="text-md my-2">
+                {t('language')}
+              </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent className="mx-3 w-36 p-xs">
-                  <DropdownMenuItem className="text-md mb-1">
+                  <DropdownMenuItem
+                    className="text-md mb-1"
+                    onClick={() => updateUserLocaleAction('en')}
+                  >
                     <div className="flex items-center justify-between">
                       <Image
-                        src="/images/FlagUS.png"
+                        src="/images/flagUS.png"
                         alt="US flag"
                         width={25}
                         height={25}
@@ -117,10 +126,13 @@ function NavUser({ user }: { user: IUser }) {
                       <span className="leading-5">English</span>
                     </div>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-md mb-1" disabled>
+                  <DropdownMenuItem
+                    className="text-md mb-1"
+                    onClick={() => updateUserLocaleAction('lt')}
+                  >
                     <div className="flex items-center justify-between">
                       <Image
-                        src="/images/FlagLT.png"
+                        src="/images/flagLT.png"
                         alt="US flag"
                         width={25}
                         height={25}
@@ -129,10 +141,13 @@ function NavUser({ user }: { user: IUser }) {
                       <span className="leading-5">Lietuvių</span>
                     </div>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-md mb-1" disabled>
+                  <DropdownMenuItem
+                    className="text-md mb-1"
+                    onClick={() => updateUserLocaleAction('cz')}
+                  >
                     <div className="flex items-center justify-between">
                       <Image
-                        src="/images/FlagCZ.png"
+                        src="/images/flagCZ.png"
                         alt="US flag"
                         width={25}
                         height={25}
@@ -141,22 +156,46 @@ function NavUser({ user }: { user: IUser }) {
                       <span className="leading-5">Čeština</span>
                     </div>
                   </DropdownMenuItem>
+                  <DropdownMenuItem className="text-md mb-1" disabled>
+                    <div className="flex items-center justify-between">
+                      <Image
+                        src="/images/flagDE.png"
+                        alt="US flag"
+                        width={25}
+                        height={25}
+                        className="mr-2"
+                      />
+                      <span className="leading-5">Deutsch</span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-md mb-1" disabled>
+                    <div className="flex items-center justify-between">
+                      <Image
+                        src="/images/flagPL.png"
+                        alt="US flag"
+                        width={25}
+                        height={25}
+                        className="mr-2"
+                      />
+                      <span className="leading-5">Polski</span>
+                    </div>
+                  </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
             <Link href="/settings">
-              <DropdownMenuItem className="text-md my-2">Settings</DropdownMenuItem>
+              <DropdownMenuItem className="text-md my-2">{t('settings')}</DropdownMenuItem>
             </Link>
             <DialogTrigger asChild>
               <DropdownMenuItem className="text-md my-2 hover:bg-black">
-                Keyboard shortcuts
+                {t('shortcuts')}
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DialogTrigger>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <span onClick={logout}>
-            <DropdownMenuItem className="text-md mt-2">Log out</DropdownMenuItem>
+            <DropdownMenuItem className="text-md mt-2">{t('logout')}</DropdownMenuItem>
           </span>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -165,4 +204,4 @@ function NavUser({ user }: { user: IUser }) {
   );
 }
 
-export default NavUser;
+export default PageHeaderNav;

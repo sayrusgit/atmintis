@@ -4,23 +4,30 @@ import { noto_sans } from '@/styles/fonts';
 import React from 'react';
 import { Providers } from '@/app/providers';
 import PageHeader from '@/components/page-header';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 
 export const metadata: Metadata = {
   title: 'Home | atmintis',
   description: 'All your memories in one place',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${noto_sans.className} antialiased`}>
         <Providers>
-          <PageHeader />
-          <main className="container">{children}</main>
+          <NextIntlClientProvider messages={messages}>
+            <PageHeader />
+            <main className="container">{children}</main>
+          </NextIntlClientProvider>
         </Providers>
       </body>
     </html>

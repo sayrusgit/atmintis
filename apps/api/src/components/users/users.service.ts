@@ -13,9 +13,10 @@ import * as qrcode from 'qrcode';
 import { User, UserDocument } from '@entities/user.schema';
 import { ListsService } from '@components/data/services/lists.service';
 import { validateId } from '@helpers/ValidateId';
-import { IError, IMfaPayload, IResponse } from '@shared/types';
+import { IError, IMfaPayload, IResponse, Locale } from '@shared/types';
 import { DefinitionsService } from '@components/data/services/definitions.service';
 import { EntriesService } from '@components/data/services/entries.service';
+import { IsEnum } from 'class-validator';
 
 @Injectable()
 export class UsersService {
@@ -156,6 +157,16 @@ export class UsersService {
       success: true,
       message: 'Profile picture has been updated',
       response: res,
+    };
+  }
+
+  async updateUserLocale(id: string, locale: Locale): Promise<IResponse<UpdateWriteOpResult>> {
+    const user = await this.userModel.updateOne({ _id: id }, { locale }, { runValidators: true });
+
+    return {
+      success: true,
+      message: 'Locale has been updated',
+      response: user,
     };
   }
 

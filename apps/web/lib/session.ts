@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 import { get } from '@/lib/neofetch';
 import { IError, IJwtPayload, ILoginData, ISession, IUser } from '@shared/types';
+import { API_URL } from '@/lib/utils';
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
@@ -11,6 +12,7 @@ const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
 
 const secret = process.env.JWT || '';
 const encodedKey = new TextEncoder().encode(secret);
+const isSecureCookie = process.env.BUILD === 'build';
 
 export const createSession = async (
   login: string,
@@ -18,7 +20,7 @@ export const createSession = async (
   mfaCode?: string,
 ): Promise<ILoginData | IError> => {
   try {
-    const rawRes = await fetch('http://localhost:5000/api/auth/login', {
+    const rawRes = await fetch(API_URL + 'auth/login', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: mfaCode
@@ -36,7 +38,7 @@ export const createSession = async (
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
-      // secure: true, // set to true if using https
+      secure: isSecureCookie,
     });
 
     cookieStore.set('refreshToken', res.response.tokens.refreshToken, {
@@ -44,7 +46,7 @@ export const createSession = async (
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
-      // secure: true, // set to true if using https
+      secure: isSecureCookie,
     });
 
     return res;
@@ -67,7 +69,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       Cookie: `refreshToken=${rt}; `,
     });
 
-    const rawRes = await fetch('http://localhost:5000/api/auth/refresh', {
+    const rawRes = await fetch(API_URL + 'auth/refresh', {
       method: 'GET',
       credentials: 'include',
       headers,
@@ -81,7 +83,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
-      // secure: true, // set to true if using https
+      secure: isSecureCookie,
     });
 
     cookieStore.set('refreshToken', res.response.tokens.refreshToken, {
@@ -89,7 +91,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
-      // secure: true, // set to true if using https
+      secure: isSecureCookie,
     });
 
     return res;

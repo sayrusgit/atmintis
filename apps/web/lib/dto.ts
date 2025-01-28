@@ -3,7 +3,6 @@ import { IDefinitionReferences } from '@shared/types';
 export interface CreateEntryDto {
   value: string;
   description: string;
-  context?: CreateEntryContextDto;
   type: string;
   list?: string;
 }

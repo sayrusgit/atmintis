@@ -2,6 +2,9 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import * as React from 'react';
 
+export const API_URL =
+  process.env.BUILD === 'prod' ? String(process.env.API_URL) : 'http://localhost:5000/api/';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

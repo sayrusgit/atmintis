@@ -11,11 +11,22 @@ import {
 import { revalidatePath } from 'next/cache';
 import { IPracticeSession, IResponse, IUser } from '@shared/types';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
+
+const CreateEntrySchema = z.object({
+  value: z.string().trim().nonempty(),
+  description: z.string().trim().nonempty(),
+  type: z.string().optional(),
+  list: z.string().optional(),
+});
 
 export async function createEntryAction(data: CreateEntryDto) {
+  const zData = CreateEntrySchema.safeParse(data);
+  if (!zData.success) return;
+
   const user = await getLocalSession();
 
-  const res = await post<IResponse<any>>('entries/create', { ...data, userId: user?.id });
+  const res = await post<IResponse<any>>('entries/create', { ...zData.data, userId: user?.id });
 
   revalidatePath('/list/*');
 
@@ -23,7 +34,7 @@ export async function createEntryAction(data: CreateEntryDto) {
 }
 
 export async function updateEntryAction(data: UpdateEntryDto) {
-  const res = await put<IResponse<any>>('entries/' + data._id, data);
+  await put<IResponse<any>>('entries/' + data._id, data);
 
   redirect('/entry/' + data._id);
 }
@@ -111,4 +122,12 @@ export async function changeUserPasswordAction(state: any, formData: FormData) {
   const res = await put<IResponse<IUser>>('users/change-password/' + user?.id, formData, true);
 
   if (res?.success) return { success: true, message: res.message };
+}
+
+export async function updateUserLocaleAction(locale: string) {
+  const user = await getLocalSession();
+
+  await put<IResponse<any>>(`users/update-locale/${user?.id}?locale=${locale}`, {});
+
+  revalidatePath('/');
 }

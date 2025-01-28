@@ -8,8 +8,11 @@ import { Card } from '@/components/ui/card';
 import { IEntry } from '@shared/types';
 import { useDebouncedCallback } from '@/lib/hooks';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { useTranslations } from 'use-intl';
 
 export default function PageHeaderInput({ userId }: { userId: string }) {
+  const t = useTranslations('header');
+
   const [searchTerm, setSearchTerm] = useState('');
   const [searchSuggestions, setSearchSuggestions] = useState<IEntry[]>([]);
 
@@ -28,7 +31,7 @@ export default function PageHeaderInput({ userId }: { userId: string }) {
     /*TODO rewrite ml-5 to proper grid implementation*/
     <div className="w-full max-w-[605px] md:ml-6">
       <Input
-        placeholder="Search"
+        placeholder={t('SearchPlaceholder')}
         value={searchTerm}
         onChange={(e) => handleChange(e)}
         className="w-full max-w-[605px]"

@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { IList } from '@shared/types';
+import { useTranslations } from 'use-intl';
 
 interface NewEntryListSelectProps {
   lists: IList[] | undefined;
@@ -18,6 +19,8 @@ interface NewEntryListSelectProps {
 }
 
 export function NewEntryListSelect({ lists, setList }: NewEntryListSelectProps) {
+  const t = useTranslations('header');
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
@@ -30,7 +33,7 @@ export function NewEntryListSelect({ lists, setList }: NewEntryListSelectProps) 
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value ? lists?.find((list) => list._id === value)?.title : 'Select a list...'}
+          {value ? lists?.find((list) => list._id === value)?.title : t('NewEntry.form.list')}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

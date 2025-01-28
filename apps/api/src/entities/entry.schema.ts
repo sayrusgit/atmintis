@@ -8,10 +8,10 @@ export type EntryDocument = HydratedDocument<Entry>;
 
 @Schema({ timestamps: true })
 export class Entry {
-  @Prop({ required: true, index: true })
+  @Prop({ required: true, index: true, trim: true })
   value: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, trim: true })
   description: string;
 
   @Prop()

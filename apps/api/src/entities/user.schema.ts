@@ -1,7 +1,7 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Role } from '@constants/index';
 import { IsEnum } from 'class-validator';
+import { Locale, Role } from '@constants/index';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -35,6 +35,10 @@ export class User {
 
   @Prop()
   profilePicture: string;
+
+  @Prop({ type: String, enum: Locale, default: Locale.EN })
+  @IsEnum(Locale)
+  locale: Locale;
 
   @Prop()
   refreshToken: string;

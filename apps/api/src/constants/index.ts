@@ -13,3 +13,11 @@ export enum Role {
   USER = 'user',
   PREMIUM_USER = 'premium_user',
 }
+
+export enum Locale {
+  EN = 'en',
+  LT = 'lt',
+  CZ = 'cz',
+  PL = 'pl',
+  DE = 'de',
+}

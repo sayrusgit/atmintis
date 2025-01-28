@@ -1,12 +1,14 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { ROUTES } from '@constants/index';
+import { Role, ROUTES } from '@constants/index';
 import { PracticeService } from '@components/practice/practice.service';
 import { PracticeResponseDto } from '@components/practice/dtos/practice.dto';
+import { Roles } from '@decorators/roles.decorator';
 
 @Controller(ROUTES.PRACTICE)
 export class PracticeController {
   constructor(private practiceService: PracticeService) {}
 
+  @Roles(Role.ADMIN)
   @Get('sessions')
   getPracticeSessions() {
     return this.practiceService.getPracticeSessions();

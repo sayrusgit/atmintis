@@ -25,8 +25,11 @@ import {
 } from '@/components/ui/select';
 import { createEntryAction } from '@/lib/actions';
 import { IList, IUser } from '@shared/types';
+import { useTranslations } from 'use-intl';
 
 const NewEntry = ({ lists }: { lists: IList[]; user: IUser }) => {
+  const t = useTranslations('header');
+
   const drawerRef = useRef<HTMLButtonElement | null>(null);
   const [data, setData] = useState<CreateEntryDto>({
     value: '',
@@ -47,12 +50,7 @@ const NewEntry = ({ lists }: { lists: IList[]; user: IUser }) => {
   };
 
   const handleCreate = async () => {
-    if (!data.value || !data.description) return;
-
-    const res = await createEntryAction({
-      ...data,
-      context: entryContext.value ? entryContext : undefined,
-    });
+    await createEntryAction({ ...data });
 
     setData({ value: '', description: '', type: '' });
     setIsOpen(false);
@@ -91,7 +89,7 @@ const NewEntry = ({ lists }: { lists: IList[]; user: IUser }) => {
           <HoverCardTrigger asChild>
             <div className="flex h-10 cursor-pointer items-center rounded-md border pl-3 pr-4 text-sm font-medium transition-colors hover:bg-accent">
               <PlusIcon className="mr-2 h-5 w-5" />
-              New
+              {t('NewEntry.button')}
             </div>
           </HoverCardTrigger>
           <HoverCardContent
@@ -106,66 +104,43 @@ const NewEntry = ({ lists }: { lists: IList[]; user: IUser }) => {
       <DrawerContent className="outline-0">
         <div className="mx-auto w-full max-w-[615px]">
           <DrawerHeader>
-            <DrawerTitle>New entry</DrawerTitle>
+            <DrawerTitle>{t('NewEntry.title')}</DrawerTitle>
           </DrawerHeader>
           <div className="space-y-5 p-4">
             <div className="flex flex-col items-center justify-between gap-sm md:flex-row">
               <Input
                 value={data.value}
                 onChange={(e) => setData({ ...data, value: e.target.value })}
-                placeholder="Entry title"
+                placeholder={t('NewEntry.form.entryPlaceholder')}
                 autoFocus
               />
               <Input
                 value={data.description}
                 onChange={(e) => setData({ ...data, description: e.target.value })}
-                placeholder="Entry description"
+                placeholder={t('NewEntry.form.descriptionPlaceholder')}
               />
               <Select onValueChange={(value) => setData({ ...data, type: value })}>
                 <SelectTrigger className="w-full md:w-[330px]">
-                  <SelectValue placeholder="Type" />
+                  <SelectValue placeholder={t('NewEntry.form.type')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="noun">Noun</SelectItem>
-                  <SelectItem value="adjective">Adjective</SelectItem>
-                  <SelectItem value="verb">Verb</SelectItem>
-                  <SelectItem value="adverb">Adverb</SelectItem>
+                  <SelectItem value="noun">{t('NewEntry.form.types.noun')}</SelectItem>
+                  <SelectItem value="adjective">{t('NewEntry.form.types.adjective')}</SelectItem>
+                  <SelectItem value="verb">{t('NewEntry.form.types.verb')}</SelectItem>
+                  <SelectItem value="adverb">{t('NewEntry.form.types.adverb')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            {/*<div className="flex justify-between gap-sm">*/}
-            {/*  <Select onValueChange={(value) => setEntryContext({ ...entryContext, color: value })}>*/}
-            {/*    <SelectTrigger className="w-[300px]">*/}
-            {/*      <SelectValue placeholder="Context color" />*/}
-            {/*    </SelectTrigger>*/}
-            {/*    <SelectContent>*/}
-            {/*      <SelectItem value="ca5353" className="text-[#ca5353] focus:text-[#ca5353]">*/}
-            {/*        Red*/}
-            {/*      </SelectItem>*/}
-            {/*      <SelectItem value="3373bd" className="text-[#3a9f69] focus:text-[#3a9f69]">*/}
-            {/*        Green*/}
-            {/*      </SelectItem>*/}
-            {/*      <SelectItem value="3a9f69" className="text-[#3373bd] focus:text-[#3373bd]">*/}
-            {/*        Blue*/}
-            {/*      </SelectItem>*/}
-            {/*    </SelectContent>*/}
-            {/*  </Select>*/}
-            {/*  <Input*/}
-            {/*    placeholder="Context"*/}
-            {/*    value={entryContext.value}*/}
-            {/*    onChange={(e) => setEntryContext({ ...entryContext, value: e.target.value })}*/}
-            {/*  />*/}
-            {/*</div>*/}
             <NewEntryListSelect lists={lists} setList={setList} />
           </div>
           <DrawerFooter className="pb-lg">
             <div className="flex gap-md">
               <Button onClick={() => handleCreate()} className="w-full">
-                Create
+                {t('NewEntry.form.submit')}
               </Button>
               <DrawerClose asChild>
                 <Button variant="outline" className="w-full">
-                  Cancel
+                  {t('NewEntry.form.cancel')}
                 </Button>
               </DrawerClose>
             </div>

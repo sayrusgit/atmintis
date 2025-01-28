@@ -2,14 +2,21 @@ import { createSession, deleteSession, updateSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 import { IMfaPayload, IResponse, ITokens } from '@shared/types';
 import { post } from '@/lib/neofetch';
+import { z } from 'zod';
+import { API_URL } from '@/lib/utils';
+
+const SignInSchema = z.object({
+  login: z.string().nonempty(),
+  password: z.string().nonempty(),
+  mfaCode: z.string().optional(),
+});
 
 export async function signin(state: any, formData: FormData) {
-  const login = formData.get('login') as string;
-  const password = formData.get('password') as string;
-  const mfaCode = formData.get('mfaCode') as string;
+  const zData = SignInSchema.safeParse(Object.fromEntries(formData));
+  if (!zData.success) return;
 
-  const res = await createSession(login, password, mfaCode);
-  console.log(res);
+  const res = await createSession(zData.data.login, zData.data.password, zData.data.mfaCode);
+
   if (!('success' in res)) {
     if (res.statusCode === 400) return { loginMessage: res.message };
 
@@ -21,13 +28,21 @@ export async function signin(state: any, formData: FormData) {
   redirect('/');
 }
 
+const SignUpSchema = z.object({
+  username: z.string().trim().nonempty(),
+  email: z.string().email().nonempty(),
+  password: z.string().min(8).nonempty(),
+  confirmPassword: z.string().nonempty(),
+  file: z.instanceof(File).optional(),
+});
+
 export async function signup(state: any, formData: FormData) {
-  const password = formData.get('password') as string;
-  const passwordConfirmation = formData.get('passwordConfirmation') as string;
+  const zData = SignUpSchema.safeParse(Object.fromEntries(formData));
+  if (!zData.success) return;
 
-  if (password !== passwordConfirmation) return { passwordError: true };
+  if (zData.data.password !== zData.data.confirmPassword) return { passwordError: true };
 
-  const raw = await fetch('http://localhost:5000/api/auth/signup', {
+  const raw = await fetch(API_URL + 'auth/signup', {
     method: 'POST',
     body: formData,
   });

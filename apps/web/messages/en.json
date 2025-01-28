@@ -1,0 +1,48 @@
+{
+  "header": {
+    "SearchPlaceholder": "Search",
+    "NewEntry": {
+      "button": "New",
+      "title": "New entry",
+      "form": {
+        "entryPlaceholder": "Entry title",
+        "descriptionPlaceholder": "Entry description",
+        "type": "Type",
+        "types": {
+          "noun": "Noun",
+          "adjective": "Adjective",
+          "verb": "Verb",
+          "adverb": "Adverb"
+        },
+        "list": "Select a list...",
+        "submit": "Create",
+        "cancel": "Cancel"
+      }
+    },
+    "Nav": {
+      "theme": "Theme",
+      "themes": {
+        "light": "Light",
+        "dark": "Dark"
+      },
+      "language": "Language",
+      "settings": "Settings",
+      "shortcuts": "Keyboard shortcuts",
+      "logout": "Log out"
+    }
+  },
+  "root": {
+
+  },
+  "auth": {
+    "SignIn": {
+      "title": "Sign up",
+      "form": {
+        "loginPlaceholder": "Username or email",
+        "passwordPlaceholder": "Password",
+        "restorePassword": "Restore password",
+        "submit": "Sign In"
+      }
+    }
+  }
+}

@@ -28,6 +28,7 @@ export class AuthController {
   private FIFTEEN_MINUTES = 15 * 60 * 1000;
   private TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
   private SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+  private isSecureCookie = process.env.BUILD === 'build';
 
   @Public()
   @UseInterceptors(FileInterceptor('profilePic', IMAGE_INTERCEPTOR_OPTIONS))
@@ -42,10 +43,12 @@ export class AuthController {
     res.cookie('accessToken', result.accessToken, {
       httpOnly: true,
       maxAge: this.TWENTY_FOUR_HOURS,
+      secure: this.isSecureCookie,
     });
     res.cookie('refreshToken', result.refreshToken, {
       httpOnly: true,
       maxAge: this.SEVEN_DAYS,
+      secure: this.isSecureCookie,
     });
 
     return result;
@@ -60,10 +63,12 @@ export class AuthController {
     response.cookie('accessToken', result.response.tokens.accessToken, {
       httpOnly: true,
       maxAge: this.TWENTY_FOUR_HOURS,
+      secure: this.isSecureCookie,
     });
     response.cookie('refreshToken', result.response.tokens.refreshToken, {
       httpOnly: true,
       maxAge: this.SEVEN_DAYS,
+      secure: this.isSecureCookie,
     });
 
     return result;
@@ -92,10 +97,12 @@ export class AuthController {
     response.cookie('accessToken', result.response.tokens.accessToken, {
       httpOnly: true,
       maxAge: this.TWENTY_FOUR_HOURS,
+      secure: this.isSecureCookie,
     });
     response.cookie('refreshToken', result.response.tokens.refreshToken, {
       httpOnly: true,
       maxAge: this.SEVEN_DAYS,
+      secure: this.isSecureCookie,
     });
 
     return result;

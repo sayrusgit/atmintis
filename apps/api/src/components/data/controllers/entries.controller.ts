@@ -12,15 +12,17 @@ import {
 } from '@nestjs/common';
 import { CreateEntryDto, UpdateEntryDto } from '@components/data/dtos/entries.dto';
 import { EntriesService } from '@components/data/services/entries.service';
-import { ROUTES } from '@constants/index';
+import { Role, ROUTES } from '@constants/index';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SharpPipe } from '../../../common/pipes/sharp.pipe';
 import { IMAGE_INTERCEPTOR_OPTIONS } from '@constants/multer-config';
+import { Roles } from '@decorators/roles.decorator';
 
 @Controller(ROUTES.ENTRIES)
 export class EntriesController {
   constructor(private readonly entriesService: EntriesService) {}
 
+  @Roles(Role.ADMIN)
   @Get()
   getEntries() {
     return this.entriesService.getEntries();

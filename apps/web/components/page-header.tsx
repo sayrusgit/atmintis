@@ -2,15 +2,17 @@ import Link from 'next/link';
 import React from 'react';
 import { getSession } from '@/lib/session';
 import PageHeaderInput from '@/components/page-header-input';
-import NavUser from '@/components/user-nav';
 import NewEntry from '@/components/new-entry';
 import { Button } from '@/components/ui/button';
 import { get } from '@/lib/neofetch';
 import { IList } from '@shared/types';
 import Image from 'next/image';
-import PageHeaderDialogContent from '@/components/page-header-dialog-content';
+import PageHeaderNav from '@/components/page-header-nav';
+import { getTranslations } from 'next-intl/server';
 
 export default async function PageHeader() {
+  const t = await getTranslations('header');
+
   const user = await getSession();
   const data = await get<IList[]>('lists');
 
@@ -24,7 +26,7 @@ export default async function PageHeader() {
         {user ? (
           <div className="flex gap-sm justify-self-end">
             <NewEntry lists={data} user={user} />
-            <NavUser user={user} />
+            <PageHeaderNav user={user} />
           </div>
         ) : (
           <div className="flex gap-sm">
