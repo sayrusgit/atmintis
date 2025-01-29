@@ -19,6 +19,7 @@ function TagsSectionAdd({
 
     if (e.code === 'Enter') {
       addTagToEntryAction(entryId, updatedTags);
+      setTag('');
     }
   };
 

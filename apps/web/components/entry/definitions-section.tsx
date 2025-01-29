@@ -1,16 +1,18 @@
 import React from 'react';
-import { get } from '@/lib/neofetch';
 import { IDefinition } from '@shared/types';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import DefinitionsSectionAdd from '@/components/entry/definitions-section-add';
+import { $fetch } from '@/lib/fetch';
 
 async function DefinitionSection({ entryId }: { entryId: string }) {
-  const definitions = await get<IDefinition[]>('definitions/get-by-entry/' + entryId);
+  const { data: definitions } = await $fetch<IDefinition[]>('/definitions/get-by-entry/:id', {
+    params: { id: entryId },
+  });
 
   return (
     <div className="space-y-lg">
-      {definitions.map((definition: IDefinition) => (
+      {definitions?.map((definition: IDefinition) => (
         <Card className="flex items-start justify-between gap-md p-4" key={definition._id}>
           <div className="flex flex-col gap-xs">
             {definition.description}

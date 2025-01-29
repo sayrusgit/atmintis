@@ -29,17 +29,17 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
   const [isDisablingDialogOpen, setIsDisablingDialogOpen] = useState(false);
 
   const handleEnable = async () => {
-    const res = await enableMfaAction(user!._id);
+    const { data, error } = await enableMfaAction(user!._id);
 
-    if (res.qrcode) setMfaData(res);
+    if (!error) setMfaData(data);
   };
 
   const handleDisable = async () => {
-    const res = await disableMfaAction(user!._id, value);
+    const { error } = await disableMfaAction(user!._id, value);
 
-    setDisablingError(res);
+    setDisablingError(!!error);
 
-    if (res) {
+    if (!error) {
       setDisablingError(false);
       setValue('');
       setIsDisablingDialogOpen(false);

@@ -14,7 +14,7 @@ import { IList } from '@shared/types';
 import { useTranslations } from 'use-intl';
 
 interface NewEntryListSelectProps {
-  lists: IList[] | undefined;
+  lists: IList[] | null;
   setList: (listId: string) => void;
 }
 

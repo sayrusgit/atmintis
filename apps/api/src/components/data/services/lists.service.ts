@@ -38,7 +38,7 @@ export class ListsService {
     validateId(id);
 
     const res = await this.listModel.find({ user: id });
-    if (!res.length) throw new BadRequestException('ListsSection not found');
+    if (!res.length) throw new BadRequestException('Lists not found');
 
     return res;
   }
@@ -47,7 +47,7 @@ export class ListsService {
     validateId(id);
 
     const res = await this.listModel.findOne({ user: id, isDefault: true });
-    if (!res) throw new BadRequestException('ListsSection not found');
+    if (!res) throw new BadRequestException('Lists not found');
 
     return res;
   }

@@ -2,9 +2,9 @@
 
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
-import { get } from '@/lib/neofetch';
 import { IError, IJwtPayload, ILoginData, ISession, IUser } from '@shared/types';
 import { API_URL } from '@/lib/utils';
+import { $fetch, $post } from '@/lib/fetch';
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
@@ -14,26 +14,15 @@ const secret = process.env.JWT || '';
 const encodedKey = new TextEncoder().encode(secret);
 const isSecureCookie = process.env.BUILD === 'build';
 
-export const createSession = async (
-  login: string,
-  password: string,
-  mfaCode?: string,
-): Promise<ILoginData | IError> => {
-  try {
-    const rawRes = await fetch(API_URL + 'auth/login', {
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-      body: mfaCode
-        ? JSON.stringify({ login, password, mfaCode })
-        : JSON.stringify({ login, password }),
-    });
-    const res: ILoginData = await rawRes.json();
+export const createSession = async (login: string, password: string, mfaCode?: string) => {
+  const payload = mfaCode ? { login, password, mfaCode } : { login, password };
 
-    if (!res?.success) return res as unknown as IError;
+  const res = await $post<ILoginData>('/auth/login', payload);
 
-    const cookieStore = await cookies();
+  const cookieStore = await cookies();
 
-    cookieStore.set('accessToken', res.response.tokens.accessToken, {
+  if (!res.error) {
+    cookieStore.set('accessToken', res.data.response.tokens.accessToken, {
       maxAge: TWENTY_FOUR_HOURS,
       path: '/',
       httpOnly: true,
@@ -41,24 +30,16 @@ export const createSession = async (
       secure: isSecureCookie,
     });
 
-    cookieStore.set('refreshToken', res.response.tokens.refreshToken, {
+    cookieStore.set('refreshToken', res.data.response.tokens.refreshToken, {
       maxAge: SEVEN_DAYS,
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
       secure: isSecureCookie,
     });
-
-    return res;
-  } catch (err: any) {
-    console.log(err);
-
-    return {
-      statusCode: 500,
-      message: 'Something went wrong',
-      error: err.message,
-    };
   }
+
+  return res;
 };
 
 export async function updateSession(rt: string): Promise<ILoginData | undefined> {
@@ -69,16 +50,14 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       Cookie: `refreshToken=${rt}; `,
     });
 
-    const rawRes = await fetch(API_URL + 'auth/refresh', {
-      method: 'GET',
+    const { data, error } = await $fetch<ILoginData>(API_URL + '/auth/refresh', {
       credentials: 'include',
       headers,
     });
-    const res: ILoginData = await rawRes.json();
 
-    if (!res.success) return;
+    if (error) return;
 
-    cookieStore.set('accessToken', res.response.tokens.accessToken, {
+    cookieStore.set('accessToken', data.response.tokens.accessToken, {
       maxAge: TWENTY_FOUR_HOURS,
       path: '/',
       httpOnly: true,
@@ -86,7 +65,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       secure: isSecureCookie,
     });
 
-    cookieStore.set('refreshToken', res.response.tokens.refreshToken, {
+    cookieStore.set('refreshToken', data.response.tokens.refreshToken, {
       maxAge: SEVEN_DAYS,
       path: '/',
       httpOnly: true,
@@ -94,7 +73,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       secure: isSecureCookie,
     });
 
-    return res;
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -108,11 +87,11 @@ export async function deleteSession() {
 }
 
 export const getSession = async (): Promise<IUser | null> => {
-  const res = await get<IUser | IError>('users/me');
+  const { data, error } = await $fetch<IUser | IError>('users/me');
 
-  if ('error' in res) return null;
+  if (error) return null;
 
-  return res as IUser;
+  return data as IUser;
 };
 
 export const getLocalSession = async (): Promise<ISession | undefined> => {

@@ -1,5 +1,4 @@
 import { manrope } from '@/styles/fonts';
-import { get } from '@/lib/neofetch';
 import { IEntry } from '@shared/types';
 import DefinitionSection from '@/components/entry/definitions-section';
 import { DefinitionsSkeleton } from '@/components/skeletons';
@@ -10,19 +9,22 @@ import UpdateEntryImage from '@/components/entry/update-entry-image';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import Link from 'next/link';
+import { $fetch } from '@/lib/fetch';
+import { API_URL } from '@/lib/utils';
 
 type IProps = { params: Promise<{ id: string }> };
 
 async function Page({ params }: IProps) {
   const { id } = await params;
 
-  const entry = await get<IEntry>('entries/' + id);
+  const { data: entry, error } = await $fetch<IEntry>('/entries/:id', { params: { id } });
+
+  if (error) return <p>Something went wrong</p>;
 
   return (
     <div>
@@ -62,7 +64,7 @@ async function Page({ params }: IProps) {
         </div>
         {entry.image ? (
           <Image
-            src={'http://localhost:5000/static/images/' + entry.image}
+            src={API_URL + '/static/images/' + entry.image}
             className="h-28 min-w-28 rounded-xl bg-accent object-cover"
             style={{ overflowClipMargin: 'unset' }}
             height={112}

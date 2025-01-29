@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { decrypt, updateSession } from '@/lib/session';
-import { revalidatePath } from 'next/cache';
 
 const publicRoutes = ['/signin', '/signup'];
 
@@ -48,5 +47,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|atmintis_logo.svg|.svg$|.*\\.png$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|atmintis_logo.svg|icon.svg|.svg$|.*\\.png$).*)'],
 };

@@ -10,6 +10,16 @@ import { getLocale, getMessages } from 'next-intl/server';
 export const metadata: Metadata = {
   title: 'Home | atmintis',
   description: 'All your memories in one place',
+  icons: {
+    icon: '/icon.svg',
+  },
+  openGraph: {
+    title: 'atmintis',
+    description: 'All your memories in one place',
+    url: 'https://atmintis.vercel.app',
+    siteName: 'atmintis',
+    type: 'website',
+  },
 };
 
 export default async function RootLayout({

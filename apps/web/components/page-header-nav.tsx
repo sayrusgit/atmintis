@@ -26,6 +26,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import PageHeaderDialogContent from '@/components/page-header-dialog-content';
 import { updateUserLocaleAction } from '@/lib/actions';
 import { useTranslations } from 'use-intl';
+import { API_URL } from '@/lib/utils';
 
 function PageHeaderNav({ user }: { user: IUser }) {
   const { theme, setTheme } = useTheme();
@@ -34,7 +35,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
 
   const toggleTheme = (themeToChange: string) => {
     if (theme === themeToChange) return;
-    console.log(theme);
+
     theme === 'dark' ? setTheme('light') : setTheme('dark');
   };
 
@@ -63,7 +64,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer rounded-md transition-all duration-300 ease-in-out hover:opacity-50">
             <AvatarImage
-              src={`http://localhost:5000/static/images/${user?.profilePicture}`}
+              src={`${API_URL}/static/images/${user?.profilePicture}`}
               alt="profile pic"
               className="object-cover"
               style={{ overflowClipMargin: 'unset' }}
@@ -144,6 +145,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
                   <DropdownMenuItem
                     className="text-md mb-1"
                     onClick={() => updateUserLocaleAction('cz')}
+                    disabled
                   >
                     <div className="flex items-center justify-between">
                       <Image
@@ -154,18 +156,6 @@ function PageHeaderNav({ user }: { user: IUser }) {
                         className="mr-2"
                       />
                       <span className="leading-5">Čeština</span>
-                    </div>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-md mb-1" disabled>
-                    <div className="flex items-center justify-between">
-                      <Image
-                        src="/images/flagDE.png"
-                        alt="US flag"
-                        width={25}
-                        height={25}
-                        className="mr-2"
-                      />
-                      <span className="leading-5">Deutsch</span>
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="text-md mb-1" disabled>

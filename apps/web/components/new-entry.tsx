@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { NewEntryListSelect } from '@/components/new-lentry-list-select';
-import { CreateEntryContextDto, CreateEntryDto } from '@/lib/dto';
+import { CreateEntryDto } from '@/lib/dto';
 import {
   Select,
   SelectContent,
@@ -27,7 +27,7 @@ import { createEntryAction } from '@/lib/actions';
 import { IList, IUser } from '@shared/types';
 import { useTranslations } from 'use-intl';
 
-const NewEntry = ({ lists }: { lists: IList[]; user: IUser }) => {
+const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
   const t = useTranslations('header');
 
   const drawerRef = useRef<HTMLButtonElement | null>(null);
@@ -37,10 +37,7 @@ const NewEntry = ({ lists }: { lists: IList[]; user: IUser }) => {
     type: '',
     list: '',
   });
-  const [entryContext, setEntryContext] = useState<CreateEntryContextDto>({
-    value: '',
-    color: '',
-  });
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleKeyDown = (e: KeyboardEvent) => {

@@ -1,15 +1,9 @@
 'use client';
 
-import { manrope } from '@/styles/fonts';
-import { get } from '@/lib/neofetch';
 import { IEntry } from '@shared/types';
-import DefinitionSection from '@/components/entry/definitions-section';
-import { DefinitionsSkeleton } from '@/components/skeletons';
-import React, { Suspense, useEffect, useState } from 'react';
-import TagsSection from '@/components/entry/tags-section';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import UpdateEntryImage from '@/components/entry/update-entry-image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -21,11 +15,10 @@ import {
 import { UpdateEntryDto } from '@/lib/dto';
 import { Button } from '@/components/ui/button';
 import { updateEntryAction } from '@/lib/actions';
+import { $fetch } from '@/lib/fetch';
 
 function Page() {
   const { id } = useParams<{ id: string }>();
-
-  const router = useRouter();
 
   const [entry, setEntry] = useState<IEntry | null>(null);
 
@@ -39,14 +32,16 @@ function Page() {
 
   useEffect(() => {
     const fetchEntry = async () => {
-      const entry = await get<IEntry>('entries/' + id);
+      const { data, error } = await $fetch<IEntry>('/entries/:id', { params: { id } });
+
+      if (error) return;
 
       setData({
-        _id: entry._id,
-        value: entry.value,
-        description: entry.description,
-        type: entry.type || '',
-        list: entry.list,
+        _id: data._id,
+        value: data.value,
+        description: data.description,
+        type: data.type || '',
+        list: data.list,
       });
       setEntry(entry);
     };

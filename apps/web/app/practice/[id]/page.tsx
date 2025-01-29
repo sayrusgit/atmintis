@@ -1,45 +1,55 @@
 import React from 'react';
-import { get } from '@/lib/neofetch';
 import { IPracticeSession } from '@shared/types';
 import PracticeControls from '@/components/practice/practice-controls';
 import { Card } from '@/components/ui/card';
 import PracticeImage from '@/components/practice/practice-image';
+import { $fetch } from '@/lib/fetch';
 
 type Props = { params: Promise<{ id: string }> };
 
 async function Page({ params }: Props) {
   const { id } = await params;
 
-  const practiceSession = await get<IPracticeSession>('practice/sessions/' + id);
-  if (!practiceSession?._id) return <div>No practice session</div>;
+  const { data: session, error } = await $fetch<IPracticeSession>('/practice/sessions/:id', {
+    params: { id },
+  });
 
-  const practiceSessionRedis = await get<IPracticeSession>('practice/sessions/redis/' + id);
+  if (error) return <div>No practice session</div>;
 
-  if (practiceSession.isFinished)
+  const { data: sessionRedis, error: errorRedis } = await $fetch<IPracticeSession>(
+    '/practice/sessions/redis/:id',
+    {
+      params: { id },
+    },
+  );
+
+  if (errorRedis && !session.isFinished)
+    return <div>Practice session is expired. Would you like to start the new one?</div>;
+
+  if (session.isFinished)
     return (
       <div>
         <h1>Session data</h1>
-        <div>Total entries: {practiceSession.totalEntries}</div>
-        <div>Correct answers: {practiceSession.correctAnswersCount}</div>
-        <div>Hints used: {practiceSession.hintsUsed}</div>
+        <div>Total entries: {session.totalEntries}</div>
+        <div>Correct answers: {session.correctAnswersCount}</div>
+        <div>Hints used: {session.hintsUsed}</div>
       </div>
     );
 
-  return (
-    <div>
-      <h1 className="text-center text-4xl">Practice mode</h1>
-      <Card className="mt-lg flex flex-col items-center gap-lg p-md">
-        <p className="text-center text-sm">
-          {practiceSessionRedis.ongoingEntryIndex + 1} / {practiceSession.totalEntries}
-        </p>
-        <PracticeImage ongoingEntry={practiceSessionRedis.ongoingEntry} />
-        <p className="text-center text-xl font-medium">
-          {practiceSessionRedis?.ongoingEntry?.value}
-        </p>
-        <PracticeControls session={practiceSessionRedis} />
-      </Card>
-    </div>
-  );
+  if (sessionRedis)
+    return (
+      <div>
+        <h1 className="text-center text-4xl">Practice mode</h1>
+        <Card className="mt-lg flex flex-col items-center gap-lg p-md">
+          <p className="text-center text-sm">
+            {sessionRedis.ongoingEntryIndex + 1} / {session.totalEntries}
+          </p>
+          <PracticeImage ongoingEntry={sessionRedis.ongoingEntry} />
+          <p className="text-center text-xl font-medium">{sessionRedis.ongoingEntry.value}</p>
+          <PracticeControls session={sessionRedis} />
+        </Card>
+      </div>
+    );
 }
 
 export default Page;

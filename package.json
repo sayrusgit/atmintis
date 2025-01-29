@@ -6,7 +6,7 @@
   "scripts": {
     "dev:server": "npm run start:dev --workspace=apps/api",
     "dev:client": "npm run dev --workspace=apps/web",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:client": "npm run dev --workspace=apps/web"
   },
   "workspaces": [
     "apps*/*",

@@ -3,8 +3,8 @@
 import React, { ChangeEvent, useRef } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
-import { put } from '@/lib/neofetch';
 import { IResponse } from '@shared/types';
+import { $put } from '@/lib/fetch';
 
 function UpdateEntryImage({ entryId }: { entryId: string }) {
   const router = useRouter();
@@ -15,9 +15,11 @@ function UpdateEntryImage({ entryId }: { entryId: string }) {
     const form = new FormData();
     form.append('file', file);
 
-    const res = await put<IResponse<any>>('entries/image/' + entryId, form, true);
+    const { error } = await $put<IResponse<any>>('entries/image/:id', form, {
+      params: { id: entryId },
+    });
 
-    if (res.success) router.refresh();
+    if (!error) router.refresh();
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +32,7 @@ function UpdateEntryImage({ entryId }: { entryId: string }) {
       className="flex h-28 min-w-28 cursor-pointer items-center justify-center rounded-xl bg-accent transition-colors hover:bg-accent/60"
       onClick={() => fileUploadRef.current!.click()}
     >
+      {/*TODO: create a fileimage component, then insert it here and in settings*/}
       <PlusIcon className="icon-lg" />
       <input
         type="file"

@@ -1,18 +1,18 @@
 'use client';
 
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DotsHorizontalIcon, TrashIcon } from '@radix-ui/react-icons';
 import { deleteListAction, startListPracticeAction, updateListPrivacyAction } from '@/lib/actions';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuFileItem,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DownloadIcon, ImageIcon, LockIcon, LockOpenIcon, UploadIcon } from 'lucide-react';
-import { get } from '@/lib/neofetch';
 import { startFileDownload } from '@/lib/utils';
 import { IList, IResponse } from '@shared/types';
 import { useRouter } from 'next/navigation';
@@ -35,12 +35,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { FileButton } from '@/components/ui/file-button';
+import { $fetch, $put } from '@/lib/fetch';
 
-function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: number }) {
+function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: number | undefined }) {
   const router = useRouter();
-
-  const fileUploadRef = useRef<HTMLInputElement | null>(null);
-  const coverUploadRef = useRef<HTMLInputElement | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -65,48 +64,32 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
     const form = new FormData();
     form.append('file', file);
 
-    const res = await fetch('http://localhost:5000/api/entries/import/' + list._id, {
-      credentials: 'include',
-      method: 'PUT',
-      body: form,
-    });
+    const { error } = await $put('/entries/import/:id', form, { params: { id: list._id } });
 
-    if (res.ok) router.refresh();
+    if (!error) router.refresh();
 
     setIsOpen(false);
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
-    if (file) handleImport(file);
-  };
-
   const handleExport = async () => {
-    const { success, response: csvData } = await get<IResponse<string>>(
-      'entries/export-list/' + list._id,
-    );
+    const { data, error } = await $fetch<IResponse<string>>('/entries/export-list/:id', {
+      params: { id: list._id },
+    });
 
-    if (success) startFileDownload(csvData, list.title + '_export.csv');
+    if (!error) startFileDownload(data.response, list.title + '_export.csv');
   };
 
   const handleUpdateCover = async (file: File) => {
     const form = new FormData();
     form.append('file', file);
 
-    const res = await fetch('http://localhost:5000/api/lists/image/' + list?._id, {
-      credentials: 'include',
-      method: 'PUT',
-      body: form,
+    const { error } = await $put<IResponse<string>>('/lists/image/:id', form, {
+      params: { id: list._id },
     });
 
     setIsDialogOpen(false);
 
-    if (res.ok) router.refresh();
-  };
-
-  const handleCoverChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
-    if (file) handleUpdateCover(file);
+    if (!error) router.refresh();
   };
 
   return (
@@ -122,7 +105,6 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
-            {/* TODO make a file upload child for dropdown menu*/}
             <DropdownMenuGroup>
               {list.isPrivate ? (
                 <DropdownMenuItem
@@ -144,22 +126,10 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
                   Change cover
                 </DropdownMenuItem>
               </DialogTrigger>
-              <DropdownMenuItem
-                onSelect={(e) => e.preventDefault()}
-                onClick={() => fileUploadRef.current!.click()}
-                className="flex cursor-pointer items-center gap-[.5rem] rounded-xs px-2 py-[6px] text-sm transition-colors hover:bg-secondary"
-              >
+              <DropdownMenuFileItem accept="text/csv" onFileUpload={handleImport}>
                 <UploadIcon className="h-4 w-4" />
                 Import
-                <input
-                  type="file"
-                  className="h-0 w-0"
-                  accept="text/csv"
-                  ref={fileUploadRef}
-                  onChange={handleFileChange}
-                  onAbort={() => setIsOpen(false)}
-                />
-              </DropdownMenuItem>
+              </DropdownMenuFileItem>
               <DropdownMenuItem onClick={handleExport} disabled={!entriesNumber}>
                 <DownloadIcon />
                 Export
@@ -207,16 +177,13 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
             You can either upload a new cover or delete the current one, if it exists
           </DialogDescription>
           <div className="flex justify-between gap-md">
-            <Button className="w-full" onClick={() => coverUploadRef.current?.click()}>
+            <FileButton
+              className="w-full"
+              onFileUpload={handleUpdateCover}
+              accept="image/jpeg, image/png, image/webp"
+            >
               Upload cover
-              <input
-                type="file"
-                className="hidden"
-                accept="image/jpeg, image/png, image/webp"
-                ref={coverUploadRef}
-                onChange={handleCoverChange}
-              />
-            </Button>
+            </FileButton>
             <Button className="w-full" variant="destructive" disabled={!list.image}>
               Delete cover
             </Button>

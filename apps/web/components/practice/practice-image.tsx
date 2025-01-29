@@ -10,8 +10,8 @@ function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
   const handleReveal = () => {
     setIsRevealed(!isRevealed);
   };
-
-  if (!ongoingEntry.image)
+  /* TODO: add zustand and connect image with text revelation*/
+  if (!ongoingEntry?.image)
     return (
       <div
         className="flex h-36 w-36 items-center justify-center rounded-xl bg-secondary/60"

@@ -2,24 +2,28 @@
 
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input-icons';
-import { get } from '@/lib/neofetch';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { IEntry } from '@shared/types';
 import { useDebouncedCallback } from '@/lib/hooks';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'use-intl';
+import { $fetch } from '@/lib/fetch';
 
 export default function PageHeaderInput({ userId }: { userId: string }) {
   const t = useTranslations('header');
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchSuggestions, setSearchSuggestions] = useState<IEntry[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<IEntry[] | null>(null);
 
   const performSearch = useDebouncedCallback(async (searchTerm: string) => {
-    const res = await get<IEntry[]>(`entries/search-query/${searchTerm}?userId=${userId}`);
-
-    setSearchSuggestions(res);
+    const { data } = await $fetch<IEntry[]>('/entries/search-query/:searchTerm?userId=' + userId, {
+      params: {
+        searchTerm,
+      },
+    });
+    console.log(data);
+    setSearchSuggestions(data);
   }, 300);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,10 +51,10 @@ export default function PageHeaderInput({ userId }: { userId: string }) {
         className="w-full max-w-[605px]"
       />*/}
       <Card
-        hidden={!searchSuggestions.length}
+        hidden={!searchSuggestions?.length}
         className="absolute top-[70px] w-full max-w-[605px] rounded-md border bg-background p-xs"
       >
-        {searchSuggestions.length &&
+        {searchSuggestions?.length &&
           searchSuggestions.map((suggestion) => (
             <Link
               href={`/entry/${suggestion._id}`}

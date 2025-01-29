@@ -21,10 +21,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { getLocalSession } from '@/lib/session';
-import { get } from '@/lib/neofetch';
 import { IEntry } from '@shared/types';
 import { createDefinitionAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
+import { $fetch } from '@/lib/fetch';
 
 interface IReference {
   value: string;
@@ -46,14 +46,17 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
   const [opposites, setOpposites] = useState<IReference[]>([]);
   const [compares, setCompares] = useState<IReference[]>([]);
 
-  const [entries, setEntries] = useState<IEntry[]>([]);
+  const [entries, setEntries] = useState<IEntry[] | null>(null);
 
   useEffect(() => {
     async function fetchEntries() {
       const user = await getLocalSession();
-      const res = await get<IEntry[]>('entries/get-by-user/' + user?.id);
 
-      setEntries(res);
+      const { data } = await $fetch<IEntry[]>('/entries/get-by-user/:id', {
+        params: { id: user?.id },
+      });
+
+      setEntries(data);
     }
 
     fetchEntries();
@@ -147,7 +150,7 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {entries.map((item) => (
+                    {entries?.map((item) => (
                       <SelectItem
                         value={JSON.stringify({ id: item._id, value: item.value })}
                         key={item._id}

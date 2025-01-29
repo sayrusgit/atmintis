@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { IResponse, IUser } from '@shared/types';
-import { put } from '@/lib/neofetch';
+import { $put } from '@/lib/fetch';
 
 function SettingsProfilePicture({ user }: { user: IUser | null }) {
   const router = useRouter();
@@ -16,13 +16,11 @@ function SettingsProfilePicture({ user }: { user: IUser | null }) {
     const form = new FormData();
     form.append('file', file);
 
-    const res = await fetch('http://localhost:5000/api/users/update-picture/' + user?._id, {
-      credentials: 'include',
-      method: 'PUT',
-      body: form,
+    const res = await $put<IResponse<any>>('/users/update-picture/:id', form, {
+      params: { id: user?._id },
     });
 
-    if (res.ok) router.refresh();
+    if (!res.error) router.refresh();
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
