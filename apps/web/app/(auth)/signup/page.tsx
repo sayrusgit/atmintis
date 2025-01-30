@@ -40,10 +40,10 @@ function Page() {
           />
         </div>
         <div className="flex flex-col gap-xs">
-          <label htmlFor="name">Confirm password</label>
-          {state?.passwordError && (
-            <p className="text-sm text-red-400">Looks like you made a typo</p>
-          )}
+          <div className="flex items-end gap-2">
+            <label htmlFor="name">Confirm password</label>
+            {state?.passwordError && <p className="text-xs text-red-400">Passwords do not match</p>}
+          </div>
           <Input
             id="confirmPassword"
             name="confirmPassword"
@@ -52,13 +52,14 @@ function Page() {
           />
         </div>
         <div className="flex flex-col gap-xs">
-          <label htmlFor="name">Profile picture</label>
+          <label htmlFor="file">Profile picture</label>
           <Input
-            id="profilePic"
-            name="profilePic"
+            id="file"
+            name="file"
             placeholder="Choose file"
             type="file"
-            accept="image/png,image/jpeg"
+            accept="image/png, image/jpeg, image/webp"
+            className="cursor-pointer"
           />
         </div>
         <Button disabled={pending} type="submit">

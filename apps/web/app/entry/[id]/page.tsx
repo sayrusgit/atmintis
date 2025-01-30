@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import Link from 'next/link';
 import { $fetch } from '@/lib/fetch';
-import { API_URL } from '@/lib/utils';
+import { STATIC_URL } from '@/lib/utils';
 import { Metadata } from 'next';
 
 type Props = { params: Promise<{ id: string }> };
@@ -75,7 +75,7 @@ async function Page({ params }: Props) {
         </div>
         {entry.image ? (
           <Image
-            src={API_URL + '/static/images/' + entry.image}
+            src={STATIC_URL + '/images/' + entry.image}
             className="h-28 min-w-28 rounded-xl bg-accent object-cover"
             style={{ overflowClipMargin: 'unset' }}
             height={112}

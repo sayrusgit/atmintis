@@ -37,11 +37,13 @@ export async function signup(state: any, formData: FormData) {
   const zData = SignUpSchema.safeParse(Object.fromEntries(formData));
   if (!zData.success) return;
 
+  const file = formData.get('file') as File;
+  if (file!.size === 0) formData.delete('file');
+
   if (zData.data.password !== zData.data.confirmPassword) return { passwordError: true };
 
   const { data, error } = await $post<ITokens>('/auth/signup', formData);
   if (error) return { message: 'Something went wrong' };
-
   await updateSession(data.refreshToken);
 
   redirect('/');

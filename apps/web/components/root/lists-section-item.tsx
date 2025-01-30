@@ -1,7 +1,7 @@
 import React from 'react';
 import { IList } from '@shared/types';
 import Image from 'next/image';
-import { API_URL } from '@/lib/utils';
+import { STATIC_URL } from '@/lib/utils';
 
 function ListsSectionItem({ list }: { list: IList }) {
   return (
@@ -20,7 +20,7 @@ function ListsSectionItem({ list }: { list: IList }) {
         />
       ) : list.image ? (
         <Image
-          src={API_URL + '/static/images/' + list.image}
+          src={STATIC_URL + '/images/' + list.image}
           alt="default list image"
           width={96}
           height={96}

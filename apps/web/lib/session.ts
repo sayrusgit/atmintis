@@ -3,7 +3,6 @@
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 import { IError, IJwtPayload, ILoginData, ISession, IUser } from '@shared/types';
-import { API_URL } from '@/lib/utils';
 import { $fetch, $post } from '@/lib/fetch';
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
@@ -50,7 +49,7 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       Cookie: `refreshToken=${rt}; `,
     });
 
-    const { data, error } = await $fetch<ILoginData>(API_URL + '/auth/refresh', {
+    const { data, error } = await $fetch<ILoginData>('/auth/refresh', {
       credentials: 'include',
       headers,
     });

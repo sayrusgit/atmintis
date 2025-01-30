@@ -2,10 +2,9 @@
 
 import { BetterFetchOption, createFetch } from '@better-fetch/fetch';
 import { cookies } from 'next/headers';
-import { API_URL } from '@/lib/utils';
 
 export const $fetch = createFetch({
-  baseURL: process.env.BUILD === 'prod' ? API_URL : 'http://localhost:5000/api',
+  baseURL: process.env.API_URL,
   credentials: 'include',
   onRequest: async (ctx) => {
     const cookieStore = await cookies();

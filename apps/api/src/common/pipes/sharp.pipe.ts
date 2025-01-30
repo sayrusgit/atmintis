@@ -10,6 +10,8 @@ export class SharpPipe implements PipeTransform<Express.Multer.File, Promise<str
 
     const filename = 'img-' + uuidv4() + '.webp';
 
+    if (!image) return;
+
     try {
       await sharp(image.buffer).webp({ quality: 80 }).toFile(path.join(pathToSave, filename));
 

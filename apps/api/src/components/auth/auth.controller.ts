@@ -31,7 +31,7 @@ export class AuthController {
   private isSecureCookie = process.env.BUILD === 'build';
 
   @Public()
-  @UseInterceptors(FileInterceptor('profilePic', IMAGE_INTERCEPTOR_OPTIONS))
+  @UseInterceptors(FileInterceptor('file', IMAGE_INTERCEPTOR_OPTIONS))
   @Post('signup')
   async signup(
     @Body() data: SignupDataDto,

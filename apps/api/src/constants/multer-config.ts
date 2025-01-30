@@ -5,7 +5,7 @@ import { memoryStorage } from 'multer';
 
 export const IMAGE_INTERCEPTOR_OPTIONS: MulterOptions = {
   fileFilter(
-    req: any,
+    req: Request,
     file: Express.Multer.File,
     callback: (error: Error | null, acceptFile: boolean) => void,
   ) {

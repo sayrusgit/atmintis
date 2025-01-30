@@ -8,15 +8,18 @@ import PageHeaderNav from '@/components/page-header-nav';
 import { $fetch } from '@/lib/fetch';
 import PageHeaderLogo from '@/components/page-header-logo';
 import { ArrowRight } from 'lucide-react';
+import { getLocalSession } from '@/lib/session';
 
 export default async function PageHeader({ user }: { user: IUser | null }) {
+  const session = await getLocalSession();
+
   const { data: lists } = await $fetch<IList[]>('/lists/get-by-user/:id', {
     params: { id: user?._id },
   });
 
   return (
     <header>
-      {!user?.isEmailVerified && (
+      {!user?.isEmailVerified && session && (
         <Link href="/settings">
           <div className="flex h-6 items-center justify-center gap-1.5 bg-secondary p-1 text-center text-xs transition-colors hover:bg-secondary/80">
             Verify your email address <ArrowRight className="icon-sm" />
