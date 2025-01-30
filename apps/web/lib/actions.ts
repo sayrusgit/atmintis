@@ -12,6 +12,7 @@ import { IEntry, IPracticeSession, IResponse, IUser } from '@shared/types';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { $del, $fetch, $post, $put } from '@/lib/fetch';
+import { cookies } from 'next/headers';
 
 const CreateEntrySchema = z.object({
   value: z.string().trim().nonempty(),
@@ -132,6 +133,35 @@ export async function changeUserPasswordAction(state: any, formData: FormData) {
   });
 
   if (!error) return { success: true, message: data.message };
+}
+
+export async function initializeEmailVerification() {
+  const user = await getLocalSession();
+
+  const res = await $post(`/users/initialize-email-verification/:id`, undefined, {
+    params: { id: user?.id },
+  });
+
+  return res;
+}
+
+export async function finalizeEmailVerification(state: any, form: FormData) {
+  const user = await getLocalSession();
+  const code = form.get('code') || '';
+
+  if (!code) return;
+
+  const { data, error } = await $put(
+    `/users/finalize-email-verification/:id?code=${code}`,
+    undefined,
+    {
+      params: { id: user?.id },
+    },
+  );
+  console.log(data);
+  if (error && error.status === 400) return { codeError: error.message };
+
+  revalidatePath('/settings');
 }
 
 export async function updateUserLocaleAction(locale: string) {

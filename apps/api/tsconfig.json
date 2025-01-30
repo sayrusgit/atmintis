@@ -35,7 +35,6 @@
       "@guards/*": ["common/guards/*"],
       "@helpers/*": ["helpers/*"],
       "@pipes/*": ["pipes/*"],
-      "@interfaces/*": ["interfaces/*"],
       "@shared/*": ["../../../packages/shared/src/*"]
     }
   },

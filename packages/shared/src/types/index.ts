@@ -43,6 +43,8 @@ export interface IUser {
 
   username: string;
   email: string;
+  isEmailVerified: boolean;
+  emailVerificationCode: string;
   password: string;
   role: Role;
   profilePicture: string;

@@ -1,0 +1,22 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "../../",
+  "testEnvironment": "node",
+  "testRegex": ".spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "modulePaths": ["."],
+  "moduleNameMapper": {
+    "^@components/(.*)$": "<rootDir>/src/components/$1",
+    "^@entities/(.*)$": "<rootDir>/src/entities/$1",
+    "^@constants/(.*)$": "<rootDir>/src/constants/$1",
+    "^@exceptions/(.*)$": "<rootDir>/src/common/exceptions/$1",
+    "^@decorators/(.*)$": "<rootDir>/src/common/decorators/$1",
+    "^@guards/(.*)$": "<rootDir>/src/common/guards/$1",
+    "^@helpers/(.*)$": "<rootDir>/src/helpers/$1",
+    "^@pipes/(.*)$": "<rootDir>/src/pipes/$1",
+    "^@interfaces/(.*)$": "<rootDir>/src/interfaces/$1",
+    "^@shared/(.*)$": "<rootDir>/../../../packages/shared/src/$1"
+  }
+}

@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -22,6 +23,7 @@ import { User } from '@decorators/user.decorator';
 import { IMAGE_INTERCEPTOR_OPTIONS } from '@constants/multer-config';
 import { SharpPipe } from '../../common/pipes/sharp.pipe';
 import { Roles } from '@decorators/roles.decorator';
+import { Response } from 'express';
 
 @Controller(ROUTES.USERS)
 export class UsersController {
@@ -41,6 +43,24 @@ export class UsersController {
   @Post()
   createUser(@Body() data: CreateUserDto) {
     return this.usersService.createUser(data, null);
+  }
+
+  @Post('initialize-email-verification/:id')
+  initializeEmailVerification(
+    @Param('id') id: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    response.cookie('emailTimeout', '1', {
+      httpOnly: true,
+      maxAge: 60 * 1000,
+    });
+
+    return this.usersService.initializeEmailVerification(id);
+  }
+
+  @Put('finalize-email-verification/:id')
+  finalizeEmailVerification(@Param('id') id: string, @Query('code') code: string) {
+    return this.usersService.finalizeEmailVerification(id, code);
   }
 
   @Put(':id')

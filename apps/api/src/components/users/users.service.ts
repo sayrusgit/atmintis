@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { DeleteResult, Model, UpdateWriteOpResult } from 'mongoose';
 import {
@@ -16,7 +21,8 @@ import { validateId } from '@helpers/ValidateId';
 import { IError, IMfaPayload, IResponse, Locale } from '@shared/types';
 import { DefinitionsService } from '@components/data/services/definitions.service';
 import { EntriesService } from '@components/data/services/entries.service';
-import { IsEnum } from 'class-validator';
+import { Resend } from 'resend';
+import * as process from 'node:process';
 
 @Injectable()
 export class UsersService {
@@ -26,6 +32,8 @@ export class UsersService {
     private definitionsService: DefinitionsService,
     private entriesService: EntriesService,
   ) {}
+
+  resend = new Resend(process.env.RESEND_TOKEN);
 
   async getUsers(): Promise<UserDocument[]> {
     return this.userModel.find();
@@ -74,6 +82,53 @@ export class UsersService {
     });
 
     return res;
+  }
+
+  async initializeEmailVerification(userId: string): Promise<IResponse<UserDocument>> {
+    const user = await this.isUser(userId);
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    const res = await this.userModel.updateOne({
+      _id: userId,
+      emailVerificationCode: verificationCode,
+    });
+
+    const { data, error } = await this.resend.emails.send({
+      from: 'Atmintis <onboarding@resend.dev>',
+      to: [user.email],
+      subject: 'Verify your email',
+      html: `<div style="background-color: black; color: white; padding: 10px"><div>Hello, ${user.username}</div><div style="font-size: 28px">Your verification code: <span style="font-weight: 500">${verificationCode}</span></div></div>`,
+    });
+
+    if (error) throw new InternalServerErrorException(error);
+
+    return {
+      success: true,
+      message: 'Check your inbox for 6-digit code!',
+      response: user,
+    };
+  }
+
+  async finalizeEmailVerification(
+    userId: string,
+    verificationCode: string,
+  ): Promise<IResponse<boolean>> {
+    const user = await this.isUser(userId);
+
+    if (user.emailVerificationCode !== verificationCode)
+      throw new BadRequestException('Verification code is invalid!');
+
+    await this.userModel.updateOne(
+      { _id: userId },
+      { emailVerificationCode: null, isEmailVerified: true },
+    );
+
+    return {
+      success: true,
+      message: 'Email has been successfully verified',
+      response: true,
+    };
   }
 
   async updateUserData(id: string, data: UpdateUserDto): Promise<IResponse<UserDocument>> {

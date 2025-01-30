@@ -6,6 +6,8 @@ import { Providers } from '@/app/providers';
 import PageHeader from '@/components/page-header';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { getSession } from '@/lib/session';
 
 export const metadata: Metadata = {
   title: 'Home | atmintis',
@@ -27,16 +29,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-  const messages = await getMessages();
+  const [user, locale, messages] = await Promise.all([getSession(), getLocale(), getMessages()]);
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${noto_sans.className} antialiased`}>
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            <PageHeader />
-            <main className="container">{children}</main>
+            <PageHeader user={user} />
+            <main className="container">
+              {children}
+              <SpeedInsights />
+            </main>
           </NextIntlClientProvider>
         </Providers>
       </body>

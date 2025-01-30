@@ -16,10 +16,21 @@ import {
 import Link from 'next/link';
 import { $fetch } from '@/lib/fetch';
 import { API_URL } from '@/lib/utils';
+import { Metadata } from 'next';
 
-type IProps = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string }> };
 
-async function Page({ params }: IProps) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+
+  const { data } = await $fetch<IEntry>('/entries/:id', { params: { id } });
+
+  return {
+    title: `${data?.value} | atmintis`,
+  };
+}
+
+async function Page({ params }: Props) {
   const { id } = await params;
 
   const { data: entry, error } = await $fetch<IEntry>('/entries/:id', { params: { id } });

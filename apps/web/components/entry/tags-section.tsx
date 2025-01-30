@@ -1,9 +1,6 @@
 import React from 'react';
 import { IEntry } from '@shared/types';
-import { Badge } from '@/components/ui/badge';
 import TagsSectionAdd from '@/components/entry/tags-section-add';
-import { XIcon } from 'lucide-react';
-import { removeTagFromEntryAction } from '@/lib/actions';
 import TagsSectionItem from '@/components/entry/tags-section-item';
 
 function TagsSection({ entry }: { entry: IEntry }) {

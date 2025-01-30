@@ -4,9 +4,14 @@ import SettingsPasswordSection from '@/components/settings/settings-password-sec
 import React from 'react';
 import SettingsMfaSection from '@/components/settings/settings-mfa-section';
 import SettingsProfileSection from '@/components/settings/settings-profile-section';
+import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
+
+export const metadata: Metadata = { title: 'Settings | atmintis' };
 
 async function Page() {
   const user = await getSession();
+  const cookiesStore = await cookies();
 
   return (
     <div>
