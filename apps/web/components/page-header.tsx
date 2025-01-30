@@ -16,11 +16,13 @@ export default async function PageHeader({ user }: { user: IUser | null }) {
 
   return (
     <header>
-      <Link href="/settings">
-        <div className="flex h-6 items-center justify-center gap-1.5 bg-secondary p-1 text-center text-xs transition-colors hover:bg-secondary/80">
-          Verify your email address <ArrowRight className="icon-sm" />
-        </div>
-      </Link>
+      {!user?.isEmailVerified && (
+        <Link href="/settings">
+          <div className="flex h-6 items-center justify-center gap-1.5 bg-secondary p-1 text-center text-xs transition-colors hover:bg-secondary/80">
+            Verify your email address <ArrowRight className="icon-sm" />
+          </div>
+        </Link>
+      )}
       <div className="mb-lg flex items-center border-b">
         <div className="container relative flex h-[70px] items-center justify-between gap-sm py-4">
           <div className="hidden w-[120px] md:block">

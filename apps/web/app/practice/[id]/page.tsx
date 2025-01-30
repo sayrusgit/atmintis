@@ -4,6 +4,7 @@ import PracticeControls from '@/components/practice/practice-controls';
 import { Card } from '@/components/ui/card';
 import PracticeImage from '@/components/practice/practice-image';
 import { $fetch } from '@/lib/fetch';
+import PracticeEndSession from '@/components/practice/practice-end-session';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -39,7 +40,10 @@ async function Page({ params }: Props) {
   if (sessionRedis)
     return (
       <div>
-        <h1 className="text-center text-4xl">Practice mode</h1>
+        <div className="flex justify-between">
+          <h1 className="text-4xl">Practice mode</h1>
+          <PracticeEndSession sessionId={session._id} />
+        </div>
         <Card className="mt-lg flex flex-col items-center gap-lg p-md">
           <p className="text-center text-sm">
             {sessionRedis.ongoingEntryIndex + 1} / {session.totalEntries}

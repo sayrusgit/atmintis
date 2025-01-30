@@ -14,12 +14,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { DotsVerticalIcon, ExitIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
-import { reassignEntryAction, removeEntryAction, updateEntryAction } from '@/lib/actions';
+import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
 import Link from 'next/link';
-import { useFetchLists } from '@/lib/hooks';
+import { useFetch } from '@/lib/hooks';
+import { IList } from '@shared/types';
 
 function ListEntryItemControls({ entryId }: { entryId: string }) {
-  const [lists] = useFetchLists();
+  const [lists] = useFetch<IList[]>('/lists/get-by-user/:id');
 
   const handleDelete = async () => {
     await removeEntryAction(entryId);

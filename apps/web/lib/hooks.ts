@@ -55,14 +55,14 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
   return lastCallback;
 }
 
-export function useFetchLists(): [IList[] | null, Dispatch<SetStateAction<IList[] | null>>] {
-  const [lists, setLists] = useState<IList[] | null>(null);
+export function useFetch<T>(endpoint: string): [T | null, Dispatch<SetStateAction<T | null>>] {
+  const [lists, setLists] = useState<T | null>(null);
 
   useEffect(() => {
     const fetchLists = async () => {
       const user = await getLocalSession();
 
-      const { data } = await $fetch<IList[]>('/lists/get-by-user/:id', {
+      const { data } = await $fetch<T>(endpoint, {
         params: { id: user?.id },
       });
 

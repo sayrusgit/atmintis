@@ -31,7 +31,7 @@ function PageHeaderDialogContent() {
           <span>Reveal image in practice session</span>
           <kbd className="text-foreground-heading">Y</kbd>
           <span>Finish practice sesison</span>
-          <kbd className="text-foreground-heading">Ctrl + Shift + P</kbd>
+          <kbd className="text-foreground-heading">Shift + L</kbd>
         </span>
       </DialogDescription>
     </DialogContent>

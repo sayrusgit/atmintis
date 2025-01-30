@@ -11,7 +11,6 @@ export const metadata: Metadata = { title: 'Settings | atmintis' };
 
 async function Page() {
   const user = await getSession();
-  const cookiesStore = await cookies();
 
   return (
     <div>
