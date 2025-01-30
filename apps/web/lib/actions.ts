@@ -8,10 +8,10 @@ import {
   UpdateEntryDto,
 } from '@/lib/dto';
 import { revalidatePath } from 'next/cache';
-import { IPracticeSession, IResponse, IUser } from '@shared/types';
+import { IEntry, IPracticeSession, IResponse, IUser } from '@shared/types';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { $del, $post, $put } from '@/lib/fetch';
+import { $del, $fetch, $post, $put } from '@/lib/fetch';
 
 const CreateEntrySchema = z.object({
   value: z.string().trim().nonempty(),
@@ -31,10 +31,16 @@ export async function createEntryAction(data: CreateEntryDto) {
   revalidatePath('/list/*');
 }
 
-export async function updateEntryAction(data: UpdateEntryDto) {
-  await $put('/entries/' + data._id, data);
+export async function updateEntryAction(id: string, data: UpdateEntryDto) {
+  await $put('/entries/:id', data, { params: { id } });
 
-  redirect('/entry/' + data._id);
+  redirect('/entry/' + id);
+}
+
+export async function reassignEntryAction(id: string, newListId: string) {
+  await $put('/entries/reassign/:id', { list: newListId }, { params: { id } });
+
+  revalidatePath('/list/*');
 }
 
 export async function removeEntryAction(id: string) {
@@ -49,7 +55,15 @@ export async function addTagToEntryAction(id: string, tags: string[]) {
   revalidatePath('/entries/' + id);
 }
 
-export async function removeTagFromEntryAction(entryId: string, tags: string[]) {}
+export async function removeTagFromEntryAction(id: string, tagToRemove: string) {
+  const { data: entry } = await $fetch<IEntry>('/entries/:id', { params: { id } });
+
+  const filteredTags = entry?.tags?.filter((item) => item !== tagToRemove);
+
+  await $put('/entries/:id', { tags: filteredTags }, { params: { id } });
+
+  revalidatePath('/entries/' + id);
+}
 
 export async function createDefinitionAction(data: CreateDefinitionDto) {
   const user = await getLocalSession();

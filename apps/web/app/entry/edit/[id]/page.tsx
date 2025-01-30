@@ -23,7 +23,6 @@ function Page() {
   const [entry, setEntry] = useState<IEntry | null>(null);
 
   const [data, setData] = useState<UpdateEntryDto>({
-    _id: '',
     value: '',
     description: '',
     type: '',
@@ -37,7 +36,6 @@ function Page() {
       if (error) return;
 
       setData({
-        _id: data._id,
         value: data.value,
         description: data.description,
         type: data.type || '',
@@ -78,7 +76,7 @@ function Page() {
         </div>
         {entry && <UpdateEntryImage entryId={entry._id} />}
       </div>
-      <Button className="mt-lg w-full" onClick={() => updateEntryAction(data)}>
+      <Button className="mt-lg w-full" onClick={() => updateEntryAction(id, data)}>
         Edit
       </Button>
     </div>

@@ -57,7 +57,16 @@ export class EntriesService {
     const res = await this.entryModel.aggregate<EntryDocument>([
       { $match: { list: id } },
       { $sample: { size: 100 } },
-      { $project: { _id: 1, value: 1, description: 1, image: 1 } },
+      {
+        $project: {
+          _id: 1,
+          value: 1,
+          description: 1,
+          image: 1,
+          confidence: 1,
+          lastPracticeSessionDate: 1,
+        },
+      },
     ]);
 
     return res;
@@ -73,9 +82,6 @@ export class EntriesService {
 
       const res = await this.entryModel.create({
         ...data,
-        // context: [
-        //   data.context.color ? data.context : { value: data.context.value, color: '38b06e' },
-        // ],
         user: data.userId,
         list: defaultList._id,
       });
@@ -104,6 +110,24 @@ export class EntriesService {
     validateId(id);
 
     const res = await this.entryModel.updateOne({ _id: id }, data);
+
+    return {
+      success: true,
+      message: 'Entry has been successfully updated',
+      response: res,
+    };
+  }
+
+  async reassignEntry(id: string, newListId: string): Promise<IResponse<EntryDocument>> {
+    validateId(id);
+
+    const res: EntryDocument = await this.entryModel.findOneAndUpdate(
+      { _id: id },
+      { list: newListId },
+    );
+
+    await this.listsService.updateEntriesNumber(String(res.list), -1);
+    await this.listsService.updateEntriesNumber(newListId, +1);
 
     return {
       success: true,

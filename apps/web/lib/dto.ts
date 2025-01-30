@@ -8,11 +8,10 @@ export interface CreateEntryDto {
 }
 
 export interface UpdateEntryDto {
-  _id: string;
-  value: string;
-  description: string;
-  type: string;
-  list: string;
+  value?: string;
+  description?: string;
+  type?: string;
+  list?: string;
 }
 
 export interface CreateEntryContextDto {

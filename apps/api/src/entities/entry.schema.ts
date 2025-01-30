@@ -42,6 +42,12 @@ export class Entry {
   @Prop({ default: '' })
   image: string;
 
+  @Prop({ default: 1000, max: 2000, min: 0 })
+  confidence: number;
+
+  @Prop({ type: Date, default: null })
+  lastPracticeSessionDate: Date;
+
   @Prop({ index: true, type: mongoose.Schema.Types.ObjectId, ref: 'List' })
   list: List;
 
@@ -52,6 +58,9 @@ export class Entry {
     ref: 'User',
   })
   user: User;
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const EntrySchema = SchemaFactory.createForClass(Entry);

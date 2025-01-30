@@ -69,6 +69,11 @@ export class EntriesController {
     return this.entriesService.updateEntryImage(id, filename);
   }
 
+  @Put('reassign/:id')
+  reassignEntry(@Param('id') id: string, @Body('list') newListId: string) {
+    return this.entriesService.reassignEntry(id, newListId);
+  }
+
   @Delete(':id')
   deleteEntry(@Param('id') id: string) {
     return this.entriesService.deleteEntry(id);

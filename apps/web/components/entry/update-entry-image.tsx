@@ -15,7 +15,7 @@ function UpdateEntryImage({ entryId }: { entryId: string }) {
     const form = new FormData();
     form.append('file', file);
 
-    const { error } = await $put<IResponse<any>>('entries/image/:id', form, {
+    const { error } = await $put<IResponse<any>>('/entries/image/:id', form, {
       params: { id: entryId },
     });
 

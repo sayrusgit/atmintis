@@ -176,6 +176,8 @@ export interface IPracticeEntry {
   value: string;
   description: string,
   image: string,
+  confidence: number;
+  lastPracticeSessionDate: Date | null;
   id: string;
   _id: string;
 }

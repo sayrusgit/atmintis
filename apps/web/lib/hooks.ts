@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { IList } from '@shared/types';
+import { getLocalSession } from '@/lib/session';
+import { $fetch } from '@/lib/fetch';
 
 const noop = () => {};
 
@@ -50,4 +53,24 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
   );
 
   return lastCallback;
+}
+
+export function useFetchLists(): [IList[] | null, Dispatch<SetStateAction<IList[] | null>>] {
+  const [lists, setLists] = useState<IList[] | null>(null);
+
+  useEffect(() => {
+    const fetchLists = async () => {
+      const user = await getLocalSession();
+
+      const { data } = await $fetch<IList[]>('/lists/get-by-user/:id', {
+        params: { id: user?.id },
+      });
+
+      setLists(data);
+    };
+
+    fetchLists();
+  }, []);
+
+  return [lists, setLists];
 }

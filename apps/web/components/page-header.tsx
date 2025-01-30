@@ -19,7 +19,7 @@ export default async function PageHeader() {
   return (
     <header className="mb-lg flex items-center border-b">
       <div className="container relative flex h-[70px] items-center justify-between gap-sm py-4">
-        <div className="w-[120px]">
+        <div className="hidden w-[120px] md:block">
           <Link href="/" className="hidden md:block">
             <PageHeaderLogo />
           </Link>

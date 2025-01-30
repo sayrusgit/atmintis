@@ -22,13 +22,15 @@ export class CreateEntryDto {
 }
 
 export class UpdateEntryDto {
-  value: string;
-  description: string;
+  value?: string;
+  description?: string;
   type?: string;
   tags?: string[];
   context?: IEntryContext[];
   definitions?: Definition[];
   idioms?: string[];
+  confidence?: number;
+  lastPracticeSessionDate?: Date;
   creationDate?: number;
   list?: List;
   collections?: string[];

@@ -19,7 +19,9 @@ export class PracticeSession {
       {
         value: { type: 'string' },
         description: { type: 'string' },
-        imagePath: { type: 'string' },
+        confidence: { type: 'number' },
+        lastPracticeSessionDate: { type: 'Date' },
+        image: { type: 'string' },
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Entry' },
       },
     ]),
@@ -33,7 +35,9 @@ export class PracticeSession {
     raw({
       value: { type: 'string' },
       description: { type: 'string' },
-      imagePath: { type: 'string' },
+      image: { type: 'string' },
+      confidence: { type: 'number' },
+      lastPracticeSessionDate: { type: 'Date' },
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'Entry' },
     }),
   )

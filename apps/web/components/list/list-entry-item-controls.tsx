@@ -6,16 +6,27 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { DotsVerticalIcon, ExitIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
-import { removeEntryAction } from '@/lib/actions';
+import { reassignEntryAction, removeEntryAction, updateEntryAction } from '@/lib/actions';
 import Link from 'next/link';
+import { useFetchLists } from '@/lib/hooks';
 
 function ListEntryItemControls({ entryId }: { entryId: string }) {
+  const [lists] = useFetchLists();
+
   const handleDelete = async () => {
     await removeEntryAction(entryId);
+  };
+
+  const handleMoveTo = async (entryId: string, listId: string) => {
+    await reassignEntryAction(entryId, listId);
   };
 
   return (
@@ -27,10 +38,21 @@ function ListEntryItemControls({ entryId }: { entryId: string }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-20" align="start" side="left">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <ExitIcon className="icon" />
-            Move to
-          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <ExitIcon className="icon" />
+              Move to
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent sideOffset={5}>
+                {lists?.map((list) => (
+                  <DropdownMenuItem key={list._id} onClick={() => handleMoveTo(entryId, list._id)}>
+                    {list.title}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
           <Link href={'/entry/edit/' + entryId}>
             <DropdownMenuItem>
               <Pencil1Icon className="icon" />

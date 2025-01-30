@@ -18,15 +18,11 @@ export class PracticeService {
   redis = Redis.fromEnv();
 
   async getPracticeSessions(): Promise<PracticeSessionDocument[]> {
-    const res = await this.practiceSessionModel.find();
-
-    return res;
+    return this.practiceSessionModel.find();
   }
 
   async getPracticeSession(id: string): Promise<PracticeSession> {
-    const res = await this.practiceSessionModel.findOne({ _id: id });
-
-    return res;
+    return this.practiceSessionModel.findOne({ _id: id });
   }
 
   async getPracticeSessionRedis(id: string): Promise<IPracticeSession> {
@@ -52,7 +48,9 @@ export class PracticeService {
       value: entry.value,
       description: entry.description,
       image: entry.image,
-      id: entry._id,
+      confidence: entry.confidence,
+      lastPracticeSessionDate: entry.lastPracticeSessionDate,
+      id: String(entry._id),
     }));
 
     if (!entries.length)
@@ -84,15 +82,35 @@ export class PracticeService {
   async practiceResponse(sessionId: string, data: PracticeResponseDto) {
     const session = await this.redis.get<IPracticeSession>(sessionId);
 
+    const baseConfidenceGain = data.isCorrectAnswer === true ? 100 : -100;
+
+    // Calculate time-based confidence scaling
+    const lastSessionTimestamp = session.ongoingEntry?.lastPracticeSessionDate
+      ? new Date(session.ongoingEntry.lastPracticeSessionDate).getTime()
+      : 0;
+    const timeSinceLastPractice = lastSessionTimestamp ? Date.now() - lastSessionTimestamp : 0;
+    const lastSessionAsPercentageOfOneWeek = timeSinceLastPractice / 604800000;
+    const confidenceScalingCoefficient =
+      baseConfidenceGain * Math.min(lastSessionAsPercentageOfOneWeek, 0.9);
+
+    // Compute new confidence value
+    const confidenceChange = Math.floor(
+      session.ongoingEntry.confidence + baseConfidenceGain + confidenceScalingCoefficient,
+    );
+    const updatedConfidence = Math.min(confidenceChange, 2000);
+
+    await this.entriesService.updateEntry(session.ongoingEntry.id, {
+      confidence: updatedConfidence,
+      lastPracticeSessionDate: new Date(),
+    });
+
     if (data.isHintUsed) session.hintsUsed++;
     if (data.isImageRevealed) session.imagesRevealed++;
     if (data.isCorrectAnswer === true) session.correctAnswersCount++;
     session.ongoingEntry = session.entries[data.nextEntryIndex];
     session.ongoingEntryIndex = data.nextEntryIndex;
 
-    const res = await this.redis.set(sessionId, session);
-
-    return res;
+    return await this.redis.set(sessionId, session);
   }
 
   async finishPracticeSession(sessionId: string, isSkipped: boolean): Promise<IResponse<any>> {
