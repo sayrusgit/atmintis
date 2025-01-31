@@ -7,7 +7,7 @@ import {
   PracticeResponseDto,
   UpdateEntryDto,
 } from '@/lib/dto';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { IEntry, IPracticeSession, IResponse, IUser } from '@shared/types';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -47,6 +47,7 @@ export async function removeEntryAction(id: string) {
   await $del('/entries/:id', { params: { id } });
 
   revalidatePath('/list/*');
+  revalidateTag('entry');
 }
 
 export async function addTagToEntryAction(id: string, tags: string[]) {
@@ -120,6 +121,7 @@ export async function updateListPrivacyAction(id: string, isPrivate: boolean) {
 export async function deleteListAction(id: string) {
   await $del('/lists/:id', { params: { id } });
 
+  revalidatePath('/');
   redirect('/');
 }
 

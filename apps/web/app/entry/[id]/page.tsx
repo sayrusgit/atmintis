@@ -23,7 +23,10 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const { data } = await $fetch<IEntry>('/entries/' + id, { cache: 'force-cache' });
+  const { data } = await $fetch<IEntry>('/entries/' + id, {
+    cache: 'force-cache',
+    next: { tags: ['entry'] },
+  });
 
   return {
     title: `${data?.value} | atmintis`,
@@ -33,7 +36,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function Page({ params }: Props) {
   const { id } = await params;
 
-  const { data: entry, error } = await $fetch<IEntry>('/entries/' + id, { cache: 'force-cache' });
+  const { data: entry, error } = await $fetch<IEntry>('/entries/' + id, {
+    cache: 'force-cache',
+    next: { tags: ['entry'] },
+  });
 
   if (error) return <p>Entry not found</p>;
 
