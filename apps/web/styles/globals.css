@@ -34,8 +34,11 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    --radius: 1rem;
-    --bruh: -50%, -50%;
+    --radius: 0.9rem;
+
+    --reddish: 0, 54%, 40%;
+    --greenish: 141, 54%, 40%;
+    --blueish: 207, 54%, 40%;
   }
   .dark {
     --background: 0, 0%, 9%;
@@ -110,7 +113,10 @@
     --chart-3: hsl(197 37% 24%);
     --chart-4: hsl(43 74% 66%);
     --chart-5: hsl(27 87% 67%);
-    --radius: 1rem;
+
+    --context-red: hsl(0, 54%, 40%);
+    --context-green: hsl(141, 54%, 40%);
+    --context-blue: hsl(207, 54%, 40%);
   }
 
   .dark {

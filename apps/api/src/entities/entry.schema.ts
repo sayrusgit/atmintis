@@ -30,9 +30,6 @@ export class Entry {
   )
   context: string[];
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Definition' }])
-  definitions: Definition[];
-
   @Prop()
   idioms: string[];
 

@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { FileButton } from '@/components/ui/file-button';
 import { finalizeEmailVerification } from '@/lib/actions';
 import SettingsProfileSectionSend from '@/components/settings/settings-profile-section-send';
+import { STATIC_URL } from '@/lib/utils';
 
 function SettingsProfileSection({ user }: { user: IUser | null }) {
   const router = useRouter();
@@ -39,7 +40,7 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
     <div className="flex items-start gap-md">
       <div className="flex flex-col gap-sm">
         <Image
-          src={'http://localhost:5000/static/images/' + user?.profilePicture}
+          src={STATIC_URL + '/images/' + user?.profilePicture}
           alt="Profile picture"
           width={181}
           height={181}

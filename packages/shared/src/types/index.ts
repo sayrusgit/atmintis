@@ -119,7 +119,6 @@ export interface IEntry {
   type?: string;
   tags?: string[];
   context?: IEntryContext[];
-  definitions?: IDefinition[];
   idioms: string[];
 
   list: string;

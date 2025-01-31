@@ -23,7 +23,7 @@ export class EntriesService {
   async getEntryById(id: string): Promise<EntryDocument> {
     validateId(id);
 
-    return this.entryModel.findById(id);
+    return this.entryModel.findById(id).limit(1);
   }
 
   async getEntriesByList(id: string): Promise<EntryDocument[]> {

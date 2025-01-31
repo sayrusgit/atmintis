@@ -79,6 +79,9 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        reddish: 'hsl(var(--reddish))',
+        greenish: 'hsl(var(--greenish))',
+        bluish: 'hsl(var(--blueish))',
       },
       borderRadius: {
         xl: 'var(--radius)',

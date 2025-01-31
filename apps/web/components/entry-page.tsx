@@ -2,7 +2,7 @@ import { manrope } from '@/styles/fonts';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
-async function Page() {
+async function EntryPage() {
   return (
     <div>
       <div className="flex justify-between">
@@ -66,4 +66,4 @@ async function Page() {
   );
 }
 
-export default Page;
+export default EntryPage;

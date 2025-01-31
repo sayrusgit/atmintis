@@ -56,7 +56,7 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
 }
 
 export function useFetch<T>(endpoint: string): [T | null, Dispatch<SetStateAction<T | null>>] {
-  const [lists, setLists] = useState<T | null>(null);
+  const [data, setData] = useState<T | null>(null);
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -66,11 +66,11 @@ export function useFetch<T>(endpoint: string): [T | null, Dispatch<SetStateActio
         params: { id: user?.id },
       });
 
-      setLists(data);
+      setData(data);
     };
 
     fetchLists();
   }, []);
 
-  return [lists, setLists];
+  return [data, setData];
 }

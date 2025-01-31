@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
+        protocol: 'https',
+        hostname: 'amsvsd.space',
+        pathname: '/static/**',
+      },
+      {
         protocol: 'http',
         hostname: 'localhost',
         port: '5000',

@@ -23,7 +23,7 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const { data } = await $fetch<IEntry>('/entries/:id', { params: { id } });
+  const { data } = await $fetch<IEntry>('/entries/' + id, { cache: 'force-cache' });
 
   return {
     title: `${data?.value} | atmintis`,
@@ -33,9 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function Page({ params }: Props) {
   const { id } = await params;
 
-  const { data: entry, error } = await $fetch<IEntry>('/entries/:id', { params: { id } });
+  const { data: entry, error } = await $fetch<IEntry>('/entries/' + id, { cache: 'force-cache' });
 
-  if (error) return <p>Something went wrong</p>;
+  if (error) return <p>Entry not found</p>;
 
   return (
     <div>
@@ -61,10 +61,10 @@ async function Page({ params }: Props) {
             <p className="italic text-muted-foreground">{entry.type}</p>
           </div>
           <TagsSection entry={entry} />
-          <div className="">
+          <div className="mt-sm flex flex-wrap gap-sm">
             {entry.context?.map((context) => (
-              <div className="mt-sm flex items-center gap-xs" key={context.value + entry._id}>
-                <div className={`h-7 w-7 rounded-xs bg-[${context.color}]`}></div>
+              <div className="flex items-center gap-xs" key={context.value + entry._id}>
+                <div className={`h-7 w-7 rounded-xs bg-${context.color}`}></div>
                 <span className="italic leading-none">{context.value}</span>
               </div>
             ))}

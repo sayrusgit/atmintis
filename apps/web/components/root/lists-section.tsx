@@ -8,7 +8,9 @@ import { $fetch } from '@/lib/fetch';
 
 export default async function ListsSection() {
   const session = await getLocalSession();
-  const { data: lists } = await $fetch<IList[]>('/lists/get-by-user/' + session?.id);
+  const { data: lists } = await $fetch<IList[]>('/lists/get-by-user/' + session?.id, {
+    cache: 'force-cache',
+  });
 
   return (
     <div className="mt-lg grid grid-cols-1 gap-[30px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

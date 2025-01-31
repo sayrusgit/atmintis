@@ -8,7 +8,7 @@ function TagsSectionAdd({
   entryId,
   currentTags,
 }: {
-  entryId: string;
+  entryId: string | undefined;
   currentTags: string[] | undefined;
 }) {
   const [tag, setTag] = useState('');
@@ -17,7 +17,7 @@ function TagsSectionAdd({
     const updatedTags = currentTags?.length ? [...currentTags] : [];
     updatedTags.push(tag);
 
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' && entryId) {
       addTagToEntryAction(entryId, updatedTags);
       setTag('');
     }

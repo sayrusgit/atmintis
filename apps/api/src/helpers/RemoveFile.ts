@@ -1,11 +1,16 @@
 import { join } from 'path';
 import fs from 'fs/promises';
+import process from 'node:process';
 
 export const removeFile = async (fileName: string, path: string = undefined) => {
   try {
-    let pathToFile = join(__dirname, '..', '..', 'public', fileName);
+    const srcStatic =
+      process.env.BUILD === 'prod'
+        ? join('/home/public', fileName)
+        : join(__dirname, '..', '..', 'public');
 
-    if (path) pathToFile = join(__dirname, '..', '..', 'public', path, fileName);
+    let pathToFile = join(srcStatic, fileName);
+    if (path) pathToFile = join(srcStatic, path, fileName);
 
     return fs
       .unlink(pathToFile)

@@ -52,7 +52,7 @@ export async function removeEntryAction(id: string) {
 export async function addTagToEntryAction(id: string, tags: string[]) {
   await $put('/entries/:id', { tags }, { params: { id } });
 
-  revalidatePath('/entries/' + id);
+  revalidatePath('/entry/*');
 }
 
 export async function removeTagFromEntryAction(id: string, tagToRemove: string) {
@@ -62,13 +62,17 @@ export async function removeTagFromEntryAction(id: string, tagToRemove: string) 
 
   await $put('/entries/:id', { tags: filteredTags }, { params: { id } });
 
-  revalidatePath('/entries/' + id);
+  revalidatePath('/entry/' + id);
 }
 
 export async function createDefinitionAction(data: CreateDefinitionDto) {
   const user = await getLocalSession();
 
   await $post('/definitions', { ...data, userId: user?.id });
+}
+
+export async function removeDefinitionAction(id: string) {
+  await $del<IResponse<any>>('/definitions/:id', { params: { id } });
 }
 
 export async function startListPracticeAction(listId: string) {
