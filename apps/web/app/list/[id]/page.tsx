@@ -22,7 +22,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function Page({ params }: Props) {
   const { id } = await params;
 
-  const { data: entries } = await $fetch<IEntry[]>('/entries/get-by-list/:id', { params: { id } });
+  const { data: entries } = await $fetch<IEntry[]>('/entries/get-by-list/' + id, {
+    cache: 'force-cache',
+    next: { tags: ['list-entries'] },
+  });
   const { data: list } = await $fetch<IList>('/lists/:id', { params: { id } });
 
   const user = await getLocalSession();

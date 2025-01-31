@@ -28,26 +28,30 @@ export async function createEntryAction(data: CreateEntryDto) {
 
   await $post('/entries/create', { ...zData.data, userId: user?.id });
 
-  revalidatePath('/list/*');
+  revalidateTag('list-entries');
+  revalidatePath('/');
 }
 
 export async function updateEntryAction(id: string, data: UpdateEntryDto) {
   await $put('/entries/:id', data, { params: { id } });
 
+  revalidateTag('entry');
   redirect('/entry/' + id);
 }
 
 export async function reassignEntryAction(id: string, newListId: string) {
   await $put('/entries/reassign/:id', { list: newListId }, { params: { id } });
 
-  revalidatePath('/list/*');
+  revalidateTag('list-entries');
+  revalidatePath('/');
 }
 
 export async function removeEntryAction(id: string) {
   await $del('/entries/:id', { params: { id } });
 
-  revalidatePath('/list/*');
   revalidateTag('entry');
+  revalidateTag('list-entries');
+  revalidatePath('/');
 }
 
 export async function addTagToEntryAction(id: string, tags: string[]) {
@@ -122,7 +126,17 @@ export async function deleteListAction(id: string) {
   await $del('/lists/:id', { params: { id } });
 
   revalidatePath('/');
+  revalidateTag('entry');
   redirect('/');
+}
+
+export async function importEntriesAction(id: string, file: File) {
+  const form = new FormData();
+  form.append('file', file);
+
+  revalidateTag('list-entries');
+
+  return await $put('/entries/import/:id', form, { params: { id } });
 }
 
 export async function changeUserPasswordAction(state: any, formData: FormData) {

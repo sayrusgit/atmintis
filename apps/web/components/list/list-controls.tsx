@@ -3,7 +3,12 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DotsHorizontalIcon, TrashIcon } from '@radix-ui/react-icons';
-import { deleteListAction, startListPracticeAction, updateListPrivacyAction } from '@/lib/actions';
+import {
+  deleteListAction,
+  importEntriesAction,
+  startListPracticeAction,
+  updateListPrivacyAction,
+} from '@/lib/actions';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,12 +66,11 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
   });
 
   const handleImport = async (file: File) => {
-    const form = new FormData();
-    form.append('file', file);
+    const { error } = await importEntriesAction(list._id, file);
 
-    const { error } = await $put('/entries/import/:id', form, { params: { id: list._id } });
-
-    if (!error) router.refresh();
+    if (!error) {
+      router.refresh();
+    }
 
     setIsOpen(false);
   };
