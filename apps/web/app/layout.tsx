@@ -10,7 +10,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { getSession } from '@/lib/session';
 
 export const metadata: Metadata = {
-  title: 'Home | atmintis',
+  title: 'Dashboard | atmintis',
   description: 'All your memories in one place',
   icons: {
     icon: '/icon.svg',

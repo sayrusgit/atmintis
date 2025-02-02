@@ -54,9 +54,7 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
   };
 
   const handlePressingCreate = (e: KeyboardEvent) => {
-    if (e.ctrlKey && e.key === 'Enter') {
-      handleCreate();
-    }
+    if (e.ctrlKey && e.key === 'Enter') handleCreate();
   };
 
   useEffect(() => {
@@ -84,7 +82,7 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
       <DrawerTrigger ref={drawerRef}>
         <HoverCard openDelay={200} closeDelay={100}>
           <HoverCardTrigger asChild>
-            <div className="flex h-10 cursor-pointer items-center rounded-md border pl-3 pr-4 text-sm font-medium transition-colors hover:bg-accent">
+            <div className="hover:bg-hover flex h-10 cursor-pointer items-center rounded-md border pl-3 pr-4 text-sm font-medium transition-colors">
               <PlusIcon className="mr-2 h-5 w-5" />
               {t('NewEntry.button')}
             </div>

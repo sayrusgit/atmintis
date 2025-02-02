@@ -14,6 +14,13 @@ export enum Role {
   PREMIUM_USER = 'premium_user',
 }
 
+export interface IJwtPayload {
+  sub: string;
+  username: string;
+  email: string;
+  role: string;
+}
+
 export enum Locale {
   EN = 'en',
   LT = 'lt',

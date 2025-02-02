@@ -19,6 +19,7 @@ import { FileButton } from '@/components/ui/file-button';
 import { finalizeEmailVerification } from '@/lib/actions';
 import SettingsProfileSectionSend from '@/components/settings/settings-profile-section-send';
 import { STATIC_URL } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
 
 function SettingsProfileSection({ user }: { user: IUser | null }) {
   const router = useRouter();
@@ -37,73 +38,76 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
   };
 
   return (
-    <div className="flex items-start gap-md">
-      <div className="flex flex-col gap-sm">
-        <Image
-          src={STATIC_URL + '/images/' + user?.profilePicture}
-          alt="Profile picture"
-          width={181}
-          height={181}
-          className="h-[181px] w-[181px] rounded-xl object-cover"
-        />
-        <FileButton onFileUpload={handleUpdateImage} accept="image/jpeg, image/png, image/webp">
-          Change profile picture
-        </FileButton>
-      </div>
-      <div className="flex w-full flex-col gap-md">
-        <div className="flex gap-md">
-          <div>
-            <p className="text-sm">Username</p>
-            <p className="text-xl font-medium">{user?.username}</p>
-          </div>
-          <div>
-            <p className="text-sm">Email</p>
-            <p className="text-xl font-medium">{user?.email}</p>
-          </div>
+    <Card className="mt-md p-md pt-md">
+      <h2 className="mb-sm text-2xl leading-none">Profile</h2>
+      <div className="flex items-start gap-md">
+        <div className="flex flex-col gap-sm">
+          <Image
+            src={STATIC_URL + '/images/' + user?.profilePicture}
+            alt="Profile picture"
+            width={181}
+            height={181}
+            className="h-[181px] w-[181px] rounded-xl object-cover"
+          />
+          <FileButton onFileUpload={handleUpdateImage} accept="image/jpeg, image/png, image/webp">
+            Change profile picture
+          </FileButton>
         </div>
-        <div>
-          <p className="text-sm">Email verification</p>
-          <p className="mb-xs text-xl font-medium">
-            {user?.isEmailVerified ? (
-              <span className="text-success">Verified</span>
-            ) : (
-              <span className="text-red-400">Unverified</span>
+        <div className="flex w-full flex-col gap-md">
+          <div className="flex gap-md">
+            <div>
+              <p className="text-sm">Username</p>
+              <p className="text-xl font-medium">{user?.username}</p>
+            </div>
+            <div>
+              <p className="text-sm">Email</p>
+              <p className="text-xl font-medium">{user?.email}</p>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm">Email verification</p>
+            <p className="mb-xs text-xl font-medium">
+              {user?.isEmailVerified ? (
+                <span className="text-success">Verified</span>
+              ) : (
+                <span className="text-red-400">Unverified</span>
+              )}
+            </p>
+            {!user?.isEmailVerified && (
+              <Dialog>
+                <DialogTrigger className="rounded-md bg-primary px-3 py-1 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
+                  Verify
+                </DialogTrigger>
+                <DialogContent className="gap-md">
+                  <DialogHeader>
+                    <DialogTitle>Email verification</DialogTitle>
+                    <DialogDescription>
+                      We sent a verification code to your email. If it wasn't delivered, check Spam
+                      folder or click the "Resend" button below.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <form action={action}>
+                    <div className="mb-md flex justify-between gap-sm">
+                      <Input
+                        id="code"
+                        name="code"
+                        placeholder={'Enter verification code'}
+                        maxLength={6}
+                      />
+                      <SettingsProfileSectionSend />
+                    </div>
+                    <div className="flex items-center gap-xs">
+                      <Button type="submit">Verify</Button>
+                      {state?.codeError && <p className="text-sm text-red-400">Invalid code</p>}
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             )}
-          </p>
-          {!user?.isEmailVerified && (
-            <Dialog>
-              <DialogTrigger className="rounded-md bg-primary px-3 py-1 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
-                Verify
-              </DialogTrigger>
-              <DialogContent className="gap-md">
-                <DialogHeader>
-                  <DialogTitle>Email verification</DialogTitle>
-                  <DialogDescription>
-                    We sent a verification code to your email. If it wasn't delivered, check Spam
-                    folder or click the "Resend" button below.
-                  </DialogDescription>
-                </DialogHeader>
-                <form action={action}>
-                  <div className="mb-md flex justify-between gap-sm">
-                    <Input
-                      id="code"
-                      name="code"
-                      placeholder={'Enter verification code'}
-                      maxLength={6}
-                    />
-                    <SettingsProfileSectionSend />
-                  </div>
-                  <div className="flex items-center gap-xs">
-                    <Button type="submit">Verify</Button>
-                    {state?.codeError && <p className="text-sm text-red-400">Invalid code</p>}
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 

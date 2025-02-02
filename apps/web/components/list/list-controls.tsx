@@ -125,7 +125,7 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
                 </DropdownMenuItem>
               )}
               <DialogTrigger asChild>
-                <DropdownMenuItem>
+                <DropdownMenuItem disabled={list.isDefault}>
                   <ImageIcon />
                   Change cover
                 </DropdownMenuItem>

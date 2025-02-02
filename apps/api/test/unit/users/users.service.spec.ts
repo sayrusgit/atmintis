@@ -3,9 +3,9 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../../../src/entities/user.schema';
 import { UsersService } from '../../../src/components/users/users.service';
-import { ListsService } from '../../../src/components/data/services/lists.service';
 import { DefinitionsService } from '../../../src/components/data/services/definitions.service';
 import { EntriesService } from '../../../src/components/data/services/entries.service';
+import { ListsService } from '../../../src/components/data/services/lists.service';
 
 const GET_MODEL_TOKEN = getModelToken('User');
 

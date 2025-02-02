@@ -2,10 +2,12 @@ import React from 'react';
 import { IList } from '@shared/types';
 import Image from 'next/image';
 import { STATIC_URL } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
+import { ImageIcon } from 'lucide-react';
 
 function ListsSectionItem({ list }: { list: IList }) {
   return (
-    <div className="flex h-36 w-full justify-between rounded-xl border p-md transition-colors hover:bg-secondary">
+    <Card className="hover:border-border-hover flex w-full justify-between rounded-xl border p-sm transition-colors">
       <div className="flex flex-col justify-between">
         <p className="text-xl leading-5">{list.title}</p>
         <p className="text-muted-foreground">{list.entryNumber} entries</p>
@@ -14,22 +16,24 @@ function ListsSectionItem({ list }: { list: IList }) {
         <Image
           src="images/default-list.svg"
           alt="default list image"
-          width={96}
-          height={96}
-          className="h-24 w-24 rounded-lg"
+          width={80}
+          height={80}
+          className="h-20 w-20 rounded-lg"
         />
       ) : list.image ? (
         <Image
           src={STATIC_URL + '/images/' + list.image}
           alt="default list image"
-          width={96}
-          height={96}
-          className="h-24 w-24 rounded-lg object-cover"
+          width={80}
+          height={80}
+          className="h-20 w-20 rounded-lg object-cover"
         />
       ) : (
-        <div className="h-24 w-24 rounded-lg bg-secondary"></div>
+        <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-secondary">
+          <ImageIcon className="h-14 w-14 text-muted-foreground" strokeWidth={1} />
+        </div>
       )}
-    </div>
+    </Card>
   );
 }
 

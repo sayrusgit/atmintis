@@ -68,7 +68,7 @@ function Page() {
       !error && setDefinitions(data);
     };
     fetchDefinitions();
-  }, [definitions]);
+  }, []);
 
   return (
     <div>

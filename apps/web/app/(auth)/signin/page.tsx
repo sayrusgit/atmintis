@@ -96,6 +96,12 @@ function Page() {
           Sign In
         </Button>
       </form>
+      <p className="mt-xs text-sm">
+        Don’t have an account yet?{' '}
+        <Link href="/signup" className="text-accent">
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 }

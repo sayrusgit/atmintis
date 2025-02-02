@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { createListAction } from '@/lib/actions';
+import { Card } from '@/components/ui/card';
 
 function ListsSectionItemAdd() {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState('');
 
@@ -18,34 +18,36 @@ function ListsSectionItemAdd() {
   };
 
   return (
-    <div
-      className="h-36 w-full cursor-pointer rounded-xl border p-md transition-colors hover:bg-secondary"
+    <Card
+      className="hover:border-border-hover min-h-[120px] w-full cursor-pointer rounded-xl border p-sm transition-colors"
       onClick={() => setIsActive(true)}
     >
       {isActive ? (
         <div className="flex h-full flex-col justify-between">
-          <Input
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            autoFocus
-            ref={inputRef}
-            placeholder="List title"
-            onKeyDown={(e) => {
-              if (e.key === 'Escape') {
-                setIsActive(!isActive);
-                setValue('');
-              }
-            }}
-          />
-          <Button onClick={handleCreateList}>Create</Button>
+          <div className="flex justify-between gap-sm">
+            <Input
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              autoFocus
+              placeholder="Collection title"
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setIsActive(!isActive);
+                  setValue('');
+                }
+              }}
+            />
+            <Button onClick={handleCreateList}>+</Button>
+          </div>
+          <div className="text-sm">Public or private</div>
         </div>
       ) : (
         <div className="flex h-full items-center justify-center gap-xs">
-          <p className="text-xl leading-5 text-muted-foreground">Add list</p>
+          <p className="text-xl leading-5 text-muted-foreground">Add collection</p>
           <PlusIcon className="icon-lg" />
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 

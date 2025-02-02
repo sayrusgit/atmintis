@@ -1,11 +1,9 @@
-import { Card, CardContent } from '@/components/ui/card';
 import { getSession } from '@/lib/session';
-import SettingsPasswordSection from '@/components/settings/settings-password-section';
 import React from 'react';
-import SettingsMfaSection from '@/components/settings/settings-mfa-section';
 import SettingsProfileSection from '@/components/settings/settings-profile-section';
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import SettingsSecuritySection from '@/components/settings/settings-security-section';
+import SettingsDangerZoneSection from '@/components/settings/settings-danger-zone-section';
 
 export const metadata: Metadata = { title: 'Settings | atmintis' };
 
@@ -15,16 +13,9 @@ async function Page() {
   return (
     <div>
       <h1 className="text-4xl">Settings</h1>
-      <Card className="mt-lg">
-        <CardContent className="p-md pt-md">
-          <h2 className="mb-sm text-2xl leading-none">Profile</h2>
-          <SettingsProfileSection user={user} />
-          <h2 className="my-sm text-2xl">Password</h2>
-          <SettingsPasswordSection />
-          <h2 className="my-sm text-2xl">Multi-factor authentication</h2>
-          <SettingsMfaSection user={user} />
-        </CardContent>
-      </Card>
+      <SettingsProfileSection user={user} />
+      <SettingsSecuritySection user={user} />
+      <SettingsDangerZoneSection user={user} />
     </div>
   );
 }

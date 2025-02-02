@@ -1,6 +1,6 @@
 'use server';
 
-import { getLocalSession } from '@/lib/session';
+import { deleteSession, getLocalSession } from '@/lib/session';
 import {
   CreateDefinitionDto,
   CreateEntryDto,
@@ -46,6 +46,19 @@ export async function reassignEntryAction(id: string, newListId: string) {
   revalidatePath('/');
 }
 
+export async function updateEntryImageAction(id: string, file: File) {
+  const form = new FormData();
+  form.append('file', file);
+
+  const res = await $put<IResponse<any>>('/entries/image/:id', form, {
+    params: { id },
+  });
+
+  revalidateTag('entry');
+
+  return res;
+}
+
 export async function removeEntryAction(id: string) {
   await $del('/entries/:id', { params: { id } });
 
@@ -57,7 +70,7 @@ export async function removeEntryAction(id: string) {
 export async function addTagToEntryAction(id: string, tags: string[]) {
   await $put('/entries/:id', { tags }, { params: { id } });
 
-  revalidatePath('/entry/*');
+  revalidateTag('entry');
 }
 
 export async function removeTagFromEntryAction(id: string, tagToRemove: string) {
@@ -135,6 +148,7 @@ export async function importEntriesAction(id: string, file: File) {
   form.append('file', file);
 
   revalidateTag('list-entries');
+  revalidatePath('/');
 
   return await $put('/entries/import/:id', form, { params: { id } });
 }
@@ -152,6 +166,7 @@ export async function changeUserPasswordAction(state: any, formData: FormData) {
   });
 
   if (!error) return { success: true, message: data.message };
+  if (error) return { success: false, message: error.message };
 }
 
 export async function initializeEmailVerification() {
@@ -191,4 +206,14 @@ export async function updateUserLocaleAction(locale: string) {
   });
 
   revalidatePath('/');
+}
+
+export async function deleteUserAction() {
+  const user = await getLocalSession();
+
+  await $del('/users/:id', { params: { id: user?.id } });
+
+  await deleteSession();
+
+  redirect('/signin');
 }

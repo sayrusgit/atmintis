@@ -60,17 +60,66 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
 
   if (user?.mfa.isEnabled)
     return (
-      <Dialog open={isDisablingDialogOpen} onOpenChange={setIsDisablingDialogOpen}>
+      <div>
+        <h3 className="mb-xs mt-sm text-xl">Multi-factor authentication</h3>
+        <Dialog open={isDisablingDialogOpen} onOpenChange={setIsDisablingDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="destructive" onClick={handleEnable}>
+              Disable
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Enter OTP code</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col">
+              <Input
+                placeholder="OTP code"
+                id="token"
+                name="token"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                maxLength={6}
+              />
+              {disablingError && (
+                <span className="mt-xs text-sm text-red-400">Invalid OTP code</span>
+              )}
+              <Button onClick={handleDisable} className="mt-sm">
+                Disable
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+
+  return (
+    <div>
+      <h3 className="mb-xs mt-sm text-xl">Multi-factor authentication</h3>
+      <Dialog open={isEnablingDialogOpen} onOpenChange={setIsEnablingDialogOpen}>
         <DialogTrigger asChild>
-          <Button variant="destructive" onClick={handleEnable}>
-            Disable
-          </Button>
+          <Button onClick={handleEnable}>Enable</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Enter OTP code</DialogTitle>
+            <DialogTitle>Continue in Google Authenticator</DialogTitle>
+            <DialogDescription>
+              Scan QR below or add the secret token manually in your OTP application.
+            </DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center gap-md">
+            <div className="h-48 w-48">
+              {mfaData.qrcode && (
+                <Image
+                  src={mfaData.qrcode}
+                  alt="MFA qrcode"
+                  width={192}
+                  height={192}
+                  className="h-48 w-48 rounded-xl"
+                />
+              )}
+            </div>
+            <code className="text-xs text-foreground-heading">{mfaData.secret}</code>
             <Input
               placeholder="OTP code"
               id="token"
@@ -79,50 +128,11 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
               onChange={(e) => setValue(e.target.value)}
               maxLength={6}
             />
-            {disablingError && <span className="mt-xs text-sm text-red-400">Invalid OTP code</span>}
-            <Button onClick={handleDisable} className="mt-sm">
-              Disable
-            </Button>
+            <Button onClick={handleFinalize}>Enable</Button>
           </div>
         </DialogContent>
       </Dialog>
-    );
-
-  return (
-    <Dialog open={isEnablingDialogOpen} onOpenChange={setIsEnablingDialogOpen}>
-      <DialogTrigger asChild>
-        <Button onClick={handleEnable}>Enable</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Continue in Google Authenticator</DialogTitle>
-          <DialogDescription>
-            Scan QR below or add the secret token manually in your OTP application.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col items-center gap-md">
-          {mfaData.qrcode && (
-            <Image
-              src={mfaData.qrcode}
-              alt="MFA qrcode"
-              width={192}
-              height={192}
-              className="h-48 w-48 rounded-xl"
-            />
-          )}
-          <code className="text-xs text-foreground-heading">{mfaData.secret}</code>
-          <Input
-            placeholder="OTP code"
-            id="token"
-            name="token"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            maxLength={6}
-          />
-          <Button onClick={handleFinalize}>Enable</Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    </div>
   );
 }
 

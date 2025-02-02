@@ -11,7 +11,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { Locale, Role, ROUTES } from '@constants/index';
+import { IJwtPayload, Locale, Role, ROUTES } from '@constants/index';
 import { UsersService } from '@components/users/users.service';
 import {
   CreateUserDto,
@@ -85,11 +85,6 @@ export class UsersController {
     return this.usersService.updateUserLocale(id, locale);
   }
 
-  @Delete(':id')
-  deleteUser(@Param('id') id: string) {
-    return this.usersService.deleteUser(id);
-  }
-
   @Post('enable-mfa/:id')
   enableMfa(@Param('id') id: string) {
     return this.usersService.enableMfa(id);
@@ -103,5 +98,10 @@ export class UsersController {
   @Post('disable-mfa/:id')
   disableMfa(@Param('id') id: string, @Body('token') token: string) {
     return this.usersService.disableMfa(id, token);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id: string, @User() user: IJwtPayload) {
+    return this.usersService.deleteUser(id, user);
   }
 }

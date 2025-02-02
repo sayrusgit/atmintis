@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -23,6 +24,7 @@ import { DefinitionsService } from '@components/data/services/definitions.servic
 import { EntriesService } from '@components/data/services/entries.service';
 import { Resend } from 'resend';
 import * as process from 'node:process';
+import { IJwtPayload } from '@constants/index';
 
 @Injectable()
 export class UsersService {
@@ -89,12 +91,12 @@ export class UsersService {
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
-    const res = await this.userModel.updateOne({
+    await this.userModel.updateOne({
       _id: userId,
       emailVerificationCode: verificationCode,
     });
 
-    const { data, error } = await this.resend.emails.send({
+    const { error } = await this.resend.emails.send({
       from: 'Atmintis <onboarding@resend.dev>',
       to: [user.email],
       subject: 'Verify your email',
@@ -225,16 +227,30 @@ export class UsersService {
     };
   }
 
-  async deleteUser(id: string): Promise<IResponse<DeleteResult>> {
+  async deleteUser(id: string, requestingUser: IJwtPayload): Promise<IResponse<DeleteResult>> {
     const user = await this.userModel.findOne({ _id: id });
     if (!user) throw new NotFoundException('No user found');
 
-    const res = await this.userModel.deleteOne({ _id: id });
-    if (user.profilePicture) await removeFile(user.profilePicture, 'images');
+    let res;
 
-    await this.listsService.deleteAllListsByUserId(id);
-    await this.entriesService.deleteAllEntriesByUserId(id);
-    await this.definitionsService.deleteAllDefinitionsByUserId(id);
+    if (requestingUser.role === 'admin') {
+      res = await this.userModel.deleteOne({ _id: id });
+      if (user.profilePicture) await removeFile(user.profilePicture, 'images');
+
+      await this.listsService.deleteAllListsByUserId(id);
+      await this.entriesService.deleteAllEntriesByUserId(id);
+      await this.definitionsService.deleteAllDefinitionsByUserId(id);
+    } else {
+      if (requestingUser.sub !== String(user._id))
+        throw new ForbiddenException('You do not have permission to delete users');
+
+      res = await this.userModel.deleteOne({ _id: id });
+      if (user.profilePicture) await removeFile(user.profilePicture, 'images');
+
+      await this.listsService.deleteAllListsByUserId(id);
+      await this.entriesService.deleteAllEntriesByUserId(id);
+      await this.definitionsService.deleteAllDefinitionsByUserId(id);
+    }
 
     return {
       success: true,

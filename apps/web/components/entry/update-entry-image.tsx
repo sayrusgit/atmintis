@@ -3,8 +3,7 @@
 import React, { ChangeEvent, useRef } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
-import { IResponse } from '@shared/types';
-import { $put } from '@/lib/fetch';
+import { updateEntryImageAction } from '@/lib/actions';
 
 function UpdateEntryImage({ entryId }: { entryId: string }) {
   const router = useRouter();
@@ -12,12 +11,7 @@ function UpdateEntryImage({ entryId }: { entryId: string }) {
   const fileUploadRef = useRef<HTMLInputElement>(null);
 
   const handleUpdateImage = async (file: File) => {
-    const form = new FormData();
-    form.append('file', file);
-
-    const { error } = await $put<IResponse<any>>('/entries/image/:id', form, {
-      params: { id: entryId },
-    });
+    const { error } = await updateEntryImageAction(entryId, file);
 
     if (!error) router.refresh();
   };
@@ -29,7 +23,7 @@ function UpdateEntryImage({ entryId }: { entryId: string }) {
 
   return (
     <div
-      className="flex h-28 min-w-28 cursor-pointer items-center justify-center rounded-xl bg-accent transition-colors hover:bg-accent/60"
+      className="flex h-28 min-w-28 cursor-pointer items-center justify-center rounded-xl bg-secondary transition-colors hover:bg-card-hover"
       onClick={() => fileUploadRef.current!.click()}
     >
       {/*TODO: create a fileimage component, then insert it here and in settings*/}
