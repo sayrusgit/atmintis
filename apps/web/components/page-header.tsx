@@ -9,6 +9,7 @@ import { $fetch } from '@/lib/fetch';
 import PageHeaderLogo from '@/components/page-header-logo';
 import { ArrowRight } from 'lucide-react';
 import { getLocalSession } from '@/lib/session';
+import Image from 'next/image';
 
 export default async function PageHeader({ user }: { user: IUser | null }) {
   const session = await getLocalSession();
@@ -21,7 +22,7 @@ export default async function PageHeader({ user }: { user: IUser | null }) {
     <header>
       {!user?.isEmailVerified && session && (
         <Link href="/settings">
-          <div className="flex h-6 items-center justify-center gap-1.5 bg-secondary p-1 text-center text-xs transition-colors hover:bg-secondary/80">
+          <div className="flex h-6 items-center justify-center gap-1.5 bg-secondary p-1 text-center text-xs transition-colors hover:bg-hover">
             Verify your email address <ArrowRight className="icon-sm" />
           </div>
         </Link>
@@ -31,6 +32,17 @@ export default async function PageHeader({ user }: { user: IUser | null }) {
           <div className="hidden w-[120px] md:block">
             <Link href="/" className="hidden md:block">
               <PageHeaderLogo />
+            </Link>
+          </div>
+          <div className="block min-w-[32px] md:hidden">
+            <Link href="/" className="block md:hidden">
+              <Image
+                src={'/icon.svg'}
+                alt="atmintis logotype"
+                width={32}
+                height={32}
+                className="rounded-md border"
+              />
             </Link>
           </div>
           {user && <PageHeaderInput userId={user._id} />}

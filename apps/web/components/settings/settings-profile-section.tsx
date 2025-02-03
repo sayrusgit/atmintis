@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useActionState } from 'react';
+import React, { ChangeEvent, useActionState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -15,16 +15,18 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { FileButton } from '@/components/ui/file-button';
 import { finalizeEmailVerification } from '@/lib/actions';
 import SettingsProfileSectionSend from '@/components/settings/settings-profile-section-send';
 import { STATIC_URL } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
+import { UserCircle } from 'lucide-react';
 
 function SettingsProfileSection({ user }: { user: IUser | null }) {
   const router = useRouter();
 
-  const [state, action, pending] = useActionState(finalizeEmailVerification, undefined);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const [state, action] = useActionState(finalizeEmailVerification, undefined);
 
   const handleUpdateImage = async (file: File) => {
     const form = new FormData();
@@ -41,41 +43,55 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
     <Card className="mt-md p-md pt-md">
       <h2 className="mb-sm text-2xl leading-none">Profile</h2>
       <div className="flex items-start gap-md">
-        <div className="flex flex-col gap-sm">
-          <Image
-            src={STATIC_URL + '/images/' + user?.profilePicture}
-            alt="Profile picture"
-            width={181}
-            height={181}
-            className="h-[181px] w-[181px] rounded-xl object-cover"
-          />
-          <FileButton onFileUpload={handleUpdateImage} accept="image/jpeg, image/png, image/webp">
-            Change profile picture
-          </FileButton>
+        <div className="relative min-w-40">
+          {user?.profilePicture ? (
+            <Image
+              src={STATIC_URL + '/images/' + user?.profilePicture}
+              alt="Profile picture"
+              width={160}
+              height={160}
+              className="h-40 w-40 rounded-lg object-cover"
+            />
+          ) : (
+            <div className="flex h-40 w-40 items-center justify-center rounded-lg bg-secondary">
+              <UserCircle className="h-12 w-12" strokeWidth={1} />
+            </div>
+          )}
+          <div
+            onClick={() => fileRef.current?.click()}
+            className="absolute bottom-0 left-0 w-full cursor-pointer rounded-b-lg bg-black/65 p-1 text-center text-sm opacity-0 transition-opacity hover:opacity-100"
+          >
+            Change
+            <input
+              type="file"
+              className="hidden"
+              accept="image/jpeg,image/png,image/webp"
+              ref={fileRef}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                const file = event.target.files![0];
+                if (file) handleUpdateImage(file);
+              }}
+            />
+          </div>
         </div>
-        <div className="flex w-full flex-col gap-md">
-          <div className="flex gap-md">
-            <div>
-              <p className="text-sm">Username</p>
-              <p className="text-xl font-medium">{user?.username}</p>
-            </div>
-            <div>
-              <p className="text-sm">Email</p>
-              <p className="text-xl font-medium">{user?.email}</p>
-            </div>
+        <div className="flex w-full flex-col gap-xs">
+          <div>
+            <p className="text-xs">Username</p>
+            <p className="font-medium text-foreground-heading">{user?.username}</p>
           </div>
           <div>
-            <p className="text-sm">Email verification</p>
-            <p className="mb-xs text-xl font-medium">
+            <p className="text-xs">Email</p>
+            <div className="flex items-center gap-2">
+              <p className="font-medium text-foreground-heading">{user?.email}</p>
               {user?.isEmailVerified ? (
-                <span className="text-success">Verified</span>
+                <span className="text-sm text-success">Verified</span>
               ) : (
-                <span className="text-red-400">Unverified</span>
+                <span className="text-sm text-red-400">Unverified</span>
               )}
-            </p>
+            </div>
             {!user?.isEmailVerified && (
               <Dialog>
-                <DialogTrigger className="rounded-md bg-primary px-3 py-1 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
+                <DialogTrigger className="mt-xs rounded-md bg-primary px-3 py-1 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
                   Verify
                 </DialogTrigger>
                 <DialogContent className="gap-md">

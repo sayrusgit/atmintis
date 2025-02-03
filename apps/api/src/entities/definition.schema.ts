@@ -7,7 +7,7 @@ export type DefinitionDocument = HydratedDocument<Definition>;
 
 @Schema()
 export class Definition {
-  @Prop({ required: true })
+  @Prop()
   description: string;
 
   @Prop([String])

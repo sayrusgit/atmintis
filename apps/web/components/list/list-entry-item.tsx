@@ -9,7 +9,7 @@ function ListEntryItem({ entry, isOwner }: { entry: IEntry; isOwner: boolean }) 
     <div key={entry._id} className="flex items-center justify-between py-2">
       <Link
         href={isOwner ? `/entry/${entry._id}` : '/'}
-        className="hover:bg-card-hover w-full rounded-sm transition-colors"
+        className="w-full rounded-sm transition-colors hover:bg-card-hover"
       >
         <div className="flex h-auto items-center justify-between px-2 py-1">
           <div>
@@ -22,7 +22,7 @@ function ListEntryItem({ entry, isOwner }: { entry: IEntry; isOwner: boolean }) 
           <ChevronRightIcon className="icon justify-self-end" />
         </div>
       </Link>
-      {isOwner && <ListEntryItemControls entryId={entry._id} />}
+      {isOwner && <ListEntryItemControls entry={entry} />}
     </div>
   );
 }

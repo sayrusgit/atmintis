@@ -78,7 +78,6 @@ function PageHeaderNav({ user }: { user: IUser }) {
               <p className="text-sm font-medium leading-none">{user.username}</p>
               <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
               <p className="text-xs leading-none text-muted-foreground">id: {user._id}</p>
-              {/* premium status as well */}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="my-2" />

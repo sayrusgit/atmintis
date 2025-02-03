@@ -82,9 +82,9 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
       <DrawerTrigger ref={drawerRef}>
         <HoverCard openDelay={200} closeDelay={100}>
           <HoverCardTrigger asChild>
-            <div className="hover:bg-hover flex h-10 cursor-pointer items-center rounded-md border pl-3 pr-4 text-sm font-medium transition-colors">
-              <PlusIcon className="mr-2 h-5 w-5" />
-              {t('NewEntry.button')}
+            <div className="flex h-10 cursor-pointer items-center rounded-md border pl-3 pr-1 text-sm font-medium transition-colors hover:bg-hover sm:pr-4">
+              <PlusIcon className="mr-2 h-5" />
+              <span className="hidden sm:block">{t('NewEntry.button')}</span>
             </div>
           </HoverCardTrigger>
           <HoverCardContent

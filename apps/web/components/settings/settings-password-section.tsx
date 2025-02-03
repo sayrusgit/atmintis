@@ -33,16 +33,16 @@ function SettingsPasswordSection() {
           type="password"
           variant="filled"
         />
-        {state?.passwordError && <p className="text-sm text-red-400">Passwords do no match</p>}
       </div>
-      <div className="mt-md flex items-center gap-md">
+      <div className="mt-sm flex items-center gap-sm">
         <Button type="submit" disabled={pending}>
           Change password
         </Button>
+        {state?.passwordError && <p className="text-sm text-red-400">Passwords do no match</p>}
         {state?.success ? (
           <p className="text-sm text-success">{state.message}</p>
         ) : (
-          <p className="text-sm text-danger">{state?.message}</p>
+          <p className="text-sm text-red-400">{state?.message}</p>
         )}
       </div>
     </form>

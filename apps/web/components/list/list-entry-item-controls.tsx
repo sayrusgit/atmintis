@@ -17,13 +17,13 @@ import { DotsVerticalIcon, ExitIcon, Pencil1Icon, TrashIcon } from '@radix-ui/re
 import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
 import Link from 'next/link';
 import { useFetch } from '@/lib/hooks';
-import { IList } from '@shared/types';
+import { IEntry, IList } from '@shared/types';
 
-function ListEntryItemControls({ entryId }: { entryId: string }) {
+function ListEntryItemControls({ entry }: { entry: IEntry }) {
   const [lists] = useFetch<IList[]>('/lists/get-by-user/:id');
 
   const handleDelete = async () => {
-    await removeEntryAction(entryId);
+    await removeEntryAction(entry._id);
   };
 
   const handleMoveTo = async (entryId: string, listId: string) => {
@@ -47,14 +47,18 @@ function ListEntryItemControls({ entryId }: { entryId: string }) {
             <DropdownMenuPortal>
               <DropdownMenuSubContent sideOffset={5}>
                 {lists?.map((list) => (
-                  <DropdownMenuItem key={list._id} onClick={() => handleMoveTo(entryId, list._id)}>
+                  <DropdownMenuItem
+                    key={list._id}
+                    onClick={() => handleMoveTo(entry._id, list._id)}
+                    disabled={list._id === entry.list}
+                  >
                     {list.title}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          <Link href={'/entry/edit/' + entryId}>
+          <Link href={'/entry/edit/' + entry._id}>
             <DropdownMenuItem>
               <Pencil1Icon className="icon" />
               Edit

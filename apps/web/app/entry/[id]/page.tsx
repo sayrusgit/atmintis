@@ -62,7 +62,7 @@ async function Page({ params }: Props) {
       </Breadcrumb>
       <div className="flex justify-between">
         <div>
-          <div className="flex items-end gap-xs">
+          <div className="flex items-end gap-sm">
             <h1 className={`${manrope.className} text-4xl`}>{entry.value}</h1>
             <p className="italic text-muted-foreground">{entry.type}</p>
           </div>
@@ -82,7 +82,7 @@ async function Page({ params }: Props) {
         {entry.image ? (
           <Image
             src={STATIC_URL + '/images/' + entry.image}
-            className="h-28 min-w-28 rounded-xl bg-accent object-cover"
+            className="h-28 min-w-28 rounded-xl bg-secondary object-cover"
             style={{ overflowClipMargin: 'unset' }}
             height={112}
             width={112}

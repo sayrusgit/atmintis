@@ -2,18 +2,13 @@
 
 import React, { ChangeEvent, useRef } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
-import { useRouter } from 'next/navigation';
 import { updateEntryImageAction } from '@/lib/actions';
 
 function UpdateEntryImage({ entryId }: { entryId: string }) {
-  const router = useRouter();
-
   const fileUploadRef = useRef<HTMLInputElement>(null);
 
   const handleUpdateImage = async (file: File) => {
-    const { error } = await updateEntryImageAction(entryId, file);
-
-    if (!error) router.refresh();
+    await updateEntryImageAction(entryId, file);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {

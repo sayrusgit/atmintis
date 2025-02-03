@@ -2,8 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 import { IDefinitionReferences } from '@shared/types';
 
 export class CreateDefinitionDto {
-  @IsNotEmpty()
-  description: string;
+  description?: string;
   examples?: string[];
   prefixes?: string[];
 

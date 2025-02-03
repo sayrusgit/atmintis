@@ -47,7 +47,7 @@ function SettingsDangerZoneSection({ user }: { user: IUser | null }) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction disabled={user?.email !== value} onClick={deleteUserAction}>
-              Continue
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

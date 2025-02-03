@@ -22,6 +22,8 @@ import { InputUnderlined } from '@/components/ui/input-underlined';
 import { useTranslations } from 'use-intl';
 import { $fetch } from '@/lib/fetch';
 import { XIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { clsx } from 'clsx';
 
 type IData = {
   value: string;
@@ -36,7 +38,7 @@ function Page() {
 
   const { id } = useParams<{ id: string }>();
 
-  const [entry, setEntry] = useFetch<IEntry>('/entries/' + id);
+  const [entry] = useFetch<IEntry>('/entries/' + id);
   const [definitions, setDefinitions] = useState<IDefinition[]>([]);
   const [data, setData] = useState<IData>({
     value: '',
@@ -126,7 +128,12 @@ function Page() {
             {data.context?.map((context) => (
               <div className="flex items-center gap-xs" key={context.value + entry?._id}>
                 <div
-                  className={`h-7 w-7 rounded-xs bg-${context.color} flex items-center justify-center`}
+                  className={cn(
+                    'flex h-7 w-7 items-center justify-center rounded-xs',
+                    context.color === 'reddish' && 'bg-reddish',
+                    context.color === 'greenish' && 'bg-greenish',
+                    context.color === 'bluish' && 'bg-bluish',
+                  )}
                 >
                   <XIcon
                     className="icon cursor-pointer opacity-0 transition-opacity hover:opacity-100"

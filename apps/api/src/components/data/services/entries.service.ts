@@ -8,12 +8,14 @@ import { ListsService } from '@components/data/services/lists.service';
 import { IEntry, IResponse } from '@shared/types';
 import { csvToJson, EntryJsonFromCsv } from '@helpers/CsvToJson';
 import { removeFile } from '@helpers/RemoveFile';
+import { DefinitionsService } from '@components/data/services/definitions.service';
 
 @Injectable()
 export class EntriesService {
   constructor(
     @InjectModel(Entry.name) private entryModel: Model<Entry>,
     private listsService: ListsService,
+    private definitionsService: DefinitionsService,
   ) {}
 
   async getEntries(): Promise<EntryDocument[]> {
@@ -163,6 +165,7 @@ export class EntriesService {
     })) as EntryDocument;
 
     await this.listsService.updateEntriesNumber(String(deletedEntry.list), -1);
+    await this.definitionsService.deleteDefinitionsByEntry(id);
     if (deletedEntry.image) await removeFile(deletedEntry.image, 'images');
 
     return {
@@ -180,6 +183,7 @@ export class EntriesService {
     }
 
     await this.entryModel.deleteMany({ user: id });
+    await this.definitionsService.deleteDefinitionsByEntry(id);
 
     return true;
   }

@@ -19,7 +19,7 @@ function ListsSectionItemAdd() {
 
   return (
     <Card
-      className="hover:border-border-hover min-h-[120px] w-full cursor-pointer rounded-xl border p-sm transition-colors"
+      className="min-h-[120px] w-full cursor-pointer rounded-xl border p-sm transition-colors hover:border-border-hover"
       onClick={() => setIsActive(true)}
     >
       {isActive ? (
@@ -43,7 +43,7 @@ function ListsSectionItemAdd() {
         </div>
       ) : (
         <div className="flex h-full items-center justify-center gap-xs">
-          <p className="text-xl leading-5 text-muted-foreground">Add collection</p>
+          <p className="text-xl leading-5 text-muted-foreground">New collection</p>
           <PlusIcon className="icon-lg" />
         </div>
       )}

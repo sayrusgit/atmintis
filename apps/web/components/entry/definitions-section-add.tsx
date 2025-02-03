@@ -83,7 +83,7 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <div className="flex cursor-pointer items-center justify-center rounded-xl border p-3 transition-colors hover:bg-secondary">
+        <div className="flex cursor-pointer items-center justify-center rounded-xl border p-3 transition-colors hover:bg-hover">
           Add new
         </div>
       </DialogTrigger>

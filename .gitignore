@@ -15,6 +15,7 @@
 
 # IDE
 /.idea
+.idea
 
 # production
 /build

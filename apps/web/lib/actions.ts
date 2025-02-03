@@ -50,13 +50,11 @@ export async function updateEntryImageAction(id: string, file: File) {
   const form = new FormData();
   form.append('file', file);
 
-  const res = await $put<IResponse<any>>('/entries/image/:id', form, {
+  await $put<IResponse<any>>('/entries/image/:id', form, {
     params: { id },
   });
 
   revalidateTag('entry');
-
-  return res;
 }
 
 export async function removeEntryAction(id: string) {
