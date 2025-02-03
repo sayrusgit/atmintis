@@ -99,7 +99,7 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
       <DrawerContent className="outline-0">
         <div className="mx-auto w-full max-w-[615px]">
           <DrawerHeader>
-            <DrawerTitle>{t('NewEntry.title')}</DrawerTitle>
+            <DrawerTitle>{t('NewEntry.form.title')}</DrawerTitle>
           </DrawerHeader>
           <div className="space-y-5 p-4">
             <div className="flex flex-col items-center justify-between gap-sm md:flex-row">

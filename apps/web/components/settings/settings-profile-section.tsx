@@ -20,8 +20,11 @@ import SettingsProfileSectionSend from '@/components/settings/settings-profile-s
 import { STATIC_URL } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { UserCircle } from 'lucide-react';
+import { useTranslations } from 'use-intl';
 
 function SettingsProfileSection({ user }: { user: IUser | null }) {
+  const t = useTranslations('settings');
+
   const router = useRouter();
 
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -41,7 +44,7 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
 
   return (
     <Card className="mt-md p-md pt-md">
-      <h2 className="mb-sm text-2xl leading-none">Profile</h2>
+      <h2 className="mb-sm text-2xl leading-none">{t('profile.title')}</h2>
       <div className="flex items-start gap-md">
         <div className="relative min-w-40">
           {user?.profilePicture ? (
@@ -61,7 +64,7 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
             onClick={() => fileRef.current?.click()}
             className="absolute bottom-0 left-0 w-full cursor-pointer rounded-b-lg bg-black/65 p-1 text-center text-sm opacity-0 transition-opacity hover:opacity-100"
           >
-            Change
+            {t('profile.imageChange')}
             <input
               type="file"
               className="hidden"
@@ -76,31 +79,28 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
         </div>
         <div className="flex w-full flex-col gap-xs">
           <div>
-            <p className="text-xs">Username</p>
+            <p className="text-xs">{t('profile.username')}</p>
             <p className="font-medium text-foreground-heading">{user?.username}</p>
           </div>
           <div>
-            <p className="text-xs">Email</p>
+            <p className="text-xs">{t('profile.email.title')}</p>
             <div className="flex items-center gap-2">
               <p className="font-medium text-foreground-heading">{user?.email}</p>
               {user?.isEmailVerified ? (
-                <span className="text-sm text-success">Verified</span>
+                <span className="text-sm text-success">{t('profile.email.verified')}</span>
               ) : (
-                <span className="text-sm text-red-400">Unverified</span>
+                <span className="text-sm text-red-400">{t('profile.email.unverified')}</span>
               )}
             </div>
             {!user?.isEmailVerified && (
               <Dialog>
                 <DialogTrigger className="mt-xs rounded-md bg-primary px-3 py-1 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
-                  Verify
+                  {t('profile.email.verify')}
                 </DialogTrigger>
                 <DialogContent className="gap-md">
                   <DialogHeader>
-                    <DialogTitle>Email verification</DialogTitle>
-                    <DialogDescription>
-                      We sent a verification code to your email. If it wasn't delivered, check Spam
-                      folder or click the "Resend" button below.
-                    </DialogDescription>
+                    <DialogTitle>{t('profile.email.modal.title')}</DialogTitle>
+                    <DialogDescription>{t('profile.email.modal.description')}</DialogDescription>
                   </DialogHeader>
                   <form action={action}>
                     <div className="mb-md flex justify-between gap-sm">
@@ -113,8 +113,12 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
                       <SettingsProfileSectionSend />
                     </div>
                     <div className="flex items-center gap-xs">
-                      <Button type="submit">Verify</Button>
-                      {state?.codeError && <p className="text-sm text-red-400">Invalid code</p>}
+                      <Button type="submit">{t('profile.email.modal.verify')}</Button>
+                      {state?.codeError && (
+                        <p className="text-sm text-red-400">
+                          {t('profile.email.modal.invalidCode')}
+                        </p>
+                      )}
                     </div>
                   </form>
                 </DialogContent>

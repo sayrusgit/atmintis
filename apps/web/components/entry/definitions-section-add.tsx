@@ -25,6 +25,7 @@ import { IEntry } from '@shared/types';
 import { createDefinitionAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 import { $fetch } from '@/lib/fetch';
+import { useTranslations } from 'use-intl';
 
 interface IReference {
   value: string;
@@ -32,6 +33,8 @@ interface IReference {
 }
 
 function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
+  const t = useTranslations('entry.definitions');
+
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +87,7 @@ function DefinitionsSectionAdd({ entryId }: { entryId: string }) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <div className="flex cursor-pointer items-center justify-center rounded-xl border p-3 transition-colors hover:bg-hover">
-          Add new
+          {t('new')}
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

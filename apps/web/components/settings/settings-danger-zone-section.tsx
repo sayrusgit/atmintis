@@ -17,24 +17,24 @@ import {
 import { IUser } from '@shared/types';
 import { Input } from '@/components/ui/input';
 import { deleteUserAction } from '@/lib/actions';
+import { useTranslations } from 'use-intl';
 
 function SettingsDangerZoneSection({ user }: { user: IUser | null }) {
+  const t = useTranslations('settings.danger');
+
   const [value, setValue] = useState('');
 
   return (
     <Card className="mt-md p-md pt-md">
-      <h2 className="mb-sm text-2xl leading-none">Danger zone</h2>
+      <h2 className="mb-sm text-2xl leading-none">{t('title')}</h2>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive">Delete account</Button>
+          <Button variant="destructive">{t('delete')}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your account and remove
-              your data. If this is a deliberate decision, type your email down below:
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t('modal.title')}</AlertDialogTitle>
+            <AlertDialogDescription>{t('modal.description')}</AlertDialogDescription>
             <div>
               <Input
                 value={value}
@@ -45,9 +45,9 @@ function SettingsDangerZoneSection({ user }: { user: IUser | null }) {
             </div>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('modal.cancel')}</AlertDialogCancel>
             <AlertDialogAction disabled={user?.email !== value} onClick={deleteUserAction}>
-              Delete
+              {t('modal.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

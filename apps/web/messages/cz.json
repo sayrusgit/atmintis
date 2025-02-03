@@ -1,48 +1,146 @@
 {
   "header": {
-    "SearchPlaceholder": "Search",
+    "SearchPlaceholder": "Hledat",
     "NewEntry": {
-      "button": "New",
-      "title": "New entry",
+      "button": "Nový",
       "form": {
-        "entryPlaceholder": "Entry title",
-        "descriptionPlaceholder": "Entry description",
-        "type": "Type",
+        "title": "Nový záznam",
+        "entryPlaceholder": "Název záznamu",
+        "descriptionPlaceholder": "Popis záznamu",
+        "type": "Typ",
         "types": {
-          "noun": "Noun",
-          "adjective": "Adjective",
-          "verb": "Verb",
-          "adverb": "Adverb"
+          "noun": "Podstatné jméno",
+          "adjective": "Přídavné jméno",
+          "verb": "Sloveso",
+          "adverb": "Příslovce"
         },
-        "list": "Select a list...",
-        "submit": "Create",
-        "cancel": "Cancel"
+        "list": "Vyberte seznam...",
+        "submit": "Vytvořit",
+        "cancel": "Zrušit"
       }
     },
     "Nav": {
-      "theme": "Theme",
+      "theme": "Motiv",
       "themes": {
-        "light": "Light",
-        "dark": "Dark"
+        "light": "Světlý",
+        "dark": "Tmavý"
       },
-      "language": "Language",
-      "settings": "Settings",
-      "shortcuts": "Keyboard shortcuts",
-      "logout": "Log out"
+      "language": "Jazyk",
+      "settings": "Nastavení",
+      "shortcuts": "Klávesové zkratky",
+      "logout": "Odhlásit se"
     }
   },
   "root": {
-
+    "collections": "Kolekce",
+    "mainSpace": "Hlavní prostor",
+    "newCollection": "Nová kolekce",
+    "entries": "záznamy"
+  },
+  "lists": {
+    "practice": "Procvičování",
+    "controls": {
+      "makePublic": "Zveřejnit",
+      "makePrivate": "Nastavit jako soukromé",
+      "changeCover": {
+        "title": "Změnit obal",
+        "modal": {
+          "title": "Změnit obal",
+          "description": "Můžete nahrát nový obal nebo smazat ten aktuální, pokud existuje",
+          "upload": "Nahrát obal",
+          "delete": "Smazat obal"
+        }
+      },
+      "import": "Importovat",
+      "export": "Exportovat",
+      "delete": "Smazat",
+      "modal": {
+        "title": "Opravdu chcete smazat",
+        "description": "Tuto akci nelze vrátit zpět. Tímto trvale odstraníte seznam i všechny jeho položky.",
+        "cancel": "Zrušit",
+        "delete": "Smazat"
+      }
+    },
+    "item": {
+      "controls": {
+        "move": "Přesunout",
+        "edit": "Upravit",
+        "delete": "Smazat"
+      }
+    }
+  },
+  "entry": {
+    "definitions": {
+      "new": "Přidat nový"
+    }
+  },
+  "settings": {
+    "title": "Nastavení",
+    "profile": {
+      "title": "Profil",
+      "imageChange": "Změnit",
+      "username": "Uživatelské jméno",
+      "email": {
+        "title": "E-mail",
+        "verified": "Ověřeno",
+        "unverified": "Neověřeno",
+        "verify": "Ověřit",
+        "modal": {
+          "title": "Ověření e-mailu",
+          "description": "Odeslali jsme ověřovací kód na váš e-mail. Pokud jste ho neobdrželi, zkontrolujte složku spam nebo klikněte na tlačítko „Znovu odeslat“ níže.",
+          "verify": "Ověřit",
+          "invalidCode": "Neplatný kód"
+        }
+      }
+    },
+    "security": {
+      "title": "Zabezpečení",
+      "password": {
+        "title": "Heslo",
+        "oldPassword": "Staré heslo",
+        "newPassword": "Nové heslo",
+        "confirmNewPassword": "Potvrdit nové heslo",
+        "changePassword": "Změnit heslo",
+        "error": {
+          "doNotMatch": "Hesla se neshodují"
+        }
+      },
+      "mfa": {
+        "title": "Dvoufaktorové ověřování",
+        "enable": "Povolit",
+        "disable": "Zakázat",
+        "otpCode": "OTP kód",
+        "enableModal": {
+          "title": "Pokračujte v Google Authenticator",
+          "description": "Naskenujte níže uvedený QR kód nebo zadejte tajný klíč ručně ve vaší OTP aplikaci."
+        },
+        "disableModal": {
+          "title": "Zadejte OTP kód",
+          "invalidOtpCode": "Neplatný OTP kód"
+        }
+      }
+    },
+    "danger": {
+      "title": "Nebezpečná zóna",
+      "delete": "Smazat účet",
+      "modal": {
+        "title": "Jste si naprosto jisti?",
+        "description": "Tuto akci nelze vrátit zpět. Tímto trvale odstraníte svůj účet a všechna svá data. Pokud jste si jistí, zadejte svůj e-mail níže:",
+        "cancel": "Zrušit",
+        "delete": "Smazat"
+      }
+    }
   },
   "auth": {
     "SignIn": {
-      "title": "Sign up",
+      "title": "Přihlášení",
       "form": {
-        "loginPlaceholder": "Username or email",
-        "passwordPlaceholder": "Password",
-        "restorePassword": "Restore password",
-        "submit": "Sign In"
+        "loginPlaceholder": "Uživatelské jméno nebo e-mail",
+        "passwordPlaceholder": "Heslo",
+        "restorePassword": "Obnovit heslo",
+        "submit": "Přihlásit se"
       }
-    }
+    },
+    "SignUp": {}
   }
 }

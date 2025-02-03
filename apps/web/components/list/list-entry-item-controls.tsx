@@ -18,8 +18,11 @@ import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
 import Link from 'next/link';
 import { useFetch } from '@/lib/hooks';
 import { IEntry, IList } from '@shared/types';
+import { useTranslations } from 'use-intl';
 
 function ListEntryItemControls({ entry }: { entry: IEntry }) {
+  const t = useTranslations('lists');
+
   const [lists] = useFetch<IList[]>('/lists/get-by-user/:id');
 
   const handleDelete = async () => {
@@ -42,7 +45,7 @@ function ListEntryItemControls({ entry }: { entry: IEntry }) {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <ExitIcon className="icon" />
-              Move to
+              {t('item.controls.move')}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent sideOffset={5}>
@@ -61,12 +64,12 @@ function ListEntryItemControls({ entry }: { entry: IEntry }) {
           <Link href={'/entry/edit/' + entry._id}>
             <DropdownMenuItem>
               <Pencil1Icon className="icon" />
-              Edit
+              {t('item.controls.edit')}
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem onClick={handleDelete} className="text-red-400">
             <TrashIcon className="icon text-red-400" />
-            Delete
+            {t('item.controls.delete')}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

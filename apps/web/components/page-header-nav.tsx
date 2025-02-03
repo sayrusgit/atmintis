@@ -72,7 +72,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
             <AvatarFallback className="rounded-md">{user?.username}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-3 w-56 p-xs" align="end" forceMount>
+        <DropdownMenuContent className="mt-3 w-60 p-xs" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{user.username}</p>
@@ -144,7 +144,6 @@ function PageHeaderNav({ user }: { user: IUser }) {
                   <DropdownMenuItem
                     className="text-md mb-1"
                     onClick={() => updateUserLocaleAction('cz')}
-                    disabled
                   >
                     <div className="flex items-center justify-between">
                       <Image

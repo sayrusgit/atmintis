@@ -3,8 +3,8 @@
     "SearchPlaceholder": "Paieška",
     "NewEntry": {
       "button": "Naujas",
-      "title": "Naujas įrašas",
       "form": {
+        "title": "Naujas įrašas",
         "entryPlaceholder": "Įrašo pavadinimas",
         "descriptionPlaceholder": "Įrašo aprašymas",
         "type": "Tipas",
@@ -27,22 +27,120 @@
       },
       "language": "Kalba",
       "settings": "Nustatymai",
-      "shortcuts": "Klaviatūros nuorodos",
-      "logout": "Išeiti"
+      "shortcuts": "Klavišų kombinacijos",
+      "logout": "Atsijungti"
     }
   },
   "root": {
-
+    "collections": "Kolekcijos",
+    "mainSpace": "Pagrindinė erdvė",
+    "newCollection": "Nauja kolekcija",
+    "entries": "įrašai"
+  },
+  "lists": {
+    "practice": "Praktika",
+    "controls": {
+      "makePublic": "Padaryti viešą",
+      "makePrivate": "Padaryti privatų",
+      "changeCover": {
+        "title": "Keisti viršelį",
+        "modal": {
+          "title": "Keisti viršelį",
+          "description": "Galite įkelti naują viršelį arba ištrinti esamą, jei jis egzistuoja",
+          "upload": "Įkelti viršelį",
+          "delete": "Ištrinti viršelį"
+        }
+      },
+      "import": "Importuoti",
+      "export": "Eksportuoti",
+      "delete": "Ištrinti",
+      "modal": {
+        "title": "Ar tikrai norite ištrinti",
+        "description": "Šis veiksmas negali būti atšauktas. Tai visam laikui ištrins sąrašą ir visus jo įrašus.",
+        "cancel": "Atšaukti",
+        "delete": "Ištrinti"
+      }
+    },
+    "item": {
+      "controls": {
+        "move": "Perkelti",
+        "edit": "Redaguoti",
+        "delete": "Ištrinti"
+      }
+    }
+  },
+  "entry": {
+    "definitions": {
+      "new": "Pridėti naują"
+    }
+  },
+  "settings": {
+    "title": "Nustatymai",
+    "profile": {
+      "title": "Profilis",
+      "imageChange": "Keisti",
+      "username": "Vartotojo vardas",
+      "email": {
+        "title": "El. paštas",
+        "verified": "Patvirtintas",
+        "unverified": "Nepatvirtintas",
+        "verify": "Patvirtinti",
+        "modal": {
+          "title": "El. pašto patvirtinimas",
+          "description": "Išsiuntėme patvirtinimo kodą į jūsų el. paštą. Jei negavote, patikrinkite šlamšto aplanką arba paspauskite mygtuką „Persiųsti“ žemiau.",
+          "verify": "Patvirtinti",
+          "invalidCode": "Neteisingas kodas"
+        }
+      }
+    },
+    "security": {
+      "title": "Sauga",
+      "password": {
+        "title": "Slaptažodis",
+        "oldPassword": "Senas slaptažodis",
+        "newPassword": "Naujas slaptažodis",
+        "confirmNewPassword": "Patvirtinti naują slaptažodį",
+        "changePassword": "Keisti slaptažodį",
+        "error": {
+          "doNotMatch": "Slaptažodžiai nesutampa"
+        }
+      },
+      "mfa": {
+        "title": "Daugiafaktorinis autentifikavimas",
+        "enable": "Įjungti",
+        "disable": "Išjungti",
+        "otpCode": "OTP kodas",
+        "enableModal": {
+          "title": "Tęskite „Google Authenticator“",
+          "description": "Nuskaitykite žemiau pateiktą QR kodą arba įveskite slaptą kodą rankiniu būdu savo OTP programėlėje."
+        },
+        "disableModal": {
+          "title": "Įveskite OTP kodą",
+          "invalidOtpCode": "Neteisingas OTP kodas"
+        }
+      }
+    },
+    "danger": {
+      "title": "Pavojinga zona",
+      "delete": "Ištrinti paskyrą",
+      "modal": {
+        "title": "Ar esate visiškai tikri?",
+        "description": "Šis veiksmas negali būti atšauktas. Tai visam laikui ištrins jūsų paskyrą ir visus duomenis. Jei tai apgalvotas sprendimas, įrašykite savo el. paštą žemiau:",
+        "cancel": "Atšaukti",
+        "delete": "Ištrinti"
+      }
+    }
   },
   "auth": {
     "SignIn": {
-      "title": "Sign up",
+      "title": "Registruotis",
       "form": {
-        "loginPlaceholder": "Username or email",
-        "passwordPlaceholder": "Password",
-        "restorePassword": "Restore password",
-        "submit": "Sign In"
+        "loginPlaceholder": "Vartotojo vardas arba el. paštas",
+        "passwordPlaceholder": "Slaptažodis",
+        "restorePassword": "Atkurti slaptažodį",
+        "submit": "Prisijungti"
       }
-    }
+    },
+    "SignUp": {}
   }
 }

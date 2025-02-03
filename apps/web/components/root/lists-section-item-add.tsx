@@ -6,8 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { createListAction } from '@/lib/actions';
 import { Card } from '@/components/ui/card';
+import { useTranslations } from 'use-intl';
 
 function ListsSectionItemAdd() {
+  const t = useTranslations('root');
+
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState('');
 
@@ -43,7 +46,7 @@ function ListsSectionItemAdd() {
         </div>
       ) : (
         <div className="flex h-full items-center justify-center gap-xs">
-          <p className="text-xl leading-5 text-muted-foreground">New collection</p>
+          <p className="text-xl leading-5 text-muted-foreground">{t('newCollection')}</p>
           <PlusIcon className="icon-lg" />
         </div>
       )}

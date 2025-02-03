@@ -3,8 +3,8 @@
     "SearchPlaceholder": "Search",
     "NewEntry": {
       "button": "New",
-      "title": "New entry",
       "form": {
+        "title": "New entry",
         "entryPlaceholder": "Entry title",
         "descriptionPlaceholder": "Entry description",
         "type": "Type",
@@ -32,7 +32,104 @@
     }
   },
   "root": {
-
+    "collections": "Collections",
+    "mainSpace": "Main space",
+    "newCollection": "New collection",
+    "entries": "entries"
+  },
+  "lists":  {
+    "practice": "Practice",
+    "controls": {
+      "makePublic": "Make public",
+      "makePrivate": "Make private",
+      "changeCover": {
+        "title": "Change cover",
+        "modal": {
+          "title": "Change cover",
+          "description": "You can either upload a new cover or delete the current one, if it exists",
+          "upload": "Upload cover",
+          "delete": "Delete cover"
+        }
+      },
+      "import": "Import",
+      "export": "Export",
+      "delete": "Delete",
+      "modal": {
+        "title": "Do you want to delete",
+        "description": "This action cannot be undone. This will permanently delete the list, as well as all entries inside.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    },
+    "item": {
+      "controls": {
+        "move": "Move",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    }
+  },
+  "entry": {
+    "definitions": {
+      "new": "Add new"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": {
+      "title": "Profile",
+      "imageChange": "Change",
+      "username": "Username",
+      "email": {
+        "title": "Email",
+        "verified": "Verified",
+        "unverified": "Unverified",
+        "verify": "Verify",
+        "modal": {
+          "title": "Email verification",
+          "description": "We sent a verification code to your email. If it wasn't delivered, check Spam folder or click the \"Resend\" button below.",
+          "verify": "Verify",
+          "invalidCode": "Invalid code"
+        }
+      }
+    },
+    "security": {
+      "title": "Security",
+      "password": {
+        "title": "Password",
+        "oldPassword": "Old password",
+        "newPassword": "New password",
+        "confirmNewPassword": "Confirm new password",
+        "changePassword": "Change password",
+        "error": {
+          "doNotMatch": "Passwords do not match"
+        }
+      },
+      "mfa": {
+        "title": "Multi-factor authentication",
+        "enable": "Enable",
+        "disable": "Disable",
+        "otpCode": "OTP Code",
+        "enableModal": {
+          "title": "Continue in Google Authenticator",
+          "description": "Scan QR below or add the secret token manually in your OTP application."
+        },
+        "disableModal": {
+          "title": "Enter OTP code",
+          "invalidOtpCode": "Invalid OTP code"
+        }
+      }
+    },
+    "danger": {
+      "title": "Danger zone",
+      "delete": "Delete account",
+      "modal": {
+        "title": "Are you absolutely sure?",
+        "description": "This action cannot be undone. This will permanently delete your account and remove your data. If this is a deliberate decision, type your email down below:",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    }
   },
   "auth": {
     "SignIn": {
@@ -43,6 +140,8 @@
         "restorePassword": "Restore password",
         "submit": "Sign In"
       }
+    },
+    "SignUp": {
     }
   }
 }

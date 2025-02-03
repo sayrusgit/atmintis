@@ -15,8 +15,11 @@ import { IMfaPayload, IUser } from '@shared/types';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useTranslations } from 'use-intl';
 
 function SettingsMfaSection({ user }: { user: IUser | null }) {
+  const t = useTranslations('settings.security.mfa');
+
   const router = useRouter();
 
   const [mfaData, setMfaData] = useState<IMfaPayload>({
@@ -61,20 +64,20 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
   if (user?.mfa.isEnabled)
     return (
       <div>
-        <h3 className="mb-xs mt-sm text-xl">Multi-factor authentication</h3>
+        <h3 className="mb-xs mt-sm text-xl">{t('title')}</h3>
         <Dialog open={isDisablingDialogOpen} onOpenChange={setIsDisablingDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="destructive" onClick={handleEnable}>
-              Disable
+              {t('disable')}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Enter OTP code</DialogTitle>
+              <DialogTitle>{t('disableModal.title')}</DialogTitle>
             </DialogHeader>
             <div className="flex flex-col">
               <Input
-                placeholder="OTP code"
+                placeholder={t('otpCode')}
                 id="token"
                 name="token"
                 value={value}
@@ -82,10 +85,12 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
                 maxLength={6}
               />
               {disablingError && (
-                <span className="mt-xs text-sm text-red-400">Invalid OTP code</span>
+                <span className="mt-xs text-sm text-red-400">
+                  {t('disableModal.invalidOtpCode')}
+                </span>
               )}
               <Button onClick={handleDisable} className="mt-sm">
-                Disable
+                {t('disable')}
               </Button>
             </div>
           </DialogContent>
@@ -95,17 +100,15 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
 
   return (
     <div>
-      <h3 className="mb-xs mt-sm text-xl">Multi-factor authentication</h3>
+      <h3 className="mb-xs mt-sm text-xl">{t('title')}</h3>
       <Dialog open={isEnablingDialogOpen} onOpenChange={setIsEnablingDialogOpen}>
         <DialogTrigger asChild>
-          <Button onClick={handleEnable}>Enable</Button>
+          <Button onClick={handleEnable}>{t('enable')}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Continue in Google Authenticator</DialogTitle>
-            <DialogDescription>
-              Scan QR below or add the secret token manually in your OTP application.
-            </DialogDescription>
+            <DialogTitle>{t('enableModal.title')}</DialogTitle>
+            <DialogDescription>{t('enableModal.description')}</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center gap-md">
             <div className="h-48 w-48">
@@ -121,14 +124,14 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
             </div>
             <code className="text-xs text-foreground-heading">{mfaData.secret}</code>
             <Input
-              placeholder="OTP code"
+              placeholder={t('otpCode')}
               id="token"
               name="token"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               maxLength={6}
             />
-            <Button onClick={handleFinalize}>Enable</Button>
+            <Button onClick={handleFinalize}>{t('enable')}</Button>
           </div>
         </DialogContent>
       </Dialog>

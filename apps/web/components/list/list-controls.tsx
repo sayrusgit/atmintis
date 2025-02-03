@@ -42,8 +42,11 @@ import {
 } from '@/components/ui/dialog';
 import { FileButton } from '@/components/ui/file-button';
 import { $fetch, $put } from '@/lib/fetch';
+import { useTranslations } from 'use-intl';
 
 function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: number | undefined }) {
+  const t = useTranslations('lists');
+
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -99,7 +102,7 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
   return (
     <div className="flex gap-xs">
       <Button onClick={handlePractice} disabled={!entriesNumber}>
-        Practice
+        {t('practice')}
       </Button>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DropdownMenu open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
@@ -116,27 +119,27 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
                   onClick={() => updateListPrivacyAction(list._id, false)}
                 >
                   <LockOpenIcon />
-                  Make public
+                  {t('controls.makePublic')}
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem onClick={() => updateListPrivacyAction(list._id, true)}>
                   <LockIcon />
-                  Make private
+                  {t('controls.makePrivate')}
                 </DropdownMenuItem>
               )}
               <DialogTrigger asChild>
                 <DropdownMenuItem disabled={list.isDefault}>
                   <ImageIcon />
-                  Change cover
+                  {t('controls.changeCover.title')}
                 </DropdownMenuItem>
               </DialogTrigger>
               <DropdownMenuFileItem accept="text/csv" onFileUpload={handleImport}>
                 <UploadIcon className="h-4 w-4" />
-                Import
+                {t('controls.import')}
               </DropdownMenuFileItem>
               <DropdownMenuItem onClick={handleExport} disabled={!entriesNumber}>
                 <DownloadIcon />
-                Export
+                {t('controls.export')}
               </DropdownMenuItem>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
@@ -146,26 +149,27 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
                     onSelect={(e) => e.preventDefault()}
                   >
                     <TrashIcon className="icon text-red-400" />
-                    Delete
+                    {t('controls.delete')}
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Do you want to delete "{list.title}"</AlertDialogTitle>
+                    <AlertDialogTitle>
+                      {t('controls.modal.title')} "{list.title}"
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete the list, as well
-                      as all entries inside.
+                      {t('controls.modal.description')}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>{t('controls.modal.cancel')}</AlertDialogCancel>
                     <AlertDialogAction
                       onClick={async () => {
                         await deleteListAction(list._id);
                         setIsOpen(false);
                       }}
                     >
-                      Delete
+                      {t('controls.modal.delete')}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -175,21 +179,21 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
         </DropdownMenu>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-medium">Change cover</DialogTitle>
+            <DialogTitle className="font-medium">
+              {t('controls.changeCover.modal.title')}
+            </DialogTitle>
           </DialogHeader>
-          <DialogDescription>
-            You can either upload a new cover or delete the current one, if it exists
-          </DialogDescription>
+          <DialogDescription>{t('controls.changeCover.modal.description')}</DialogDescription>
           <div className="flex justify-between gap-md">
             <FileButton
               className="w-full"
               onFileUpload={handleUpdateCover}
               accept="image/jpeg, image/png, image/webp"
             >
-              Upload cover
+              {t('controls.changeCover.modal.upload')}
             </FileButton>
             <Button className="w-full" variant="destructive" disabled={!list.image}>
-              Delete cover
+              {t('controls.changeCover.modal.delete')}
             </Button>
           </div>
         </DialogContent>

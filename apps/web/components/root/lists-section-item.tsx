@@ -4,13 +4,18 @@ import Image from 'next/image';
 import { STATIC_URL } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { ImageIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
-function ListsSectionItem({ list }: { list: IList }) {
+async function ListsSectionItem({ list }: { list: IList }) {
+  const t = await getTranslations('root');
+
   return (
-    <Card className="hover:border-border-hover flex w-full justify-between rounded-xl border p-sm transition-colors">
+    <Card className="flex w-full justify-between rounded-xl border p-sm transition-colors hover:border-border-hover">
       <div className="flex flex-col justify-between">
         <p className="text-xl leading-5">{list.title}</p>
-        <p className="text-muted-foreground">{list.entryNumber} entries</p>
+        <p className="text-muted-foreground">
+          {list.entryNumber} {t('entries')}
+        </p>
       </div>
       {list.isDefault ? (
         <Image
