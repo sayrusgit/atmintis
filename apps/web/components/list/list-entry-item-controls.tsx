@@ -16,14 +16,11 @@ import { Button } from '@/components/ui/button';
 import { DotsVerticalIcon, ExitIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
 import Link from 'next/link';
-import { useFetch } from '@/lib/hooks';
-import { IEntry, IList } from '@shared/types';
 import { useTranslations } from 'use-intl';
+import type { IEntry, IList } from '@shared/types';
 
-function ListEntryItemControls({ entry }: { entry: IEntry }) {
+function ListEntryItemControls({ entry, lists }: { entry: IEntry; lists: IList[] | null }) {
   const t = useTranslations('lists');
-
-  const [lists] = useFetch<IList[]>('/lists/get-by-user/:id');
 
   const handleDelete = async () => {
     await removeEntryAction(entry._id);

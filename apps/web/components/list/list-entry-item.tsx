@@ -1,10 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
-import { IEntry } from '@shared/types';
+import { IEntry, type IList } from '@shared/types';
 import ListEntryItemControls from '@/components/list/list-entry-item-controls';
 
-function ListEntryItem({ entry, isOwner }: { entry: IEntry; isOwner: boolean }) {
+function ListEntryItem({
+  entry,
+  isOwner,
+  lists,
+}: {
+  entry: IEntry;
+  isOwner: boolean;
+  lists: IList[] | null;
+}) {
   return (
     <div key={entry._id} className="flex items-center justify-between py-2">
       <Link
@@ -22,7 +30,7 @@ function ListEntryItem({ entry, isOwner }: { entry: IEntry; isOwner: boolean }) 
           <ChevronRightIcon className="icon justify-self-end" />
         </div>
       </Link>
-      {isOwner && <ListEntryItemControls entry={entry} />}
+      {isOwner && <ListEntryItemControls entry={entry} lists={lists} />}
     </div>
   );
 }

@@ -1,34 +1,36 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
-import { IEntry, IList } from '@shared/types';
 import ListEntryItem from '@/components/list/list-entry-item';
 import ListControls from '@/components/list/list-controls';
 import { getLocalSession } from '@/lib/session';
 import { $fetch } from '@/lib/fetch';
+import type { IEntry, IList } from '@shared/types';
 
 type Props = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const { data } = await $fetch<IList>('/lists/:id', { params: { id } });
+  const { data: list } = await $fetch<IList>('/lists/:id', { params: { id } });
 
   return {
-    title: `${data?.title} | atmintis`,
+    title: `${list?.title} | atmintis`,
   };
 }
 
 async function Page({ params }: Props) {
   const { id } = await params;
+  const user = await getLocalSession();
 
   const { data: entries } = await $fetch<IEntry[]>('/entries/get-by-list/' + id, {
     cache: 'force-cache',
     next: { tags: ['list-entries'] },
   });
   const { data: list } = await $fetch<IList>('/lists/:id', { params: { id } });
-
-  const user = await getLocalSession();
+  const { data: lists } = await $fetch<IList[]>('/lists/get-by-user/:id', {
+    params: { id: user?.id },
+  });
 
   const isOwner = user?.id === list?.user;
 
@@ -42,7 +44,7 @@ async function Page({ params }: Props) {
         <CardContent className="flex flex-col divide-y p-xs">
           {entries?.length ? (
             entries.map((entry) => (
-              <ListEntryItem entry={entry} isOwner={isOwner} key={entry._id} />
+              <ListEntryItem entry={entry} isOwner={isOwner} key={entry._id} lists={lists} />
             ))
           ) : (
             <p className="mt-lg text-center">Nothing here yet</p>

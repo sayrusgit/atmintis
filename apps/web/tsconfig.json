@@ -6,6 +6,7 @@
     "allowJs": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "importsNotUsedAsValues": "error",
 
     /* Strictness */
     "strict": true,
