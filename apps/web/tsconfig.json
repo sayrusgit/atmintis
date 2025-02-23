@@ -6,7 +6,7 @@
     "allowJs": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
 
     /* Strictness */
     "strict": true,
