@@ -3,7 +3,7 @@ import React from 'react';
 import PageHeaderInput from '@/components/page-header-input';
 import NewEntry from '@/components/new-entry';
 import { Button } from '@/components/ui/button';
-import { IList, IUser } from '@shared/types';
+import type { IList, IUser } from '@shared/types';
 import PageHeaderNav from '@/components/page-header-nav';
 import { $fetch } from '@/lib/fetch';
 import PageHeaderLogo from '@/components/page-header-logo';

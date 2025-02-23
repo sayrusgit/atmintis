@@ -1,6 +1,6 @@
 'use server';
 
-import { BetterFetchOption, createFetch } from '@better-fetch/fetch';
+import { type BetterFetchOption, createFetch } from '@better-fetch/fetch';
 import { cookies } from 'next/headers';
 
 export const $fetch = createFetch({

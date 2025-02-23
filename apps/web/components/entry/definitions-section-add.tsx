@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { getLocalSession } from '@/lib/session';
-import { IEntry } from '@shared/types';
+import type { IEntry } from '@shared/types';
 import { createDefinitionAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 import { $fetch } from '@/lib/fetch';

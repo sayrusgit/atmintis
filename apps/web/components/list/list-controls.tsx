@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DownloadIcon, ImageIcon, LockIcon, LockOpenIcon, UploadIcon } from 'lucide-react';
 import { startFileDownload } from '@/lib/utils';
-import { IList, IResponse } from '@shared/types';
+import type { IList, IResponse } from '@shared/types';
 import { useRouter } from 'next/navigation';
 import {
   AlertDialog,

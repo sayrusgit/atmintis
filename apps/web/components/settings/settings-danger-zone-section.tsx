@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { IUser } from '@shared/types';
+import type { IUser } from '@shared/types';
 import { Input } from '@/components/ui/input';
 import { deleteUserAction } from '@/lib/actions';
 import { useTranslations } from 'use-intl';

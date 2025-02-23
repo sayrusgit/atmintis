@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, type KeyboardEvent } from 'react';
 import { Input } from '@/components/ui/input';
 import { addTagToEntryAction } from '@/lib/actions';
 

@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
-import { IError, IJwtPayload, ILoginData, ISession, IUser } from '@shared/types';
+import type { IError, IJwtPayload, ILoginData, ISession, IUser } from '@shared/types';
 import { $fetch, $post } from '@/lib/fetch';
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;

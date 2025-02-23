@@ -1,5 +1,5 @@
 import React from 'react';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import ListEntryItem from '@/components/list/list-entry-item';
 import ListControls from '@/components/list/list-controls';

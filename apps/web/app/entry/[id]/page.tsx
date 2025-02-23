@@ -1,5 +1,5 @@
 import { manrope } from '@/styles/fonts';
-import { IEntry } from '@shared/types';
+import type { IEntry } from '@shared/types';
 import DefinitionSection from '@/components/entry/definitions-section';
 import { DefinitionsSkeleton } from '@/components/skeletons';
 import React, { Suspense } from 'react';
@@ -16,7 +16,7 @@ import {
 import Link from 'next/link';
 import { $fetch } from '@/lib/fetch';
 import { STATIC_URL } from '@/lib/utils';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 type Props = { params: Promise<{ id: string }> };
 

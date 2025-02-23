@@ -1,6 +1,6 @@
 'use client';
 
-import { IDefinition, IEntry, IEntryContext } from '@shared/types';
+import type { IDefinition, IEntry, IEntryContext } from '@shared/types';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
@@ -23,7 +23,6 @@ import { useTranslations } from 'use-intl';
 import { $fetch } from '@/lib/fetch';
 import { XIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { clsx } from 'clsx';
 
 type IData = {
   value: string;

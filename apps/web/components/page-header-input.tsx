@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input-icons';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
-import { IEntry } from '@shared/types';
+import type { IEntry } from '@shared/types';
 import { useDebouncedCallback } from '@/lib/hooks';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'use-intl';

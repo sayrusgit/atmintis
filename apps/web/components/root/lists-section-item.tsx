@@ -1,5 +1,5 @@
 import React from 'react';
-import { IList } from '@shared/types';
+import type { IList } from '@shared/types';
 import Image from 'next/image';
 import { STATIC_URL } from '@/lib/utils';
 import { Card } from '@/components/ui/card';

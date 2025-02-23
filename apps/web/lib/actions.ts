@@ -1,14 +1,14 @@
 'use server';
 
 import { deleteSession, getLocalSession } from '@/lib/session';
-import {
+import type {
   CreateDefinitionDto,
   CreateEntryDto,
   PracticeResponseDto,
   UpdateEntryDto,
 } from '@/lib/dto';
 import { revalidatePath, revalidateTag } from 'next/cache';
-import { IEntry, IPracticeSession, IResponse, IUser } from '@shared/types';
+import type { IEntry, IPracticeSession, IResponse, IUser } from '@shared/types';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { $del, $fetch, $post, $put } from '@/lib/fetch';

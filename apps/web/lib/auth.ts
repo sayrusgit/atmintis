@@ -1,6 +1,6 @@
 import { createSession, deleteSession, updateSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
-import { IMfaPayload, IResponse, ITokens } from '@shared/types';
+import type { IMfaPayload, IResponse, ITokens } from '@shared/types';
 import { z } from 'zod';
 import { $post } from '@/lib/fetch';
 

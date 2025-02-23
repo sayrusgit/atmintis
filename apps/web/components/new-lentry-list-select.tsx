@@ -12,7 +12,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { IList } from '@shared/types';
+import type { IList } from '@shared/types';
 import { useTranslations } from 'use-intl';
 
 interface NewEntryListSelectProps {

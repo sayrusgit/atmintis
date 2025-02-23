@@ -1,5 +1,5 @@
 import React from 'react';
-import { IEntry } from '@shared/types';
+import type { IEntry } from '@shared/types';
 import TagsSectionAdd from '@/components/entry/tags-section-add';
 import TagsSectionItem from '@/components/entry/tags-section-item';
 

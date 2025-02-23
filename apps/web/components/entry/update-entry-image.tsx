@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useRef } from 'react';
+import React, { type ChangeEvent, useRef } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { updateEntryImageAction } from '@/lib/actions';
 

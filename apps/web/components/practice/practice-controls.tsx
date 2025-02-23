@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { finishListPracticeSession, practiceResponseAction } from '@/lib/actions';
-import { IPracticeSession } from '@shared/types';
+import type { IPracticeSession } from '@shared/types';
 
 function PracticeControls({ session }: { session: IPracticeSession }) {
   const [isTextRevealed, setIsTextRevealed] = useState(false);

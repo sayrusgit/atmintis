@@ -1,5 +1,5 @@
 import React from 'react';
-import { IDefinition } from '@shared/types';
+import type { IDefinition } from '@shared/types';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import DefinitionsSectionAdd from '@/components/entry/definitions-section-add';

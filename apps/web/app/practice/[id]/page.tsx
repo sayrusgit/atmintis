@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPracticeSession } from '@shared/types';
+import type { IPracticeSession } from '@shared/types';
 import PracticeControls from '@/components/practice/practice-controls';
 import { Card } from '@/components/ui/card';
 import PracticeImage from '@/components/practice/practice-image';

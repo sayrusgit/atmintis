@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import SettingsPasswordSection from '@/components/settings/settings-password-section';
 import SettingsMfaSection from '@/components/settings/settings-mfa-section';
-import { IUser } from '@shared/types';
+import type { IUser } from '@shared/types';
 
 function SettingsSecuritySection({ user }: { user: IUser | null }) {
   return (

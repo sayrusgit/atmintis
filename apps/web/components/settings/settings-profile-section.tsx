@@ -1,10 +1,10 @@
 'use client';
 
-import React, { ChangeEvent, useActionState, useRef } from 'react';
+import React, { type ChangeEvent, useActionState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { IResponse, IUser } from '@shared/types';
+import type { IResponse, IUser } from '@shared/types';
 import { $put } from '@/lib/fetch';
 import {
   Dialog,

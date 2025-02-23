@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { disableMfaAction, enableMfaAction, finalizeMfaAction } from '@/lib/auth';
-import { IMfaPayload, IUser } from '@shared/types';
+import type { IMfaPayload, IUser } from '@shared/types';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';

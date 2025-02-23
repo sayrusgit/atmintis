@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { EyeOffIcon } from 'lucide-react';
 import Image from 'next/image';
-import { IPracticeEntry } from '@shared/types';
+import type { IPracticeEntry } from '@shared/types';
 
 function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
   const [isRevealed, setIsRevealed] = useState(false);

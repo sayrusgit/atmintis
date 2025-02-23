@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { NewEntryListSelect } from '@/components/new-lentry-list-select';
-import { CreateEntryDto } from '@/lib/dto';
+import type { CreateEntryDto } from '@/lib/dto';
 import {
   Select,
   SelectContent,
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { createEntryAction } from '@/lib/actions';
-import { IList, IUser } from '@shared/types';
+import type { IList, IUser } from '@shared/types';
 import { useTranslations } from 'use-intl';
 
 const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {

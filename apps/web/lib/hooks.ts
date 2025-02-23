@@ -1,5 +1,12 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IList } from '@shared/types';
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { getLocalSession } from '@/lib/session';
 import { $fetch } from '@/lib/fetch';
 

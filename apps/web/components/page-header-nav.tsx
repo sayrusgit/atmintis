@@ -20,7 +20,7 @@ import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { logout } from '@/lib/auth';
-import { IUser } from '@shared/types';
+import type { IUser } from '@shared/types';
 import Link from 'next/link';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import PageHeaderDialogContent from '@/components/page-header-dialog-content';

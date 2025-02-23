@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
-import { IEntry, type IList } from '@shared/types';
+import type { IEntry, IList } from '@shared/types';
 import ListEntryItemControls from '@/components/list/list-entry-item-controls';
 
 function ListEntryItem({

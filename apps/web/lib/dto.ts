@@ -1,4 +1,4 @@
-import { IDefinitionReferences } from '@shared/types';
+import type { IDefinitionReferences } from '@shared/types';
 
 export interface CreateEntryDto {
   value: string;
