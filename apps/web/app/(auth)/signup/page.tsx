@@ -12,11 +12,11 @@ function Page() {
   return (
     <div>
       <h1 className={`text-3xl lg:mt-[160px] ${manrope.className} antialiased`}>Hi there,</h1>
-      <h2 className="mb-xl">here you can sign up</h2>
+      <h2 className="mb-lg">here you can sign up</h2>
       {state?.message ? (
-        <p className="text-sm text-red-400">Something went wrong. Try again</p>
+        <p className="mb-xs h-5 text-sm text-red-400">{state.message}</p>
       ) : (
-        <div className="h-5"></div>
+        <div className="mb-xs h-5"></div>
       )}
       <form action={action} className="flex flex-col gap-md">
         <div className="flex justify-between gap-sm">

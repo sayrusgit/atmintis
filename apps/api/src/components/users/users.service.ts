@@ -61,8 +61,10 @@ export class UsersService {
 
   async createUser(data: CreateUserDto, profilePicture: string): Promise<UserDocument> {
     const isUsernameUsed = await this.getUserByName(data.username);
+    if (isUsernameUsed) throw new BadRequestException('Username is already taken');
 
-    if (isUsernameUsed) throw new BadRequestException('Sorry, but this username is used');
+    const isEmailUsed = await this.getUserByEmail(data.email);
+    if (isEmailUsed) throw new BadRequestException('Email is already used');
 
     const hashedPassword = await bcrypt.hash(data.password, 7);
 

@@ -9,8 +9,9 @@
     "test:server": "npm run test --workspace=apps/api",
     "test:client": "npm run dev --workspace=apps/web"
   },
+  "packageManager": "bun@1.2.2",
   "workspaces": [
-    "apps*/*",
-    "packages*/*"
+    "apps/**",
+    "packages/**"
   ]
 }

@@ -43,7 +43,7 @@ export async function signup(state: any, formData: FormData) {
   if (zData.data.password !== zData.data.confirmPassword) return { passwordError: true };
 
   const { data, error } = await $post<ITokens>('/auth/signup', formData);
-  if (error) return { message: 'Something went wrong' };
+  if (error) return { message: error.message };
   await updateSession(data.refreshToken);
 
   redirect('/');

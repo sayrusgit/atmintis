@@ -87,7 +87,6 @@ export async function deleteSession() {
 
 export const getSession = async (): Promise<IUser | null> => {
   const { data, error } = await $fetch<IUser | IError>('users/me');
-
   if (error) return null;
 
   return data as IUser;
