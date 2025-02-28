@@ -65,8 +65,8 @@ export class EntriesService {
           value: 1,
           description: 1,
           image: 1,
-          confidence: 1,
-          lastPracticeSessionDate: 1,
+          confidenceScore: 1,
+          lastExercise: 1,
         },
       },
     ]);

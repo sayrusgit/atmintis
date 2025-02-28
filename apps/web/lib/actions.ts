@@ -1,14 +1,9 @@
 'use server';
 
 import { deleteSession, getLocalSession } from '@/lib/session';
-import type {
-  CreateDefinitionDto,
-  CreateEntryDto,
-  PracticeResponseDto,
-  UpdateEntryDto,
-} from '@/lib/dto';
+import type { CreateDefinitionDto, CreateEntryDto, ExerciseDto, UpdateEntryDto } from '@/lib/dto';
 import { revalidatePath, revalidateTag } from 'next/cache';
-import type { IEntry, IPracticeSession, IResponse, IUser } from '@shared/types';
+import type { IEntry, IExercise, IResponse, IUser } from '@shared/types';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { $del, $fetch, $post, $put } from '@/lib/fetch';
@@ -91,28 +86,28 @@ export async function removeDefinitionAction(id: string) {
   await $del<IResponse<any>>('/definitions/:id', { params: { id } });
 }
 
-export async function startListPracticeAction(listId: string) {
+export async function startExerciseAction(listId: string) {
   const user = await getLocalSession();
 
-  const { data } = await $post<IResponse<IPracticeSession>>(
-    '/practice/start-list/:id',
+  const { data } = await $post<IResponse<IExercise>>(
+    '/exercises/start/:id',
     { userId: user?.id },
     { params: { id: listId } },
   );
 
-  redirect('/practice/' + data?.response._id);
+  redirect('/exercise/' + data?.response._id);
 }
 
-export async function practiceResponseAction(id: string, data: PracticeResponseDto) {
-  await $put('/practice/response/:id', data, { params: { id } });
+export async function exerciseResponseAction(id: string, data: ExerciseDto) {
+  await $put('/exercises/response/:id', data, { params: { id } });
 
-  revalidatePath('/practice/*');
+  revalidatePath('/exercise/*');
 }
 
-export async function finishListPracticeSession(id: string) {
-  await $put('practice/finish/:id', undefined, { params: { id } });
+export async function finishExerciseAction(id: string) {
+  await $put('exercises/finish/:id', undefined, { params: { id } });
 
-  revalidatePath('/practice/*');
+  revalidatePath('/exercise/*');
 }
 
 export async function createListAction(listTitle: string) {

@@ -106,7 +106,7 @@ export interface IList {
   updatedAt: string;
 }
 
-export interface IEntryContext {
+export interface IExtra {
   value: string;
   color: string;
 }
@@ -118,8 +118,10 @@ export interface IEntry {
   description: string;
   type?: string;
   tags?: string[];
-  context?: IEntryContext[];
-  idioms: string[];
+  extras?: IExtra[];
+
+  confidenceScore: number;
+  lastExercise: Date;
 
   list: string;
   user: string;
@@ -149,20 +151,20 @@ export interface IDefinitionReferences {
   _id?: string;
 }
 
-export interface IPracticeSession {
+export interface IExercise {
   _id: string;
 
   user: string;
   list?: string;
 
-  entries: IPracticeEntry[];
+  entries: IExerciseEntry[];
   totalEntries: number;
-  ongoingEntry: IPracticeEntry;
+  ongoingEntry: IExerciseEntry;
   ongoingEntryIndex: number;
 
   hintsUsed: number;
   imagesRevealed: number;
-  correctAnswersCount: number;
+  positiveAnswersCount: number;
 
   isFinished: boolean;
   isSkipped: boolean;
@@ -173,12 +175,12 @@ export interface IPracticeSession {
   updatedAt: Date;
 }
 
-export interface IPracticeEntry {
+export interface IExerciseEntry {
   value: string;
   description: string,
   image: string,
-  confidence: number;
-  lastPracticeSessionDate: Date | null;
+  confidenceScore: number;
+  lastExercise: Date | null;
   id: string;
   _id: string;
 }

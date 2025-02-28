@@ -1,6 +1,5 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Definition } from '@entities/definition.schema';
 import { List } from '@entities/list.schema';
 import { User } from '@entities/user.schema';
 
@@ -28,10 +27,7 @@ export class Entry {
       },
     ]),
   )
-  context: string[];
-
-  @Prop()
-  idioms: string[];
+  extra: string[];
 
   @Prop()
   collections: string[];
@@ -40,10 +36,10 @@ export class Entry {
   image: string;
 
   @Prop({ default: 1000, max: 2000, min: 0 })
-  confidence: number;
+  confidenceScore: number;
 
   @Prop({ type: Date, default: null })
-  lastPracticeSessionDate: Date;
+  lastExercise: Date;
 
   @Prop({ index: true, type: mongoose.Schema.Types.ObjectId, ref: 'List' })
   list: List;

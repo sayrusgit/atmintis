@@ -1,13 +1,12 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { User } from '@entities/user.schema';
-import { Entry } from '@entities/entry.schema';
 import { List } from '@entities/list.schema';
 
-export type PracticeSessionDocument = HydratedDocument<PracticeSession>;
+export type ExerciseDocument = HydratedDocument<Exercise>;
 
 @Schema({ timestamps: true })
-export class PracticeSession {
+export class Exercise {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   user: User;
 
@@ -19,8 +18,8 @@ export class PracticeSession {
       {
         value: { type: 'string' },
         description: { type: 'string' },
-        confidence: { type: 'number' },
-        lastPracticeSessionDate: { type: 'Date' },
+        confidenceScore: { type: 'number' },
+        lastExercise: { type: 'Date' },
         image: { type: 'string' },
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Entry' },
       },
@@ -36,8 +35,8 @@ export class PracticeSession {
       value: { type: 'string' },
       description: { type: 'string' },
       image: { type: 'string' },
-      confidence: { type: 'number' },
-      lastPracticeSessionDate: { type: 'Date' },
+      confidenceScore: { type: 'number' },
+      lastExercise: { type: 'Date' },
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'Entry' },
     }),
   )
@@ -59,7 +58,7 @@ export class PracticeSession {
   isSkipped: boolean;
 
   @Prop({ default: 0 })
-  correctAnswersCount: number;
+  positiveAnswersCount: number;
 
   @Prop({ type: Date })
   finishedAt: Date;
@@ -71,4 +70,4 @@ export class PracticeSession {
   updatedAt: Date;
 }
 
-export const PracticeSessionSchema = SchemaFactory.createForClass(PracticeSession);
+export const ExerciseSchema = SchemaFactory.createForClass(Exercise);

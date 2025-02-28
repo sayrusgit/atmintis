@@ -12,7 +12,7 @@ async function ListsSectionItem({ list }: { list: IList }) {
   return (
     <Card className="flex w-full justify-between rounded-xl border p-sm transition-colors hover:border-border-hover">
       <div className="flex flex-col justify-between">
-        <p className="text-xl leading-5">{list.title}</p>
+        <p className="text-xl leading-5">{list.isDefault ? t('defaultList') : list.title}</p>
         <p className="text-muted-foreground">
           {list.entryNumber} {t('entries')}
         </p>

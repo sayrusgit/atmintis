@@ -52,7 +52,7 @@ async function Page({ params }: Props) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link href={'/list/' + entry.list}>List</Link>
+            <Link href={'/collection/' + entry.list}>List</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

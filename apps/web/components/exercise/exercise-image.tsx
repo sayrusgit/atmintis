@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { EyeOffIcon } from 'lucide-react';
 import Image from 'next/image';
-import type { IPracticeEntry } from '@shared/types';
+import type { IExerciseEntry } from '@shared/types';
 
-function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
+function ExerciseImage({ ongoingEntry }: { ongoingEntry: IExerciseEntry }) {
   const [isRevealed, setIsRevealed] = useState(false);
   const handleReveal = () => {
     setIsRevealed(!isRevealed);
@@ -14,7 +14,7 @@ function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
   if (!ongoingEntry?.image)
     return (
       <div
-        className="flex h-36 w-36 items-center justify-center rounded-xl bg-secondary/60"
+        className="flex h-44 w-44 items-center justify-center rounded-xl bg-secondary"
         onClick={handleReveal}
       >
         <EyeOffIcon />
@@ -23,7 +23,7 @@ function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
 
   return (
     <div
-      className="flex h-36 w-36 cursor-pointer items-center justify-center rounded-xl bg-secondary transition-colors hover:bg-secondary/60"
+      className="flex h-44 w-44 cursor-pointer items-center justify-center rounded-xl bg-secondary transition-colors hover:bg-card-hover"
       onClick={handleReveal}
     >
       {isRevealed ? (
@@ -41,4 +41,4 @@ function PracticeImage({ ongoingEntry }: { ongoingEntry: IPracticeEntry }) {
   );
 }
 
-export default PracticeImage;
+export default ExerciseImage;

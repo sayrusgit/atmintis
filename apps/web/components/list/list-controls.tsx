@@ -6,7 +6,7 @@ import { DotsHorizontalIcon, TrashIcon } from '@radix-ui/react-icons';
 import {
   deleteListAction,
   importEntriesAction,
-  startListPracticeAction,
+  startExerciseAction,
   updateListPrivacyAction,
 } from '@/lib/actions';
 import {
@@ -53,7 +53,7 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handlePractice = async () => {
-    await startListPracticeAction(list._id);
+    await startExerciseAction(list._id);
   };
 
   const handleKey = (e: KeyboardEvent) => {

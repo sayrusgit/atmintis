@@ -15,7 +15,7 @@ export default async function ListsSection() {
   return (
     <div className="mt-lg grid grid-cols-1 gap-md sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {lists?.map((list) => (
-        <Link href={'/list/' + list._id} key={list._id}>
+        <Link href={'/collection/' + list._id} key={list._id}>
           <ListsSectionItem list={list} />
         </Link>
       ))}

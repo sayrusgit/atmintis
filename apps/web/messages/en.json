@@ -35,7 +35,8 @@
     "collections": "Collections",
     "mainSpace": "Main space",
     "newCollection": "New collection",
-    "entries": "entries"
+    "entries": "entries",
+    "defaultList": "Your entries"
   },
   "lists":  {
     "practice": "Practice",

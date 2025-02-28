@@ -35,7 +35,8 @@
     "collections": "Kolekcijos",
     "mainSpace": "Pagrindinė erdvė",
     "newCollection": "Nauja kolekcija",
-    "entries": "įrašai"
+    "entries": "įrašai",
+    "defaultList": "Jūsų įrašai"
   },
   "lists": {
     "practice": "Praktika",

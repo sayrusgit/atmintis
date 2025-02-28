@@ -19,8 +19,8 @@ export interface CreateEntryContextDto {
   color: string;
 }
 
-export interface PracticeResponseDto {
-  isCorrectAnswer: boolean;
+export interface ExerciseDto {
+  isPositive: boolean;
   isHintUsed?: boolean;
   isImageRevealed?: boolean;
   nextEntryIndex: number;

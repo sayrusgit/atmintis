@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
-import { Definition, DefinitionDocument } from '@entities/definition.schema';
+import type { Definition, DefinitionDocument } from '@entities/definition.schema';
 import { List } from '@entities/list.schema';
-import { IEntryContext } from '@shared/types';
+import type { IExtra } from '@shared/types';
 
 export class CreateEntryDto {
   @IsNotEmpty()
@@ -12,7 +12,7 @@ export class CreateEntryDto {
 
   type?: string;
   tags?: string[];
-  context?: IEntryContext;
+  extras?: IExtra[];
   definitions?: DefinitionDocument[];
   idioms?: string[];
   list: string | undefined;
@@ -26,7 +26,7 @@ export class UpdateEntryDto {
   description?: string;
   type?: string;
   tags?: string[];
-  context?: IEntryContext[];
+  extras?: IExtra[];
   definitions?: Definition[];
   idioms?: string[];
   confidence?: number;

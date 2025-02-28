@@ -9,7 +9,7 @@ import { DataModule } from '@components/data/data.module';
 import { UsersModule } from '@components/users/users.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { PracticeModule } from '@components/practice/practice.module';
+import { PracticeModule } from '@components/exercise/exercise.module';
 
 @Module({
   imports: [

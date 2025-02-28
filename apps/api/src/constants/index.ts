@@ -5,7 +5,7 @@ export const ROUTES = {
   USERS: 'users',
   AUTH: 'auth',
   DEFINITIONS: 'definitions',
-  PRACTICE: 'practice',
+  EXERCISES: 'exercises',
 };
 
 export enum Role {

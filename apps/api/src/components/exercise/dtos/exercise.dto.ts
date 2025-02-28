@@ -1,5 +1,5 @@
-export class PracticeResponseDto {
-  isCorrectAnswer: boolean;
+export class ExerciseResponseDto {
+  isPositive: boolean;
   isHintUsed: boolean;
   isImageRevealed: boolean;
   nextEntryIndex: number;
