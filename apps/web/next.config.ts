@@ -14,20 +14,14 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'amsvsd.space',
-        pathname: '/static/**',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '5000',
-        pathname: '/static/**',
+        hostname: 'igndqswomepaeos0.public.blob.vercel-storage.com',
+        port: '',
       },
     ],
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '3mb',
+      bodySizeLimit: '4.5mb',
     },
   },
 };

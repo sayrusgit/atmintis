@@ -26,6 +26,8 @@ import { Resend } from 'resend';
 import * as process from 'node:process';
 import { IJwtPayload } from '@constants/index';
 import { ExerciseService } from '@components/exercise/exercise.service';
+import { put, del } from '@vercel/blob';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UsersService {
@@ -185,32 +187,19 @@ export class UsersService {
     };
   }
 
-  async updateUserPicture(id: string, filename: string): Promise<IResponse<UpdateWriteOpResult>> {
+  async updateUserPicture(id: string, fileBuffer: Buffer): Promise<IResponse<UpdateWriteOpResult>> {
     const user = await this.userModel.findOne({ _id: id });
-    if (!user) {
-      await removeFile(filename, 'images');
-      throw new NotFoundException('No user found');
-    }
+    if (!user) throw new NotFoundException('No user found');
 
-    if (user.profilePicture) {
-      const isRemoved = await removeFile(user.profilePicture, 'images');
+    const filename = 'img-pp-' + uuidv4() + '.webp';
 
-      if (!isRemoved) {
-        await removeFile(filename, 'images');
+    if (user.profilePicture) await del(user.profilePicture);
 
-        const res = await this.userModel.updateOne({ _id: id }, { profilePicture: '' });
-
-        return {
-          success: false,
-          message: 'Something went wrong, profile picture was not updated',
-          response: res,
-        };
-      }
-    }
+    const blob = await put('images/' + filename, fileBuffer, { access: 'public' });
 
     const res = await this.userModel.updateOne(
       { _id: id },
-      { profilePicture: filename },
+      { profilePicture: blob.url },
       { new: true },
     );
 
@@ -239,7 +228,7 @@ export class UsersService {
 
     if (requestingUser.role === 'admin') {
       res = await this.userModel.deleteOne({ _id: id });
-      if (user.profilePicture) await removeFile(user.profilePicture, 'images');
+      if (user.profilePicture) await del(user.profilePicture);
 
       await this.listsService.deleteAllListsByUserId(id);
       await this.entriesService.deleteAllEntriesByUserId(id);
@@ -250,7 +239,7 @@ export class UsersService {
         throw new ForbiddenException('You do not have permission to delete users');
 
       res = await this.userModel.deleteOne({ _id: id });
-      if (user.profilePicture) await removeFile(user.profilePicture, 'images');
+      if (user.profilePicture) await del(user.profilePicture);
 
       await this.listsService.deleteAllListsByUserId(id);
       await this.entriesService.deleteAllEntriesByUserId(id);

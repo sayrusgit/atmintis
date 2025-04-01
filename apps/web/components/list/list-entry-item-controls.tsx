@@ -1,6 +1,6 @@
 'use client';
 
-import React, { lazy, useState } from 'react';
+import React, { lazy, useCallback, useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,15 +19,24 @@ import Link from 'next/link';
 import { useTranslations } from 'use-intl';
 import type { IEntry, IList } from '@shared/types';
 
-function ListEntryItemControls({ entry, lists }: { entry: IEntry; lists: IList[] | null }) {
-  const t = useTranslations('lists');
-  const handleDelete = async () => {
-    await removeEntryAction(entry._id);
-  };
+type Props = {
+  entry: IEntry;
+  lists: IList[] | null;
+};
 
-  const handleMoveTo = async (entryId: string, listId: string) => {
-    await reassignEntryAction(entryId, listId);
-  };
+function ListEntryItemControls({ entry, lists }: Props) {
+  const t = useTranslations('lists');
+
+  const handleDelete = useCallback(async () => {
+    await removeEntryAction(entry._id);
+  }, [entry, lists]);
+
+  const handleMoveTo = useCallback(
+    async (entryId: string, listId: string) => {
+      await reassignEntryAction(entryId, listId);
+    },
+    [entry, lists],
+  );
 
   return (
     <DropdownMenu>

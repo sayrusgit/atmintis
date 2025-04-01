@@ -52,6 +52,14 @@ export async function updateEntryImageAction(id: string, file: File) {
   revalidateTag('entry');
 }
 
+export async function deleteEntryImageAction(id: string) {
+  await $put<IResponse<string>>('/entries/image/:id?rm=true', undefined, {
+    params: { id },
+  });
+
+  revalidateTag('entry');
+}
+
 export async function removeEntryAction(id: string) {
   await $del('/entries/:id', { params: { id } });
 
@@ -126,6 +134,25 @@ export async function updateListPrivacyAction(id: string, isPrivate: boolean) {
   await $put('/lists/:id', { isPrivate }, { params: { id } });
 
   revalidatePath('/lists/' + id);
+}
+
+export async function updateListImage(id: string, file: File) {
+  const form = new FormData();
+  form.append('file', file);
+
+  await $put<IResponse<string>>('/lists/image/:id', form, {
+    params: { id },
+  });
+
+  revalidatePath('/');
+}
+
+export async function deleteListImage(id: string) {
+  await $put<IResponse<string>>('/lists/image/:id?rm=true', undefined, {
+    params: { id },
+  });
+
+  revalidatePath('/');
 }
 
 export async function deleteListAction(id: string) {

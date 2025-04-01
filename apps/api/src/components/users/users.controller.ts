@@ -76,8 +76,8 @@ export class UsersController {
 
   @Put('update-picture/:id')
   @UseInterceptors(FileInterceptor('file', IMAGE_INTERCEPTOR_OPTIONS))
-  updateUserPicture(@Param('id') id: string, @UploadedFile(new SharpPipe()) filename: string) {
-    return this.usersService.updateUserPicture(id, filename);
+  updateUserPicture(@Param('id') id: string, @UploadedFile(new SharpPipe()) fileBuffer: Buffer) {
+    return this.usersService.updateUserPicture(id, fileBuffer);
   }
 
   @Put('update-locale/:id')

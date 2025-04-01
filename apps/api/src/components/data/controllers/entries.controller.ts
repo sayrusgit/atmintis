@@ -65,8 +65,12 @@ export class EntriesController {
 
   @Put('image/:id')
   @UseInterceptors(FileInterceptor('file', IMAGE_INTERCEPTOR_OPTIONS))
-  updateEntryImage(@Param('id') id: string, @UploadedFile(new SharpPipe()) filename: string) {
-    return this.entriesService.updateEntryImage(id, filename);
+  updateEntryImage(
+    @Param('id') id: string,
+    @UploadedFile(new SharpPipe()) file: Buffer,
+    @Query('rm') rm: string,
+  ) {
+    return this.entriesService.updateEntryImage(id, file, rm);
   }
 
   @Put('reassign/:id')

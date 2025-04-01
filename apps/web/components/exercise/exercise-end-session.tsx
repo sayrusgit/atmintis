@@ -7,9 +7,10 @@ import { X } from 'lucide-react';
 
 function ExerciseEndSession({ sessionId }: { sessionId: string }) {
   const handleEndSession = (e: KeyboardEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.shiftKey && e.code === 'KeyL') finishExerciseAction(sessionId);
+    if (e.shiftKey && e.code === 'KeyL') {
+      e.preventDefault();
+      finishExerciseAction(sessionId);
+    }
   };
 
   useEffect(() => {

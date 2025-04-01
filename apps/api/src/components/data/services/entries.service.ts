@@ -9,6 +9,8 @@ import { IEntry, IResponse } from '@shared/types';
 import { csvToJson, EntryJsonFromCsv } from '@helpers/CsvToJson';
 import { removeFile } from '@helpers/RemoveFile';
 import { DefinitionsService } from '@components/data/services/definitions.service';
+import { v4 as uuidv4 } from 'uuid';
+import { del, put } from '@vercel/blob';
 
 @Injectable()
 export class EntriesService {
@@ -138,17 +140,32 @@ export class EntriesService {
     };
   }
 
-  async updateEntryImage(id: string, filename: string): Promise<IResponse<UpdateWriteOpResult>> {
+  async updateEntryImage(
+    id: string,
+    file: Buffer,
+    rm: string | undefined,
+  ): Promise<IResponse<UpdateWriteOpResult>> {
     const entry = await this.entryModel.findOne({ _id: id }, { image: 1 });
-    let res: UpdateWriteOpResult;
 
-    if (entry.image) {
-      await removeFile(entry.image, 'images');
+    if (rm === 'true') {
+      if (entry.image) await del(entry.image);
 
-      res = await this.entryModel.updateOne({ _id: id }, { image: filename });
-    } else {
-      res = await this.entryModel.updateOne({ _id: id }, { image: filename });
+      await this.entryModel.updateOne({ _id: id }, { image: '' });
+
+      return {
+        success: true,
+        message: 'Entry image has been removed',
+        response: null,
+      };
     }
+
+    const filename = 'img-ei-' + uuidv4() + '.webp';
+
+    if (entry.image) await del(entry.image);
+
+    const blob = await put('images/' + filename, file, { access: 'public' });
+
+    const res = await this.entryModel.updateOne({ _id: id }, { image: blob.url });
 
     return {
       success: true,
@@ -160,13 +177,13 @@ export class EntriesService {
   async deleteEntry(id: string): Promise<IResponse<EntryDocument>> {
     validateId(id);
 
-    const deletedEntry = (await this.entryModel.findOneAndDelete<EntryDocument>({
+    const deletedEntry: EntryDocument = await this.entryModel.findOneAndDelete<EntryDocument>({
       _id: id,
-    })) as EntryDocument;
+    });
 
     await this.listsService.updateEntriesNumber(String(deletedEntry.list), -1);
     await this.definitionsService.deleteDefinitionsByEntry(id);
-    if (deletedEntry.image) await removeFile(deletedEntry.image, 'images');
+    if (deletedEntry.image) await del(deletedEntry.image);
 
     return {
       success: true,
@@ -179,7 +196,7 @@ export class EntriesService {
     const entries: IEntry[] = await this.entryModel.find({ user: id });
 
     for (const entry of entries) {
-      if (entry.image) await removeFile(entry.image, 'images');
+      if (entry.image) await del(entry.image);
     }
 
     await this.entryModel.deleteMany({ user: id });

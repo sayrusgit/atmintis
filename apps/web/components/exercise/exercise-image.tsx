@@ -14,7 +14,7 @@ function ExerciseImage({ ongoingEntry }: { ongoingEntry: IExerciseEntry }) {
   if (!ongoingEntry?.image)
     return (
       <div
-        className="flex h-44 w-44 items-center justify-center rounded-xl bg-secondary"
+        className="flex h-44 min-w-44 items-center justify-center rounded-xl bg-secondary"
         onClick={handleReveal}
       >
         <EyeOffIcon />
@@ -32,7 +32,7 @@ function ExerciseImage({ ongoingEntry }: { ongoingEntry: IExerciseEntry }) {
           alt="Entry image"
           height={144}
           width={144}
-          className="h-36 w-36 rounded-xl object-cover transition-opacity hover:opacity-60"
+          className="h-36 w-36 min-w-44 rounded-xl object-cover transition-opacity hover:opacity-60"
         />
       ) : (
         <EyeOffIcon />

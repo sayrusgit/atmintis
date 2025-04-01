@@ -17,7 +17,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { finalizeEmailVerification } from '@/lib/actions';
 import SettingsProfileSectionSend from '@/components/settings/settings-profile-section-send';
-import { STATIC_URL } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { UserCircle } from 'lucide-react';
 import { useTranslations } from 'use-intl';
@@ -49,7 +48,7 @@ function SettingsProfileSection({ user }: { user: IUser | null }) {
         <div className="relative min-w-40">
           {user?.profilePicture ? (
             <Image
-              src={STATIC_URL + '/images/' + user?.profilePicture}
+              src={user?.profilePicture}
               alt="Profile picture"
               width={160}
               height={160}

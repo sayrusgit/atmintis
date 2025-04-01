@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -52,8 +53,12 @@ export class ListsController {
 
   @Put('image/:id')
   @UseInterceptors(FileInterceptor('file', IMAGE_INTERCEPTOR_OPTIONS))
-  updateListImage(@Param('id') id: string, @UploadedFile(new SharpPipe()) filename: string) {
-    return this.listsService.updateListImage(id, filename);
+  updateListImage(
+    @Param('id') id: string,
+    @UploadedFile(new SharpPipe()) file: Buffer,
+    @Query('rm') rm: string,
+  ) {
+    return this.listsService.updateListImage(id, file, rm);
   }
 
   @Delete(':id')

@@ -82,7 +82,7 @@ export class ExerciseService {
     const updatedConfidence = this.calculateConfidenceGain(
       session.ongoingEntry,
       data.isPositive,
-      data.isImageRevealed,
+      data.isHintUsed,
     );
 
     await this.entriesService.updateEntry(session.ongoingEntry.id, {
@@ -101,9 +101,10 @@ export class ExerciseService {
 
   private calculateConfidenceGain(entry: IExerciseEntry, isPositive: boolean, isHintUsed: boolean) {
     let baseConfidenceGain = isPositive ? 100 : -200;
-    //if (isHintUsed) baseConfidenceGain *= 1.3;
 
     if (!isPositive) return Math.max(entry.confidenceScore + baseConfidenceGain, 100);
+
+    if (isHintUsed) baseConfidenceGain *= 0.5;
 
     // How many ms passed since last exercise
     const lastExerciseTimestamp = entry?.lastExercise

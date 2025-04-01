@@ -5,8 +5,13 @@ import type { IExercise } from '@shared/types';
 import { exerciseResponseAction, finishExerciseAction } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useExerciseStore } from '@/components/exercise/store';
 
 function ExerciseControls({ session }: { session: IExercise }) {
+  const isDescriptionShown = useExerciseStore((state) => state.isDescriptionShown);
+  const changeIsDescriptionShown = useExerciseStore((state) => state.changeIsDescriptionShown);
+  const setIsShown = useExerciseStore((state) => state.setIsShown);
+
   const [isPositive, setIsPositive] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -19,11 +24,13 @@ function ExerciseControls({ session }: { session: IExercise }) {
 
       await exerciseResponseAction(session._id, {
         isPositive,
-        isHintUsed: false,
+        isHintUsed: isDescriptionShown,
         nextEntryIndex: session.ongoingEntryIndex + 1,
       });
 
       setIsLoading(false);
+      changeIsDescriptionShown(false);
+      setIsShown(false);
 
       if (session.totalEntries === session.ongoingEntryIndex + 1) {
         await finishExerciseAction(session._id);
@@ -46,7 +53,9 @@ function ExerciseControls({ session }: { session: IExercise }) {
   const handlePressingResponse = (e: KeyboardEvent) => {
     if (isLoading) return;
 
-    if (e.code === 'Enter') handleResponse();
+    if (e.code === 'Enter') {
+      handleResponse();
+    }
   };
 
   React.useEffect(() => {
@@ -89,8 +98,8 @@ function ExerciseControls({ session }: { session: IExercise }) {
           <kbd className="w-8 rounded-sm border bg-background p-1 text-center">O</kbd>
         </div>
       </div>
-      <div className="mt-lg flex items-center justify-between">
-        <Button>Skip</Button>
+      <div className="mt-lg flex items-center justify-end">
+        {/*<Button>Skip</Button>*/}
         <Button
           onClick={() => {
             if (isPositive !== null) handleResponse();

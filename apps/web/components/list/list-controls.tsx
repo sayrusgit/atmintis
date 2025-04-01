@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { DotsHorizontalIcon, TrashIcon } from '@radix-ui/react-icons';
 import {
   deleteListAction,
+  deleteListImage,
   importEntriesAction,
   startExerciseAction,
+  updateListImage,
   updateListPrivacyAction,
 } from '@/lib/actions';
 import {
@@ -86,17 +88,16 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
     if (!error) startFileDownload(data.response, list.title + '_export.csv');
   };
 
-  const handleUpdateCover = async (file: File) => {
-    const form = new FormData();
-    form.append('file', file);
-
-    const { error } = await $put<IResponse<string>>('/lists/image/:id', form, {
-      params: { id: list._id },
-    });
+  const handleUpdateImage = async (file: File) => {
+    await updateListImage(list._id, file);
 
     setIsDialogOpen(false);
+  };
 
-    if (!error) router.refresh();
+  const handleDeleteImage = async () => {
+    await deleteListImage(list._id);
+
+    setIsDialogOpen(false);
   };
 
   return (
@@ -187,12 +188,17 @@ function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: num
           <div className="flex justify-between gap-md">
             <FileButton
               className="w-full"
-              onFileUpload={handleUpdateCover}
+              onFileUpload={handleUpdateImage}
               accept="image/jpeg, image/png, image/webp"
             >
               {t('controls.changeCover.modal.upload')}
             </FileButton>
-            <Button className="w-full" variant="destructive" disabled={!list.image}>
+            <Button
+              className="w-full"
+              variant="destructive"
+              disabled={!list.image}
+              onClick={handleDeleteImage}
+            >
               {t('controls.changeCover.modal.delete')}
             </Button>
           </div>

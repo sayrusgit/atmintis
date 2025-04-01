@@ -6,6 +6,8 @@ import ExerciseEndSession from '@/components/exercise/exercise-end-session';
 import ExerciseImage from '@/components/exercise/exercise-image';
 import ExerciseControls from '@/components/exercise/exercise-controls';
 import ExerciseConfidence from '@/components/exercise/exercise-confidence';
+import { cn } from '@/lib/utils';
+import ExerciseHintsSection from '@/components/exercise/exercise-hints-section';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -25,16 +27,6 @@ async function Page({ params }: Props) {
     },
   );
 
-  const confidenceLabel = (() => {
-    if (sessionRedis !== null) {
-      if (sessionRedis?.ongoingEntry.confidenceScore <= 500) return 'Very low';
-      if (sessionRedis?.ongoingEntry.confidenceScore <= 700) return 'Low';
-      if (sessionRedis?.ongoingEntry.confidenceScore <= 1300) return 'Medium';
-      if (sessionRedis?.ongoingEntry.confidenceScore < 1500) return 'High';
-      if (sessionRedis?.ongoingEntry.confidenceScore >= 1500) return 'Very high';
-    }
-  })();
-
   if (errorRedis && !session.isFinished)
     return <div>Practice session is expired. Would you like to start the new one?</div>;
 
@@ -53,20 +45,21 @@ async function Page({ params }: Props) {
       <div>
         <div className="flex items-center justify-between">
           <h1 className="text-4xl">Exercise</h1>
-          <p className="text-center text-sm">
-            {sessionRedis.ongoingEntryIndex + 1} / {session.totalEntries}
-          </p>
           <ExerciseEndSession sessionId={session._id} />
         </div>
         <Card className="mt-md flex flex-col gap-lg p-md">
           <div className="flex gap-md">
             <ExerciseImage ongoingEntry={sessionRedis.ongoingEntry} />
-            <div>
+            <div className="w-full">
               <h2 className="font text-2xl">{sessionRedis.ongoingEntry.value}</h2>
               <ExerciseConfidence confidenceScore={sessionRedis?.ongoingEntry.confidenceScore} />
+              <ExerciseHintsSection ongoingEntry={sessionRedis.ongoingEntry} />
             </div>
           </div>
           <ExerciseControls session={sessionRedis} />
+          <p className="text-center text-sm">
+            {sessionRedis.ongoingEntryIndex + 1} / {session.totalEntries}
+          </p>
         </Card>
       </div>
     );

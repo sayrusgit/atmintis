@@ -1,7 +1,6 @@
 import React from 'react';
 import type { IList } from '@shared/types';
 import Image from 'next/image';
-import { STATIC_URL } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { ImageIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
@@ -27,7 +26,7 @@ async function ListsSectionItem({ list }: { list: IList }) {
         />
       ) : list.image ? (
         <Image
-          src={STATIC_URL + '/images/' + list.image}
+          src={list.image}
           alt="default list image"
           width={80}
           height={80}

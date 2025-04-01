@@ -1,8 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export const STATIC_URL = String(process.env.NEXT_PUBLIC_STATIC_URL);
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

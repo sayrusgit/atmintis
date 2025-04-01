@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import type { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import ListEntryItem from '@/components/list/list-entry-item';

@@ -1,11 +1,19 @@
 import { create } from 'zustand';
 
-interface BearState {
-  bears: number;
-  increase: (by: number) => void;
+interface ExerciseStore {
+  isShown: boolean;
+  isDescriptionShown: boolean;
+  isImageRevealed: boolean;
+  setIsShown: (condition: boolean) => void;
+  changeIsDescriptionShown: (condition: boolean) => void;
+  changeImageRevealed: () => void;
 }
 
-const useBearStore = create<BearState>()((set) => ({
-  bears: 0,
-  increase: (by) => set((state) => ({ bears: state.bears + by })),
+export const useExerciseStore = create<ExerciseStore>()((set) => ({
+  isShown: false,
+  isDescriptionShown: false,
+  isImageRevealed: false,
+  setIsShown: (condition) => set((state) => ({ isShown: condition })),
+  changeIsDescriptionShown: (condition) => set((state) => ({ isDescriptionShown: condition })),
+  changeImageRevealed: () => set((state) => ({ isImageRevealed: !state.isImageRevealed })),
 }));

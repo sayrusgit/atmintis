@@ -26,7 +26,6 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import PageHeaderDialogContent from '@/components/page-header-dialog-content';
 import { updateUserLocaleAction } from '@/lib/actions';
 import { useTranslations } from 'use-intl';
-import { STATIC_URL } from '@/lib/utils';
 
 function PageHeaderNav({ user }: { user: IUser }) {
   const { theme, setTheme } = useTheme();
@@ -64,7 +63,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer rounded-md transition-all duration-300 ease-in-out hover:opacity-50">
             <AvatarImage
-              src={`${STATIC_URL}/images/${user?.profilePicture}`}
+              src={user?.profilePicture}
               alt="profile pic"
               className="object-cover"
               style={{ overflowClipMargin: 'unset' }}

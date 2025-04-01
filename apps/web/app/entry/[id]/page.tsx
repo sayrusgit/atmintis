@@ -4,8 +4,6 @@ import DefinitionSection from '@/components/entry/definitions-section';
 import { DefinitionsSkeleton } from '@/components/skeletons';
 import React, { Suspense } from 'react';
 import TagsSection from '@/components/entry/tags-section';
-import Image from 'next/image';
-import UpdateEntryImage from '@/components/entry/update-entry-image';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,8 +13,8 @@ import {
 } from '@/components/ui/breadcrumb';
 import Link from 'next/link';
 import { $fetch } from '@/lib/fetch';
-import { STATIC_URL } from '@/lib/utils';
 import type { Metadata } from 'next';
+import EntryImageSection from '@/components/entry/entry-image-section';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -52,7 +50,7 @@ async function Page({ params }: Props) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link href={'/collection/' + entry.list}>List</Link>
+            <Link href={'/collection/' + entry.list}>Collection</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -79,18 +77,7 @@ async function Page({ params }: Props) {
             <p className="mt-sm text-lg leading-none">{entry.description}</p>
           </div>
         </div>
-        {entry.image ? (
-          <Image
-            src={STATIC_URL + '/images/' + entry.image}
-            className="h-28 min-w-28 rounded-xl bg-secondary object-cover"
-            style={{ overflowClipMargin: 'unset' }}
-            height={112}
-            width={112}
-            alt="entry image"
-          />
-        ) : (
-          <UpdateEntryImage entryId={entry._id} />
-        )}
+        <EntryImageSection entry={entry} />
       </div>
       <hr className="my-lg" />
       <Suspense fallback={<DefinitionsSkeleton />}>

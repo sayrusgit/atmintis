@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import type { IEntry, IList } from '@shared/types';
+import dynamic from 'next/dynamic';
 import ListEntryItemControls from '@/components/list/list-entry-item-controls';
+import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
 
 function ListEntryItem({
   entry,
@@ -13,6 +17,14 @@ function ListEntryItem({
   isOwner: boolean;
   lists: IList[] | null;
 }) {
+  const handleDelete = async () => {
+    await removeEntryAction(entry._id);
+  };
+
+  const handleMoveTo = async (entryId: string, listId: string) => {
+    await reassignEntryAction(entryId, listId);
+  };
+
   return (
     <div key={entry._id} className="flex items-center justify-between py-2">
       <Link

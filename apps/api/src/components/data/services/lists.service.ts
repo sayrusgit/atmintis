@@ -7,6 +7,8 @@ import { validateId } from '@helpers/ValidateId';
 import { IEntry, IJwtPayload, IResponse } from '@shared/types';
 import { Entry } from '@entities/entry.schema';
 import { removeFile } from '@helpers/RemoveFile';
+import { del, put } from '@vercel/blob';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ListsService {
@@ -78,21 +80,36 @@ export class ListsService {
     };
   }
 
-  async updateListImage(id: string, filename: string): Promise<IResponse<UpdateWriteOpResult>> {
+  async updateListImage(
+    id: string,
+    file: Buffer,
+    rm: string | undefined,
+  ): Promise<IResponse<UpdateWriteOpResult>> {
     const list = await this.listModel.findOne({ _id: id }, { image: 1 });
-    let res: UpdateWriteOpResult;
 
-    if (list.image) {
-      await removeFile(list.image, 'images');
+    if (rm === 'true') {
+      if (list.image) await del(list.image);
 
-      res = await this.listModel.updateOne({ _id: id }, { image: filename });
-    } else {
-      res = await this.listModel.updateOne({ _id: id }, { image: filename });
+      await this.listModel.updateOne({ _id: id }, { image: '' });
+
+      return {
+        success: true,
+        message: 'Collection cover has been removed',
+        response: null,
+      };
     }
+
+    const filename = 'img-li-' + uuidv4() + '.webp';
+
+    if (list.image) await del(list.image);
+
+    const blob = await put('images/' + filename, file, { access: 'public' });
+
+    const res = await this.listModel.updateOne({ _id: id }, { image: blob.url });
 
     return {
       success: true,
-      message: 'Entry has been successfully updated',
+      message: 'Collection cover has been updated',
       response: res,
     };
   }
@@ -115,7 +132,7 @@ export class ListsService {
 
     const deletedList: ListDocument = await this.listModel.findOneAndDelete({ _id: id });
 
-    if (deletedList.image) await removeFile(deletedList.image, 'images');
+    if (deletedList.image) await del(deletedList.image);
 
     const entries: IEntry[] = await this.entryModel.find({ list: id });
 
@@ -136,7 +153,7 @@ export class ListsService {
     const lists: ListDocument[] = await this.getListsByUser(id);
 
     for (const list of lists) {
-      if (list.image) await removeFile(list.image, 'images');
+      if (list.image) await del(list.image);
     }
 
     await this.listModel.deleteMany({ user: id });
