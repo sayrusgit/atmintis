@@ -25,6 +25,7 @@ import { EntriesService } from '@components/data/services/entries.service';
 import { Resend } from 'resend';
 import * as process from 'node:process';
 import { IJwtPayload } from '@constants/index';
+import { ExerciseService } from '@components/exercise/exercise.service';
 
 @Injectable()
 export class UsersService {
@@ -33,6 +34,7 @@ export class UsersService {
     private listsService: ListsService,
     private definitionsService: DefinitionsService,
     private entriesService: EntriesService,
+    private exerciseService: ExerciseService,
   ) {}
 
   resend = new Resend(process.env.RESEND_TOKEN);
@@ -242,6 +244,7 @@ export class UsersService {
       await this.listsService.deleteAllListsByUserId(id);
       await this.entriesService.deleteAllEntriesByUserId(id);
       await this.definitionsService.deleteAllDefinitionsByUserId(id);
+      await this.exerciseService.deleteAllExercisesByUser(id);
     } else {
       if (requestingUser.sub !== String(user._id))
         throw new ForbiddenException('You do not have permission to delete users');
@@ -252,6 +255,7 @@ export class UsersService {
       await this.listsService.deleteAllListsByUserId(id);
       await this.entriesService.deleteAllEntriesByUserId(id);
       await this.definitionsService.deleteAllDefinitionsByUserId(id);
+      await this.exerciseService.deleteAllExercisesByUser(id);
     }
 
     return {

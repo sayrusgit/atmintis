@@ -68,10 +68,10 @@ async function Page({ params }: Props) {
           </div>
           <TagsSection entry={entry} />
           <div className="mt-sm flex flex-wrap gap-sm">
-            {entry.context?.map((context) => (
-              <div className="flex items-center gap-xs" key={context.value + entry._id}>
-                <div className={`h-7 w-7 rounded-xs bg-${context.color}`}></div>
-                <span className="italic leading-none">{context.value}</span>
+            {entry.extras?.map((extra) => (
+              <div className="flex items-center gap-xs" key={extra.value + entry._id}>
+                <div className={`h-7 w-7 rounded-xs bg-${extra.color}`}></div>
+                <span className="italic leading-none">{extra.value}</span>
               </div>
             ))}
           </div>

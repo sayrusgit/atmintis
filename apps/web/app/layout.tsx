@@ -33,9 +33,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      {/*<head>*/}
-      {/*  <script src="https://unpkg.com/react-scan/dist/auto.global.js" />*/}
-      {/*</head>*/}
+      <head>
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js" />
+      </head>
       <body className={`${noto_sans.className} antialiased`}>
         <Providers>
           <NextIntlClientProvider messages={messages}>

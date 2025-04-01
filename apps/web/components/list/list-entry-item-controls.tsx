@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { lazy, useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +21,6 @@ import type { IEntry, IList } from '@shared/types';
 
 function ListEntryItemControls({ entry, lists }: { entry: IEntry; lists: IList[] | null }) {
   const t = useTranslations('lists');
-
   const handleDelete = async () => {
     await removeEntryAction(entry._id);
   };
@@ -74,4 +73,4 @@ function ListEntryItemControls({ entry, lists }: { entry: IEntry; lists: IList[]
   );
 }
 
-export default ListEntryItemControls;
+export default React.memo(ListEntryItemControls);

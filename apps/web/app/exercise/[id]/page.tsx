@@ -5,6 +5,7 @@ import type { IExercise } from '@shared/types';
 import ExerciseEndSession from '@/components/exercise/exercise-end-session';
 import ExerciseImage from '@/components/exercise/exercise-image';
 import ExerciseControls from '@/components/exercise/exercise-controls';
+import ExerciseConfidence from '@/components/exercise/exercise-confidence';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -26,11 +27,11 @@ async function Page({ params }: Props) {
 
   const confidenceLabel = (() => {
     if (sessionRedis !== null) {
-      if (sessionRedis.ongoingEntry.confidenceScore <= 500) return 'Very low';
-      if (sessionRedis.ongoingEntry.confidenceScore <= 700) return 'Low';
-      if (sessionRedis.ongoingEntry.confidenceScore <= 1300) return 'Medium';
-      if (sessionRedis.ongoingEntry.confidenceScore < 1500) return 'High';
-      if (sessionRedis.ongoingEntry.confidenceScore >= 1500) return 'Very high';
+      if (sessionRedis?.ongoingEntry.confidenceScore <= 500) return 'Very low';
+      if (sessionRedis?.ongoingEntry.confidenceScore <= 700) return 'Low';
+      if (sessionRedis?.ongoingEntry.confidenceScore <= 1300) return 'Medium';
+      if (sessionRedis?.ongoingEntry.confidenceScore < 1500) return 'High';
+      if (sessionRedis?.ongoingEntry.confidenceScore >= 1500) return 'Very high';
     }
   })();
 
@@ -52,7 +53,7 @@ async function Page({ params }: Props) {
       <div>
         <div className="flex items-center justify-between">
           <h1 className="text-4xl">Exercise</h1>
-          <p className="text-sm">
+          <p className="text-center text-sm">
             {sessionRedis.ongoingEntryIndex + 1} / {session.totalEntries}
           </p>
           <ExerciseEndSession sessionId={session._id} />
@@ -62,7 +63,7 @@ async function Page({ params }: Props) {
             <ExerciseImage ongoingEntry={sessionRedis.ongoingEntry} />
             <div>
               <h2 className="font text-2xl">{sessionRedis.ongoingEntry.value}</h2>
-              <p className="text-xs">{confidenceLabel} confidence</p>
+              <ExerciseConfidence confidenceScore={sessionRedis?.ongoingEntry.confidenceScore} />
             </div>
           </div>
           <ExerciseControls session={sessionRedis} />

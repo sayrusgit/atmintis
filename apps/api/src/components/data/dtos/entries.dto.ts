@@ -29,8 +29,8 @@ export class UpdateEntryDto {
   extras?: IExtra[];
   definitions?: Definition[];
   idioms?: string[];
-  confidence?: number;
-  lastPracticeSessionDate?: Date;
+  confidenceScore?: number;
+  lastExercise?: Date;
   creationDate?: number;
   list?: List;
   collections?: string[];

@@ -9,7 +9,7 @@ import { DataModule } from '@components/data/data.module';
 import { UsersModule } from '@components/users/users.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { PracticeModule } from '@components/exercise/exercise.module';
+import { ExerciseModule } from '@components/exercise/exercise.module';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { PracticeModule } from '@components/exercise/exercise.module';
     AuthModule,
     DataModule,
     UsersModule,
-    PracticeModule,
+    ExerciseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

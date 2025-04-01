@@ -86,8 +86,8 @@ export class ExerciseService {
     );
 
     await this.entriesService.updateEntry(session.ongoingEntry.id, {
-      confidence: updatedConfidence,
-      lastPracticeSessionDate: new Date(),
+      confidenceScore: updatedConfidence,
+      lastExercise: new Date(),
     });
 
     if (data.isHintUsed) session.hintsUsed++;
@@ -100,31 +100,31 @@ export class ExerciseService {
   }
 
   private calculateConfidenceGain(entry: IExerciseEntry, isPositive: boolean, isHintUsed: boolean) {
-    let baseConfidenceGain = isPositive ? 100 : -100;
-    if (isHintUsed) baseConfidenceGain *= 1.3;
+    let baseConfidenceGain = isPositive ? 100 : -200;
+    //if (isHintUsed) baseConfidenceGain *= 1.3;
 
-    // Declare corresponding data
-    const lastExerciseTimestamp = entry?.lastExercise ? new Date(entry.lastExercise).getTime() : 0;
-    const sinceLastExercise = lastExerciseTimestamp ? Date.now() - lastExerciseTimestamp : 0;
+    if (!isPositive) return Math.max(entry.confidenceScore + baseConfidenceGain, 100);
 
-    const lastExerciseAsPercentageOfTwoWeeks = sinceLastExercise / 1209600000;
+    // How many ms passed since last exercise
+    const lastExerciseTimestamp = entry?.lastExercise
+      ? new Date(entry.lastExercise).getTime()
+      : new Date().getTime();
+    const sinceLastExerciseMs = Date.now() - lastExerciseTimestamp;
 
-    // Calculate time-based confidence scaling
-    const confidenceScalingCoefficient =
-      baseConfidenceGain * Math.min(lastExerciseAsPercentageOfTwoWeeks, 0.9);
+    // Calculate time-based confidence scaling, 3d, 7, 14d
+    if (sinceLastExerciseMs >= 259200000 && sinceLastExerciseMs < 604800000)
+      baseConfidenceGain *= 1.5;
+    if (sinceLastExerciseMs >= 604800000 && sinceLastExerciseMs < 1209600000)
+      baseConfidenceGain *= 2;
+    if (sinceLastExerciseMs >= 1209600000) baseConfidenceGain *= 3;
 
-    // Compute new confidence value
-    const confidenceChange = Math.floor(
-      entry.confidenceScore + baseConfidenceGain + confidenceScalingCoefficient,
-    );
-    return Math.min(confidenceChange, 2000);
+    return Math.min(entry.confidenceScore + baseConfidenceGain, 2000);
   }
 
   async finishExercise(sessionId: string, isSkipped: boolean): Promise<IResponse<any>> {
     const session = await this.redis.get<IExercise>(sessionId);
     await this.redis.del(sessionId);
 
-    const startedAt = new Date(session.createdAt).getTime();
     const finishedAt = new Date().getTime();
 
     const res = await this.exerciseModel.updateOne(
@@ -133,7 +133,7 @@ export class ExerciseService {
         ...session,
         isFinished: true,
         finishedAt,
-        sessionTime: finishedAt - startedAt,
+        sessionTime: 0,
         isSkipped,
       },
     );
@@ -143,5 +143,11 @@ export class ExerciseService {
       message: 'Practice session has finished',
       response: res,
     };
+  }
+
+  async deleteAllExercisesByUser(userId: string): Promise<boolean> {
+    await this.exerciseModel.deleteMany({ user: userId });
+
+    return true;
   }
 }

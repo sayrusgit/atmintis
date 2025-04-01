@@ -24,7 +24,7 @@ export class ExerciseController {
     return this.exerciseService.getExerciseRedis(id);
   }
 
-  @Get('get-by-list/:id')
+  @Get('  get-by-list/:id')
   getExerciseByList(@Param('id') id: string) {
     return this.exerciseService.getExerciseByList(id);
   }

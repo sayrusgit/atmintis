@@ -12,5 +12,6 @@ import { ExerciseService } from '@components/exercise/exercise.service';
   ],
   controllers: [ExerciseController],
   providers: [ExerciseService],
+  exports: [ExerciseService],
 })
-export class PracticeModule {}
+export class ExerciseModule {}

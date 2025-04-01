@@ -8,16 +8,22 @@ import { cn } from '@/lib/utils';
 
 function ExerciseControls({ session }: { session: IExercise }) {
   const [isPositive, setIsPositive] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleResponse = async () => {
+    if (isLoading) return;
+
     if (isPositive !== null) {
       setIsPositive(null);
+      setIsLoading(true);
 
       await exerciseResponseAction(session._id, {
         isPositive,
         isHintUsed: false,
         nextEntryIndex: session.ongoingEntryIndex + 1,
       });
+
+      setIsLoading(false);
 
       if (session.totalEntries === session.ongoingEntryIndex + 1) {
         await finishExerciseAction(session._id);
@@ -26,14 +32,20 @@ function ExerciseControls({ session }: { session: IExercise }) {
   };
 
   const handlePressingYea = (e: KeyboardEvent) => {
+    if (isLoading) return;
+
     if (e.code === 'KeyI') setIsPositive(true);
   };
 
   const handlePressingNay = (e: KeyboardEvent) => {
+    if (isLoading) return;
+
     if (e.code === 'KeyO') setIsPositive(false);
   };
 
   const handlePressingResponse = (e: KeyboardEvent) => {
+    if (isLoading) return;
+
     if (e.code === 'Enter') handleResponse();
   };
 
