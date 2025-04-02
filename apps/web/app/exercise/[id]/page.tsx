@@ -1,15 +1,33 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { Card } from '@/components/ui/card';
 import { $fetch } from '@/lib/fetch';
-import type { IExercise } from '@shared/types';
+import type { IEntry, IExercise } from '@shared/types';
 import ExerciseEndSession from '@/components/exercise/exercise-end-session';
 import ExerciseImage from '@/components/exercise/exercise-image';
 import ExerciseControls from '@/components/exercise/exercise-controls';
 import ExerciseConfidence from '@/components/exercise/exercise-confidence';
-import { cn } from '@/lib/utils';
 import ExerciseHintsSection from '@/components/exercise/exercise-hints-section';
+import type { Metadata } from 'next';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { RotateCw } from 'lucide-react';
+import { startExerciseAction } from '@/lib/actions';
+import ExerciseSessionFinished from '@/components/exercise/exercise-session-finished';
 
 type Props = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+
+  const { data } = await $fetch<IEntry>('/entries/' + id, {
+    cache: 'force-cache',
+    next: { tags: ['entry'] },
+  });
+
+  return {
+    title: `${data?.value} | atmintis`,
+  };
+}
 
 async function Page({ params }: Props) {
   const { id } = await params;
@@ -30,15 +48,8 @@ async function Page({ params }: Props) {
   if (errorRedis && !session.isFinished)
     return <div>Practice session is expired. Would you like to start the new one?</div>;
 
-  if (session.isFinished)
-    return (
-      <div>
-        <h1>Session data</h1>
-        <div>Total entries: {session.totalEntries}</div>
-        <div>Correct answers: {session.positiveAnswersCount}</div>
-        <div>Hints used: {session.hintsUsed}</div>
-      </div>
-    );
+  if (session.isFinished && session.list)
+    return <ExerciseSessionFinished session={session} list={session.list} />;
 
   if (sessionRedis)
     return (

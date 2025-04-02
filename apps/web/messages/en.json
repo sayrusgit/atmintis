@@ -126,7 +126,7 @@
       "delete": "Delete account",
       "modal": {
         "title": "Are you absolutely sure?",
-        "description": "This action cannot be undone. This will permanently delete your account and remove your data. If this is a deliberate decision, type your email down below:",
+        "description": "This action cannot be undone. This will permanently delete your account, as well as all your data. If this is a deliberate decision, type your email down below:",
         "cancel": "Cancel",
         "delete": "Delete"
       }

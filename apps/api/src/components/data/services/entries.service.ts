@@ -240,9 +240,10 @@ export class EntriesService {
       const description = entry.description.includes(',')
         ? `"${entry.description.trim()}"`
         : entry.description.trim();
-      const type = entry.type.includes(',') ? `"${entry.type.trim()}"` : entry.type.trim();
+      //const type = entry.type.includes(',') ? `"${entry.type.trim()}"` : entry.type.trim();
 
-      csv += `${value},${description},${type}\n`;
+      //csv += `${value},${description},${type}\n`;
+      csv += `${value},${description}\n`;
     });
 
     return {

@@ -122,7 +122,9 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
                 />
               )}
             </div>
-            <code className="text-xs text-foreground-heading">{mfaData.secret}</code>
+            <div className="h-3">
+              <code className="text-xs text-foreground-heading">{mfaData.secret}</code>
+            </div>
             <Input
               placeholder={t('otpCode')}
               id="token"

@@ -222,13 +222,3 @@
 .icon-lg {
   @apply w-5 h-5;
 }
-
-/* Some */
-
-/*.entry-list-item {*/
-/*  @apply rounded hover:bg-accent transition-colors;*/
-/*}*/
-
-/*.entry-list-item:hover .entry-list-item__icon {*/
-/*  @apply translate-x-0.5 transition-transform ease-out;*/
-/*}*/
