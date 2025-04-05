@@ -7,7 +7,7 @@ const InputUnderlined = React.forwardRef<HTMLInputElement, React.ComponentProps<
     return (
       <Input
         className={cn(
-          'rounded-none border-x-0 border-b-2 border-t-0 p-0 focus-visible:outline-none',
+          'rounded-none border-x-0 border-b-2 border-t-0 p-0 focus:outline-none',
           className,
         )}
         ref={ref}

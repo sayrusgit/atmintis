@@ -31,7 +31,7 @@ export async function updateEntryAction(id: string, data: UpdateEntryDto) {
   await $put('/entries/:id', data, { params: { id } });
 
   revalidateTag('entry');
-  redirect('/entry/' + id);
+  revalidateTag('list-entries');
 }
 
 export async function reassignEntryAction(id: string, newListId: string) {
