@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useTranslations } from 'use-intl';
+import { motion } from 'motion/react';
 
 function SettingsMfaSection({ user }: { user: IUser | null }) {
   const t = useTranslations('settings.security.mfa');
@@ -107,11 +108,18 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{t('enableModal.title')}</DialogTitle>
-            <DialogDescription>{t('enableModal.description')}</DialogDescription>
+            <DialogTitle className="text-center">{t('enableModal.title')}</DialogTitle>
+            <DialogDescription className="text-balance text-center">
+              {t('enableModal.description')}
+            </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center gap-md">
-            <div className="h-48 w-48">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="h-48 w-48"
+            >
               {mfaData.qrcode && (
                 <Image
                   src={mfaData.qrcode}
@@ -121,10 +129,15 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
                   className="h-48 w-48 rounded-xl"
                 />
               )}
-            </div>
-            <div className="h-3">
-              <code className="text-xs text-foreground-heading">{mfaData.secret}</code>
-            </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="h-3"
+            >
+              <code className="text-xs text-foreground-heading">123{mfaData.secret}</code>
+            </motion.div>
             <Input
               placeholder={t('otpCode')}
               id="token"

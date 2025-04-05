@@ -1,6 +1,6 @@
 'use client';
 
-import React, { lazy, useCallback, useState } from 'react';
+import React, { type Dispatch, lazy, useCallback, useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,9 +22,11 @@ import type { IEntry, IList } from '@shared/types';
 type Props = {
   entry: IEntry;
   lists: IList[] | null;
+  isOpen: boolean;
+  setIsOpen: Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ListEntryItemControls({ entry, lists }: Props) {
+function ListEntryItemControls({ entry, lists, isOpen, setIsOpen }: Props) {
   const t = useTranslations('lists');
 
   const handleDelete = useCallback(async () => {
@@ -39,13 +41,20 @@ function ListEntryItemControls({ entry, lists }: Props) {
   );
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <DropdownMenu open={isOpen}>
+      <DropdownMenuTrigger asChild onClick={() => setIsOpen(!isOpen)} data-state={isOpen}>
         <Button variant="ghost" className="w-4 rounded-sm px-3 py-4">
           <DotsVerticalIcon className="icon" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-20" align="start" side="left">
+      <DropdownMenuContent
+        className="w-20"
+        align="start"
+        side="left"
+        onInteractOutside={() => setIsOpen(false)}
+        onEscapeKeyDown={() => setIsOpen(false)}
+        onFocusOutside={() => setIsOpen(false)}
+      >
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

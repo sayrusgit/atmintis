@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { ChevronRightIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
 import type { IEntry, IList } from '@shared/types';
 import dynamic from 'next/dynamic';
 import ListEntryItemControls from '@/components/list/list-entry-item-controls';
 import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
+import { Button } from '@/components/ui/button';
 
 function ListEntryItem({
   entry,
@@ -17,6 +18,9 @@ function ListEntryItem({
   isOwner: boolean;
   lists: IList[] | null;
 }) {
+  const [isContextMenuActive, setIsContextMenuActive] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleDelete = async () => {
     await removeEntryAction(entry._id);
   };
@@ -42,7 +46,27 @@ function ListEntryItem({
           <ChevronRightIcon className="icon justify-self-end" />
         </div>
       </Link>
-      {isOwner && <ListEntryItemControls entry={entry} lists={lists} />}
+      {!isContextMenuActive ? (
+        <Button
+          variant="ghost"
+          className="w-4 rounded-sm px-3 py-4"
+          onClick={() => {
+            setIsOpen(true);
+            setIsContextMenuActive(true);
+          }}
+        >
+          <DotsVerticalIcon className="icon" />
+        </Button>
+      ) : (
+        isOwner && (
+          <ListEntryItemControls
+            entry={entry}
+            lists={lists}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
+        )
+      )}
     </div>
   );
 }

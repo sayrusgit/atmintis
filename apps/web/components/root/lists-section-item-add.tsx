@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { createListAction } from '@/lib/actions';
 import { Card } from '@/components/ui/card';
 import { useTranslations } from 'use-intl';
+import { ImageIcon } from 'lucide-react';
 
 function ListsSectionItemAdd() {
   const t = useTranslations('root');
@@ -26,9 +27,10 @@ function ListsSectionItemAdd() {
       onClick={() => setIsActive(true)}
     >
       {isActive ? (
-        <div className="flex h-full flex-col justify-between">
-          <div className="flex justify-between gap-sm">
+        <div className="flex h-full cursor-default flex-col justify-between">
+          <div className="flex flex-col justify-between gap-xs">
             <Input
+              className="w-full"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               autoFocus
@@ -40,14 +42,16 @@ function ListsSectionItemAdd() {
                 }
               }}
             />
-            <Button onClick={handleCreateList}>+</Button>
+            <Button onClick={handleCreateList} variant="secondary">
+              <PlusIcon className="icon-lg h-5 w-5" />
+              New collection
+            </Button>
           </div>
-          <div className="text-sm">Public or private</div>
         </div>
       ) : (
         <div className="flex h-full items-center justify-center gap-xs">
-          <p className="text-xl leading-5 text-muted-foreground">{t('newCollection')}</p>
           <PlusIcon className="icon-lg" />
+          <p className="text-xl leading-5 text-muted-foreground">{t('newCollection')}</p>
         </div>
       )}
     </Card>
