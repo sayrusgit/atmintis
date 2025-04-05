@@ -7,6 +7,9 @@ export type EntryDocument = HydratedDocument<Entry>;
 
 @Schema({ timestamps: true })
 export class Entry {
+  @Prop({ required: true })
+  orderPosition: number;
+
   @Prop({ required: true, index: true, trim: true })
   value: string;
 

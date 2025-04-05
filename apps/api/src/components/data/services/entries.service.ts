@@ -33,7 +33,7 @@ export class EntriesService {
   async getEntriesByList(id: string): Promise<EntryDocument[]> {
     validateId(id);
 
-    return this.entryModel.find({ list: id });
+    return this.entryModel.find({ list: id }).sort({ orderPosition: 1 });
   }
 
   async getEntriesByUser(id: string): Promise<EntryDocument[]> {
@@ -99,9 +99,15 @@ export class EntriesService {
       };
     }
 
-    const res = await this.entryModel.create({ ...data, user: data.userId });
+    const list = await this.listsService._getListById(data.list);
 
-    await this.listsService.updateEntriesNumber(data.list, 1);
+    const res = await this.entryModel.create({
+      ...data,
+      orderPosition: list.entryNumber,
+      user: data.userId,
+    });
+
+    await this.listsService.updateEntriesNumber(String(list._id), 1);
 
     return {
       success: true,
@@ -211,7 +217,10 @@ export class EntriesService {
 
     const json = csvToJson<EntryJsonFromCsv>(csvString);
 
+    let orderPosition = list.entryNumber;
+
     const jsonResult = json.map((row) => ({
+      orderPosition: orderPosition++,
       value: row.Entry,
       description: row.Description,
       type: row.Type,
@@ -240,10 +249,9 @@ export class EntriesService {
       const description = entry.description.includes(',')
         ? `"${entry.description.trim()}"`
         : entry.description.trim();
-      //const type = entry.type.includes(',') ? `"${entry.type.trim()}"` : entry.type.trim();
+      const type = entry.type.includes(',') ? `"${entry.type.trim()}"` : entry.type.trim();
 
-      //csv += `${value},${description},${type}\n`;
-      csv += `${value},${description}\n`;
+      csv += `${value},${description},${type}\n`;
     });
 
     return {
