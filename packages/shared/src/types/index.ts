@@ -67,6 +67,7 @@ export interface IJwtPayload {
   username: string;
   email: string;
   role: string;
+  exp: number;
 }
 
 export interface IMfaPayload {
@@ -78,6 +79,7 @@ export interface ISession {
   id: string;
   username: string;
   email: string;
+  exp: number;
 }
 
 export interface ILoginData extends IBareResponse {

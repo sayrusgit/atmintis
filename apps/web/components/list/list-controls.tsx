@@ -43,7 +43,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { FileButton } from '@/components/ui/file-button';
-import { $fetch, $put } from '@/lib/fetch';
+import { $fetch } from '@/lib/fetch';
 import { useTranslations } from 'use-intl';
 
 function ListControls({ list, entriesNumber }: { list: IList; entriesNumber: number | undefined }) {

@@ -6,12 +6,11 @@ import type { IError, IJwtPayload, ILoginData, ISession, IUser } from '@shared/t
 import { $fetch, $post } from '@/lib/fetch';
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
-const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
 
 const secret = process.env.JWT || '';
 const encodedKey = new TextEncoder().encode(secret);
-const isSecureCookie = process.env.BUILD === 'build';
+const isSecureCookie = process.env.NODE_ENV === 'production';
 
 export const createSession = async (login: string, password: string, mfaCode?: string) => {
   const payload = mfaCode ? { login, password, mfaCode } : { login, password };
@@ -22,7 +21,7 @@ export const createSession = async (login: string, password: string, mfaCode?: s
 
   if (!res.error) {
     cookieStore.set('accessToken', res.data.response.tokens.accessToken, {
-      maxAge: TWENTY_FOUR_HOURS,
+      maxAge: FIFTEEN_MINUTES,
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
@@ -41,9 +40,10 @@ export const createSession = async (login: string, password: string, mfaCode?: s
   return res;
 };
 
-export async function updateSession(rt: string): Promise<ILoginData | undefined> {
+export async function updateSession(rt?: string): Promise<ILoginData | undefined> {
   try {
     const cookieStore = await cookies();
+    const rt = cookieStore.get('refreshToken')?.value || '';
 
     const headers = new Headers({
       Cookie: `refreshToken=${rt}; `,
@@ -53,11 +53,10 @@ export async function updateSession(rt: string): Promise<ILoginData | undefined>
       credentials: 'include',
       headers,
     });
-
     if (error) return;
 
     cookieStore.set('accessToken', data.response.tokens.accessToken, {
-      maxAge: TWENTY_FOUR_HOURS,
+      maxAge: FIFTEEN_MINUTES,
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
@@ -103,12 +102,11 @@ export const getLocalSession = async (): Promise<ISession | undefined> => {
   try {
     const decodedSession = await decrypt(at);
 
-    if (!decodedSession) await updateSession(rt || '');
-
     return {
       id: decodedSession!.sub,
       username: decodedSession!.username,
       email: decodedSession!.email,
+      exp: decodedSession!.exp,
     };
   } catch (err) {
     return;

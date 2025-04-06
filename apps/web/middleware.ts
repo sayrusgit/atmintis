@@ -20,8 +20,7 @@ export default async function middleware(req: NextRequest) {
 
   if (!session?.sub && refreshToken) {
     const res = await updateSession(refreshToken);
-
-    if (res?.success) {
+    if (res) {
       isUpdated = true;
       newAccessToken = res.response.tokens.accessToken;
     }

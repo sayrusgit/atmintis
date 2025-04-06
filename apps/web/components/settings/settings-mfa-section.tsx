@@ -114,30 +114,36 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center gap-md">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="h-48 w-48"
-            >
+            <div className="h-48 w-48">
               {mfaData.qrcode && (
-                <Image
-                  src={mfaData.qrcode}
-                  alt="MFA qrcode"
-                  width={192}
-                  height={192}
-                  className="h-48 w-48 rounded-xl"
-                />
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="h-48 w-48"
+                >
+                  <Image
+                    src={mfaData.qrcode}
+                    alt="MFA qrcode"
+                    width={192}
+                    height={192}
+                    className="h-48 w-48 rounded-xl"
+                  />
+                </motion.div>
               )}
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="h-3"
-            >
-              <code className="text-xs text-foreground-heading">123{mfaData.secret}</code>
-            </motion.div>
+            </div>
+            <div className="h-3">
+              {mfaData.secret && (
+                <motion.code
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="h-3 text-xs text-foreground-heading"
+                >
+                  {mfaData.secret}
+                </motion.code>
+              )}
+            </div>
             <Input
               placeholder={t('otpCode')}
               id="token"

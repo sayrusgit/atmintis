@@ -4,9 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronRightIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
 import type { IEntry, IList } from '@shared/types';
-import dynamic from 'next/dynamic';
 import ListEntryItemControls from '@/components/list/list-entry-item-controls';
-import { reassignEntryAction, removeEntryAction } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 
 function ListEntryItem({
@@ -20,14 +18,6 @@ function ListEntryItem({
 }) {
   const [isContextMenuActive, setIsContextMenuActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleDelete = async () => {
-    await removeEntryAction(entry._id);
-  };
-
-  const handleMoveTo = async (entryId: string, listId: string) => {
-    await reassignEntryAction(entryId, listId);
-  };
 
   return (
     <div key={entry._id} className="flex items-center justify-between py-2">

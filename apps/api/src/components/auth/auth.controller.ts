@@ -26,7 +26,6 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   private FIFTEEN_MINUTES = 15 * 60 * 1000;
-  private TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
   private SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
   private isSecureCookie = process.env.BUILD === 'build';
 
@@ -42,7 +41,7 @@ export class AuthController {
 
     res.cookie('accessToken', result.accessToken, {
       httpOnly: true,
-      maxAge: this.TWENTY_FOUR_HOURS,
+      maxAge: this.FIFTEEN_MINUTES,
       secure: this.isSecureCookie,
     });
     res.cookie('refreshToken', result.refreshToken, {
@@ -62,7 +61,7 @@ export class AuthController {
 
     response.cookie('accessToken', result.response.tokens.accessToken, {
       httpOnly: true,
-      maxAge: this.TWENTY_FOUR_HOURS,
+      maxAge: this.FIFTEEN_MINUTES,
       secure: this.isSecureCookie,
     });
     response.cookie('refreshToken', result.response.tokens.refreshToken, {
@@ -96,7 +95,7 @@ export class AuthController {
     const result = await this.authService.refreshTokens(userId, refreshToken);
     response.cookie('accessToken', result.response.tokens.accessToken, {
       httpOnly: true,
-      maxAge: this.TWENTY_FOUR_HOURS,
+      maxAge: this.FIFTEEN_MINUTES,
       secure: this.isSecureCookie,
     });
     response.cookie('refreshToken', result.response.tokens.refreshToken, {

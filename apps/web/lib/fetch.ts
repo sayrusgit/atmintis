@@ -3,6 +3,11 @@
 import { type BetterFetchOption, createFetch } from '@better-fetch/fetch';
 import { cookies } from 'next/headers';
 
+const FIFTEEN_MINUTES = 15 * 60 * 1000;
+const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+const isSecureCookie = process.env.NODE_ENV === 'production';
+
 export const $fetch = createFetch({
   baseURL: process.env.API_URL,
   credentials: 'include',
