@@ -42,12 +42,10 @@ export default async function RootLayout({
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <PageHeader user={user} />
-            <main className="container">
-              {children}
-              <SpeedInsights />
-            </main>
+            <main className="container">{children}</main>
           </NextIntlClientProvider>
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
