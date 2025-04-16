@@ -18,4 +18,5 @@ export class UpdateListDto {
   title?: string;
   description?: string;
   isPrivate?: boolean;
+  entryNumber?: number;
 }

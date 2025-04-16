@@ -28,7 +28,7 @@ function ExerciseImage({ ongoingEntry }: { ongoingEntry: IExerciseEntry }) {
     >
       {isRevealed ? (
         <Image
-          src={'http://localhost:5000/static/entry-images/' + ongoingEntry.image}
+          src={ongoingEntry.image}
           alt="Entry image"
           height={144}
           width={144}

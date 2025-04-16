@@ -198,6 +198,19 @@ export class EntriesService {
     };
   }
 
+  async deleteEntriesByList(id: string): Promise<boolean> {
+    const entries: IEntry[] = await this.entryModel.find({ list: id });
+
+    for (const entry of entries) {
+      if (entry.image) await del(entry.image);
+    }
+
+    await this.entryModel.deleteMany({ list: id });
+    await this.listsService.updateList(id, { entryNumber: 0 });
+
+    return true;
+  }
+
   async deleteAllEntriesByUserId(id: string): Promise<boolean> {
     const entries: IEntry[] = await this.entryModel.find({ user: id });
 
@@ -206,7 +219,7 @@ export class EntriesService {
     }
 
     await this.entryModel.deleteMany({ user: id });
-    await this.definitionsService.deleteDefinitionsByEntry(id);
+    await this.definitionsService.deleteAllDefinitionsByUserId(id);
 
     return true;
   }

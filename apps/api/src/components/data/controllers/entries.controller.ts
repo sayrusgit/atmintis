@@ -83,6 +83,11 @@ export class EntriesController {
     return this.entriesService.deleteEntry(id);
   }
 
+  @Delete('/by-list/:id')
+  deleteEntriesByList(@Param('id') id: string) {
+    return this.entriesService.deleteEntriesByList(id);
+  }
+
   @Get('export/:userId')
   exportEntries(@Param('userId') listId: string) {
     //return this.entriesService.exportEntriesByList(listId);

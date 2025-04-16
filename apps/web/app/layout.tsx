@@ -6,18 +6,18 @@ import { Providers } from '@/app/providers';
 import PageHeader from '@/components/page-header';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { getSession } from '@/lib/session';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: 'Dashboard | atmintis',
-  description: 'All your memories in one place',
+  description: 'All your knowledge in one place',
   icons: {
     icon: '/icon.svg',
   },
   openGraph: {
     title: 'atmintis',
-    description: 'All your memories in one place',
+    description: 'All your knowledge in one place',
     url: 'https://atmintis.vercel.app',
     siteName: 'atmintis',
     type: 'website',

@@ -9,7 +9,6 @@ import { $fetch } from '@/lib/fetch';
 import PageHeaderLogo from '@/components/page-header-logo';
 import { ArrowRight } from 'lucide-react';
 import { getLocalSession } from '@/lib/session';
-import Image from 'next/image';
 
 export default async function PageHeader({ user }: { user: IUser | null }) {
   const session = await getLocalSession();
@@ -29,25 +28,12 @@ export default async function PageHeader({ user }: { user: IUser | null }) {
       )}
       <div className="mb-lg flex items-center border-b">
         <div className="container relative flex h-[70px] items-center justify-between gap-sm py-4">
-          <div className="hidden w-[120px] md:block">
-            <Link href="/" className="hidden md:block">
-              <PageHeaderLogo />
-            </Link>
-          </div>
-          <div className="block min-w-[32px] md:hidden">
-            <Link href="/" className="block md:hidden">
-              <Image
-                src={'/icon.svg'}
-                alt="atmintis logotype"
-                width={32}
-                height={32}
-                className="rounded-md border"
-              />
-            </Link>
+          <div className="min-w-[36px] md:min-w-[120px]">
+            <PageHeaderLogo />
           </div>
           {user && <PageHeaderInput userId={user._id} />}
           {user ? (
-            <div className="flex gap-sm justify-self-end">
+            <div className="flex gap-sm">
               <NewEntry lists={lists} user={user} />
               <PageHeaderNav user={user} />
             </div>

@@ -36,7 +36,7 @@ function ListEntryItem({
           <ChevronRightIcon className="icon justify-self-end" />
         </div>
       </Link>
-      {!isContextMenuActive ? (
+      {!isContextMenuActive && isOwner ? (
         <Button
           variant="ghost"
           className="w-4 rounded-sm px-3 py-4"
@@ -48,14 +48,7 @@ function ListEntryItem({
           <DotsVerticalIcon className="icon" />
         </Button>
       ) : (
-        isOwner && (
-          <ListEntryItemControls
-            entry={entry}
-            lists={lists}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />
-        )
+        <ListEntryItemControls entry={entry} lists={lists} isOpen={isOpen} setIsOpen={setIsOpen} />
       )}
     </div>
   );

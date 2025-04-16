@@ -8,26 +8,13 @@ import ExerciseControls from '@/components/exercise/exercise-controls';
 import ExerciseConfidence from '@/components/exercise/exercise-confidence';
 import ExerciseHintsSection from '@/components/exercise/exercise-hints-section';
 import type { Metadata } from 'next';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { RotateCw } from 'lucide-react';
-import { startExerciseAction } from '@/lib/actions';
 import ExerciseSessionFinished from '@/components/exercise/exercise-session-finished';
 
 type Props = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-
-  const { data } = await $fetch<IEntry>('/entries/' + id, {
-    cache: 'force-cache',
-    next: { tags: ['entry'] },
-  });
-
-  return {
-    title: `${data?.value} | atmintis`,
-  };
-}
+export const metadata: Metadata = {
+  title: 'Exercise | atmintis',
+};
 
 async function Page({ params }: Props) {
   const { id } = await params;

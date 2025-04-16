@@ -1,6 +1,5 @@
 'use server';
 
-import { manrope } from '@/styles/fonts';
 import type { IEntry } from '@shared/types';
 import DefinitionSection from '@/components/entry/definitions-section';
 import { DefinitionsSkeleton } from '@/components/skeletons';
@@ -62,9 +61,9 @@ async function Page({ params }: Props) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-md">
         <div>
-          <div className="flex items-end gap-sm">
+          <div className="flex items-end gap-xs">
             <EntryValue initialValue={entry.value} entryId={entry._id} />
             <p className="italic text-muted-foreground">{entry.type}</p>
           </div>
