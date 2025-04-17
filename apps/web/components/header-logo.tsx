@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
 
-function PageHeaderLogo() {
+function HeaderLogo() {
   const { theme } = useTheme();
 
   const [isMounted, setIsMounted] = React.useState(false);
@@ -45,4 +45,4 @@ function PageHeaderLogo() {
   );
 }
 
-export default PageHeaderLogo;
+export default HeaderLogo;

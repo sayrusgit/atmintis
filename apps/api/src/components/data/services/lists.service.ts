@@ -6,7 +6,6 @@ import { List, ListDocument } from '@entities/list.schema';
 import { validateId } from '@helpers/ValidateId';
 import { IEntry, IJwtPayload, IResponse } from '@shared/types';
 import { Entry } from '@entities/entry.schema';
-import { removeFile } from '@helpers/RemoveFile';
 import { del, put } from '@vercel/blob';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -136,9 +135,7 @@ export class ListsService {
 
     const entries: IEntry[] = await this.entryModel.find({ list: id });
 
-    for (const entry of entries) {
-      if (entry.image) await removeFile(entry.image, 'images');
-    }
+    for (const entry of entries) if (entry.image) await del(entry.image);
 
     await this.entryModel.deleteMany({ list: id });
 
@@ -152,9 +149,7 @@ export class ListsService {
   async deleteAllListsByUserId(id: string): Promise<boolean> {
     const lists: ListDocument[] = await this.getListsByUser(id);
 
-    for (const list of lists) {
-      if (list.image) await del(list.image);
-    }
+    for (const list of lists) if (list.image) await del(list.image);
 
     await this.listModel.deleteMany({ user: id });
 

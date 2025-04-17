@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import { NewEntryListSelect } from '@/components/new-lentry-list-select';
+import { HeaderNewListSelect } from '@/components/header-new-list-select';
 import type { CreateEntryDto } from '@/lib/dto';
 import {
   Select,
@@ -27,24 +27,18 @@ import { createEntryAction } from '@/lib/actions';
 import type { IList, IUser } from '@shared/types';
 import { useTranslations } from 'use-intl';
 
-const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
+const HeaderNew = ({ lists }: { lists: IList[] | null; user: IUser }) => {
   const t = useTranslations('header');
 
   const drawerRef = useRef<HTMLButtonElement | null>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<CreateEntryDto>({
     value: '',
     description: '',
     type: '',
     list: '',
   });
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === '/' && e.ctrlKey) {
-      drawerRef.current?.click();
-    }
-  };
 
   const handleCreate = async () => {
     await createEntryAction({ ...data });
@@ -53,16 +47,22 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
     setIsOpen(false);
   };
 
-  const handlePressingCreate = (e: KeyboardEvent) => {
-    if (e.ctrlKey && e.key === 'Enter') handleCreate();
-  };
-
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
+    const handleOpen = (e: KeyboardEvent) => {
+      if (e.key === '/' && e.ctrlKey) {
+        drawerRef.current?.click();
+      }
+    };
+
+    const handlePressingCreate = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 'Enter') handleCreate();
+    };
+
+    window.addEventListener('keydown', handleOpen);
     window.addEventListener('keydown', handlePressingCreate);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', handleOpen);
       window.removeEventListener('keypress', handlePressingCreate);
     };
   }, []);
@@ -82,13 +82,13 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
       <DrawerTrigger ref={drawerRef}>
         <HoverCard openDelay={200} closeDelay={100}>
           <HoverCardTrigger asChild>
-            <div className="flex h-10 cursor-pointer items-center rounded-md border pl-3 pr-1 text-sm font-medium transition-colors hover:bg-hover sm:pr-4">
+            <div className="hover:bg-hover flex h-10 cursor-pointer items-center rounded-md border pr-1 pl-3 text-sm font-medium transition-colors sm:pr-4">
               <PlusIcon className="mr-2 h-5" />
-              <span className="hidden sm:block">{t('NewEntry.button')}</span>
+              <span className="hidden sm:block">{t('New.button')}</span>
             </div>
           </HoverCardTrigger>
           <HoverCardContent
-            className="w-25 rounded-sm border-none bg-black bg-opacity-40 p-1 px-3"
+            className="w-full rounded-sm border-none bg-black/40 p-1 px-3"
             sideOffset={10}
             side="left"
           >
@@ -98,44 +98,46 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
       </DrawerTrigger>
       <DrawerContent className="outline-0">
         <div className="mx-auto w-full max-w-[615px]">
-          <DrawerHeader>
-            <DrawerTitle>{t('NewEntry.form.title')}</DrawerTitle>
+          <DrawerHeader className="pb-2">
+            <DrawerTitle className="text-xl">{t('New.form.title')}</DrawerTitle>
           </DrawerHeader>
           <div className="space-y-5 p-4">
-            <div className="flex flex-col items-center justify-between gap-sm md:flex-row">
+            <div className="gap-sm flex flex-col items-center justify-between md:flex-row">
               <Input
                 value={data.value}
                 onChange={(e) => setData({ ...data, value: e.target.value })}
-                placeholder={t('NewEntry.form.entryPlaceholder')}
+                placeholder={t('New.form.entryPlaceholder')}
+                className="hover:bg-input-hover"
                 autoFocus
               />
               <Input
                 value={data.description}
                 onChange={(e) => setData({ ...data, description: e.target.value })}
-                placeholder={t('NewEntry.form.descriptionPlaceholder')}
+                placeholder={t('New.form.descriptionPlaceholder')}
+                className="hover:bg-input-hover"
               />
               <Select onValueChange={(value) => setData({ ...data, type: value })}>
-                <SelectTrigger className="w-full md:w-[330px]">
-                  <SelectValue placeholder={t('NewEntry.form.type')} />
+                <SelectTrigger className="bg-background! hover:bg-input-hover! w-full md:w-[330px]">
+                  <SelectValue placeholder={t('New.form.type')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="noun">{t('NewEntry.form.types.noun')}</SelectItem>
-                  <SelectItem value="adjective">{t('NewEntry.form.types.adjective')}</SelectItem>
-                  <SelectItem value="verb">{t('NewEntry.form.types.verb')}</SelectItem>
-                  <SelectItem value="adverb">{t('NewEntry.form.types.adverb')}</SelectItem>
+                  <SelectItem value="noun">{t('New.form.types.noun')}</SelectItem>
+                  <SelectItem value="adjective">{t('New.form.types.adjective')}</SelectItem>
+                  <SelectItem value="verb">{t('New.form.types.verb')}</SelectItem>
+                  <SelectItem value="adverb">{t('New.form.types.adverb')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <NewEntryListSelect lists={lists} setList={setList} />
+            <HeaderNewListSelect lists={lists} setList={setList} />
           </div>
           <DrawerFooter className="pb-lg">
-            <div className="flex gap-md">
+            <div className="gap-md flex">
               <Button onClick={() => handleCreate()} className="w-full">
-                {t('NewEntry.form.submit')}
+                {t('New.form.submit')}
               </Button>
               <DrawerClose asChild>
                 <Button variant="outline" className="w-full">
-                  {t('NewEntry.form.cancel')}
+                  {t('New.form.cancel')}
                 </Button>
               </DrawerClose>
             </div>
@@ -146,4 +148,4 @@ const NewEntry = ({ lists }: { lists: IList[] | null; user: IUser }) => {
   );
 };
 
-export default NewEntry;
+export default HeaderNew;

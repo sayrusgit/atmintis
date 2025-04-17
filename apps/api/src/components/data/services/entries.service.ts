@@ -7,7 +7,6 @@ import { validateId } from '@helpers/ValidateId';
 import { ListsService } from '@components/data/services/lists.service';
 import { IEntry, IResponse } from '@shared/types';
 import { csvToJson, EntryJsonFromCsv } from '@helpers/CsvToJson';
-import { removeFile } from '@helpers/RemoveFile';
 import { DefinitionsService } from '@components/data/services/definitions.service';
 import { v4 as uuidv4 } from 'uuid';
 import { del, put } from '@vercel/blob';

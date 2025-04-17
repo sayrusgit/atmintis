@@ -10,7 +10,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'use-intl';
 import { $fetch } from '@/lib/fetch';
 
-export default function PageHeaderInput({ userId }: { userId: string }) {
+export default function HeaderInput({ userId }: { userId: string }) {
   const t = useTranslations('header');
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,7 +52,7 @@ export default function PageHeaderInput({ userId }: { userId: string }) {
       />*/}
       <Card
         hidden={!searchSuggestions?.length}
-        className="absolute top-[70px] w-full max-w-[605px] rounded-md border bg-background p-xs"
+        className="bg-background p-xs absolute top-[70px] w-full max-w-[605px] rounded-md border"
       >
         {searchSuggestions?.length &&
           searchSuggestions.map((suggestion) => (
@@ -64,7 +64,7 @@ export default function PageHeaderInput({ userId }: { userId: string }) {
                 setSearchSuggestions([]);
               }}
             >
-              <div className="rounded-xs px-xs py-[5px] transition-colors duration-150 hover:bg-secondary">
+              <div className="px-xs hover:bg-secondary rounded-xs py-[5px] transition-colors duration-150">
                 {suggestion.value}
               </div>
             </Link>

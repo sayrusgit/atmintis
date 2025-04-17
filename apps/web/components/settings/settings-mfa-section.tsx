@@ -72,7 +72,7 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
               {t('disable')}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:min-w-[825px]">
             <DialogHeader>
               <DialogTitle>{t('disableModal.title')}</DialogTitle>
             </DialogHeader>
@@ -109,11 +109,11 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="text-center">{t('enableModal.title')}</DialogTitle>
-            <DialogDescription className="text-balance text-center">
+            <DialogDescription className="text-center text-balance">
               {t('enableModal.description')}
             </DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col items-center gap-md">
+          <div className="gap-md flex flex-col items-center">
             <div className="h-48 w-48">
               {mfaData.qrcode && (
                 <motion.div
@@ -138,7 +138,7 @@ function SettingsMfaSection({ user }: { user: IUser | null }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="h-3 text-xs text-foreground-heading"
+                  className="text-foreground-heading h-3 text-xs"
                 >
                   {mfaData.secret}
                 </motion.code>

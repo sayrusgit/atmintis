@@ -20,7 +20,7 @@ interface NewEntryListSelectProps {
   setList: (listId: string) => void;
 }
 
-export function NewEntryListSelect({ lists, setList }: NewEntryListSelectProps) {
+export function HeaderNewListSelect({ lists, setList }: NewEntryListSelectProps) {
   const t = useTranslations('header');
 
   const [open, setOpen] = React.useState(false);
@@ -33,13 +33,18 @@ export function NewEntryListSelect({ lists, setList }: NewEntryListSelectProps) 
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="hover:bg-input-hover w-full justify-between"
         >
-          {value ? lists?.find((list) => list._id === value)?.title : t('NewEntry.form.list')}
+          {value ? lists?.find((list) => list._id === value)?.title : t('New.form.list')}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0 md:w-[583px]" align="start">
+      <PopoverContent
+        className="w-full p-0 md:w-[583px]"
+        align="start"
+        onWheel={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+      >
         <Command>
           <CommandInput placeholder="Select a list..." className="h-9" />
           <CommandList>

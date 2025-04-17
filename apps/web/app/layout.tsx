@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 import { noto_sans } from '@/styles/fonts';
 import React from 'react';
 import { Providers } from '@/app/providers';
-import PageHeader from '@/components/page-header';
+import Header from '@/components/header';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { getSession } from '@/lib/session';
@@ -41,7 +41,7 @@ export default async function RootLayout({
       <body className={`${noto_sans.className} antialiased`}>
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            <PageHeader user={user} />
+            <Header user={user} />
             <main className="container">{children}</main>
           </NextIntlClientProvider>
         </Providers>

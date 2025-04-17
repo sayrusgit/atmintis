@@ -13,7 +13,6 @@ import {
   UpdateUserPasswordDto,
 } from '@components/users/dtos/users.dto';
 import * as bcrypt from 'bcrypt';
-import { removeFile } from '@helpers/RemoveFile';
 import { authenticator } from 'otplib';
 import * as qrcode from 'qrcode';
 import { User, UserDocument } from '@entities/user.schema';

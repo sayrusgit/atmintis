@@ -23,11 +23,11 @@ import { logout } from '@/lib/auth';
 import type { IUser } from '@shared/types';
 import Link from 'next/link';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import PageHeaderDialogContent from '@/components/page-header-dialog-content';
+import HeaderDialogContent from '@/components/header-dialog-content';
 import { updateUserLocaleAction } from '@/lib/actions';
 import { useTranslations } from 'use-intl';
 
-function PageHeaderNav({ user }: { user: IUser }) {
+function HeaderMenu({ user }: { user: IUser }) {
   const { theme, setTheme } = useTheme();
 
   const t = useTranslations('header.Nav');
@@ -71,12 +71,12 @@ function PageHeaderNav({ user }: { user: IUser }) {
             <AvatarFallback className="rounded-md">{user?.username}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-3 w-60 p-xs" align="end" forceMount>
+        <DropdownMenuContent className="p-xs mt-3 w-60" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{user.username}</p>
-              <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-              <p className="text-xs leading-none text-muted-foreground">id: {user._id}</p>
+              <p className="text-sm leading-none font-medium">{user.username}</p>
+              <p className="text-muted-foreground text-xs leading-none">{user.email}</p>
+              <p className="text-muted-foreground text-xs leading-none">id: {user._id}</p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="my-2" />
@@ -84,7 +84,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="text-md my-2">{t('theme')}</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
-                <DropdownMenuSubContent className="mx-3 w-36 p-xs">
+                <DropdownMenuSubContent className="p-xs mx-3 w-36">
                   <span onClick={() => toggleTheme('dark')}>
                     <DropdownMenuItem className="text-md mb-1">
                       <div className="flex items-center justify-between">
@@ -109,7 +109,7 @@ function PageHeaderNav({ user }: { user: IUser }) {
                 {t('language')}
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
-                <DropdownMenuSubContent className="mx-3 w-36 p-xs">
+                <DropdownMenuSubContent className="p-xs mx-3 w-36">
                   <DropdownMenuItem
                     className="text-md mb-1"
                     onClick={() => updateUserLocaleAction('en')}
@@ -186,9 +186,9 @@ function PageHeaderNav({ user }: { user: IUser }) {
           </span>
         </DropdownMenuContent>
       </DropdownMenu>
-      <PageHeaderDialogContent />
+      <HeaderDialogContent />
     </Dialog>
   );
 }
 
-export default PageHeaderNav;
+export default HeaderMenu;

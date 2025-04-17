@@ -26,18 +26,19 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --success: var(--success);
-  --info: var(--info);
-  --danger: var(--danger);
-  --danger-foreground: var(--danger-foreground);
-
-  --context-red: var(--context-red);
-  --context-green: var(--context-green);
-  --context-blue: var(--context-blue);
+  --color-success: var(--success);
+  --color-info: var(--info);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-context-red: var(--context-red);
+  --color-context-green: var(--context-green);
+  --color-context-blue: var(--context-blue);
 
   --color-border: var(--border);
   --color-border-hover: var(--border-hover);
   --color-input: var(--input);
+  --color-input-hover: var(--input-hover);
+  --color-input-border: var(--input-border);
   --color-ring: var(--ring);
 
   --spacing-xs: 0.625rem;
@@ -53,7 +54,6 @@
   --radius-xl: var(--radius);
 
   --breakpoint-xs: 29rem;
-  --breakpoint-2xl: 1400px;
 }
 
 :root {
@@ -104,7 +104,7 @@
   --card: oklch(0.248 0 89.876);
   --card-foreground: oklch(0.925 0 89.876);
   --card-hover: oklch(0.31 0.002 286.296);
-  --popover: oklch(0.226 0 89.876);
+  --popover: oklch(0.235 0 89.876);
   --popover-foreground: oklch(0.925 0 89.876);
   --popover-hover: oklch(0.31 0.002 286.296);
   --primary: oklch(0.985 0 89.876);
@@ -128,6 +128,8 @@
   --border: oklch(0.301 0 89.876);
   --border-hover: oklch(0.42 0 89.876);
   --input: oklch(0.281 0 89.876);
+  --input-hover: oklch(0.255 0 89.876);
+  --input-border: oklch(0.379 0 89.876);
   --ring: oklch(0.76 0.166 154.675);
 
   --context-red: hsl(0, 54%, 40%);

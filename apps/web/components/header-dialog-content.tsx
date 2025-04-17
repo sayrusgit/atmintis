@@ -8,14 +8,14 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-function PageHeaderDialogContent() {
+function HeaderDialogContent() {
   return (
     <DialogContent>
       <DialogHeader>
         <DialogTitle className="font-medium">Keyboard shortcuts</DialogTitle>
       </DialogHeader>
       <DialogDescription>
-        <span className="grid grid-cols-2 gap-xs">
+        <span className="gap-xs grid grid-cols-2">
           <span>Open keyboard shortcuts</span>
           <kbd className="text-foreground-heading">Shift + K</kbd>
           <span>New entry</span>
@@ -38,4 +38,4 @@ function PageHeaderDialogContent() {
   );
 }
 
-export default PageHeaderDialogContent;
+export default HeaderDialogContent;
