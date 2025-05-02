@@ -63,7 +63,7 @@ const HeaderNew = ({ lists }: { lists: IList[] | null; user: IUser }) => {
 
     return () => {
       window.removeEventListener('keydown', handleOpen);
-      window.removeEventListener('keypress', handlePressingCreate);
+      window.removeEventListener('keydown', handlePressingCreate);
     };
   }, []);
 

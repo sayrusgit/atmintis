@@ -86,6 +86,7 @@ export class EntriesService {
       const res = await this.entryModel.create({
         ...data,
         user: data.userId,
+        orderPosition: defaultList.entryNumber,
         list: defaultList._id,
       });
 

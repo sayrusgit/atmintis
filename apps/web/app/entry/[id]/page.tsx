@@ -1,5 +1,3 @@
-'use server';
-
 import type { IEntry } from '@shared/types';
 import DefinitionSection from '@/components/entry/definitions-section';
 import { DefinitionsSkeleton } from '@/components/skeletons';
@@ -18,6 +16,7 @@ import type { Metadata } from 'next';
 import EntryImageSection from '@/components/entry/entry-image-section';
 import EntryValue from '@/components/entry/entry-value';
 import EntryDescription from '@/components/entry/entry-description';
+import { Separator } from '@/components/ui/separator';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -61,19 +60,19 @@ async function Page({ params }: Props) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex justify-between gap-md">
+      <div className="gap-md flex justify-between">
         <div>
-          <div className="flex items-end gap-xs">
+          <div className="gap-xs flex items-end">
             <EntryValue initialValue={entry.value} entryId={entry._id} />
-            <p className="italic text-muted-foreground">{entry.type}</p>
+            <p className="text-muted-foreground italic">{entry.type}</p>
           </div>
           <TagsSection entry={entry} />
           {entry?.extras ? (
-            <div className="mt-sm flex flex-wrap gap-sm">
+            <div className="mt-sm gap-sm flex flex-wrap">
               {entry.extras?.map((extra) => (
-                <div className="flex items-center gap-xs" key={extra.value + entry._id}>
+                <div className="gap-xs flex items-center" key={extra.value + entry._id}>
                   <div className={`h-7 w-7 rounded-xs bg-${extra.color}`}></div>
-                  <span className="italic leading-none">{extra.value}</span>
+                  <span className="leading-none italic">{extra.value}</span>
                 </div>
               ))}
             </div>
@@ -82,7 +81,7 @@ async function Page({ params }: Props) {
         </div>
         <EntryImageSection entry={entry} />
       </div>
-      <hr className="my-lg" />
+      <Separator className="my-lg" />
       <Suspense fallback={<DefinitionsSkeleton />}>
         <DefinitionSection entryId={entry._id} />
       </Suspense>

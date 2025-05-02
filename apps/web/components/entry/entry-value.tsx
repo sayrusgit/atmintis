@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { manrope } from '@/styles/fonts';
 import { updateEntryAction } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   entryId: string;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 function EntryValue({ entryId, initialValue }: Props) {
+  const router = useRouter();
+
   const [value, setValue] = useState(initialValue);
   const [editing, setEditing] = useState(false);
 
@@ -30,7 +33,7 @@ function EntryValue({ entryId, initialValue }: Props) {
     <div>
       {editing ? (
         <input
-          className={`${manrope.className} animate-pulse text-balance bg-background p-0 text-4xl outline-none`}
+          className={`${manrope.className} bg-background animate-pulse p-0 text-4xl text-balance outline-none`}
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -39,7 +42,7 @@ function EntryValue({ entryId, initialValue }: Props) {
         />
       ) : (
         <h1
-          className={`${manrope.className} text-balance text-4xl`}
+          className={`${manrope.className} text-4xl text-balance`}
           onDoubleClick={() => setEditing(true)}
         >
           {value}

@@ -11,7 +11,7 @@
     "prod:client": "npm run start --workspace=apps/web",
     "test:server": "bun run test -F '@atmintis/api'"
   },
-  "packageManager": "bun@1.2.10",
+  "packageManager": "bun@1.2.11",
   "workspaces": [
     "apps/*",
     "packages/*"
