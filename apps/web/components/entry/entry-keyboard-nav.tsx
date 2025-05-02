@@ -1,17 +1,20 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function EntryKeyboardNav() {
+  const router = useRouter();
+
   useEffect(() => {
-    const handlePressingCreate = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 'Enter') handleCreate();
+    const handleBack = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.code === 'BracketLeft') router.back();
     };
 
-    window.addEventListener('keydown', handleOpen);
+    window.addEventListener('keydown', handleBack);
 
     return () => {
-      window.removeEventListener('keydown', handleOpen);
+      window.removeEventListener('keydown', handleBack);
     };
   }, []);
 

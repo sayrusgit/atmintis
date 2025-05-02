@@ -17,6 +17,7 @@ import EntryImageSection from '@/components/entry/entry-image-section';
 import EntryValue from '@/components/entry/entry-value';
 import EntryDescription from '@/components/entry/entry-description';
 import { Separator } from '@/components/ui/separator';
+import EntryKeyboardNav from '@/components/entry/entry-keyboard-nav';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -85,6 +86,7 @@ async function Page({ params }: Props) {
       <Suspense fallback={<DefinitionsSkeleton />}>
         <DefinitionSection entryId={entry._id} />
       </Suspense>
+      <EntryKeyboardNav />
     </div>
   );
 }
