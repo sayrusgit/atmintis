@@ -45,8 +45,8 @@ async function Page({ params }: Props) {
           <h1 className="text-4xl">Exercise</h1>
           <ExerciseEndSession sessionId={session._id} />
         </div>
-        <Card className="mt-md flex flex-col gap-lg p-md">
-          <div className="flex gap-md">
+        <Card className="mt-md gap-lg p-md flex flex-col">
+          <div className="gap-md flex flex-col sm:flex-row">
             <ExerciseImage ongoingEntry={sessionRedis.ongoingEntry} />
             <div className="w-full">
               <h2 className="font text-2xl">{sessionRedis.ongoingEntry.value}</h2>

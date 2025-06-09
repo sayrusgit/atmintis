@@ -14,7 +14,7 @@ function ExerciseImage({ ongoingEntry }: { ongoingEntry: IExerciseEntry }) {
   if (!ongoingEntry?.image)
     return (
       <div
-        className="flex h-44 min-w-44 items-center justify-center rounded-xl bg-secondary"
+        className="bg-secondary hidden h-44 min-w-44 items-center justify-center rounded-xl sm:flex"
         onClick={handleReveal}
       >
         <EyeOffIcon />
@@ -23,7 +23,7 @@ function ExerciseImage({ ongoingEntry }: { ongoingEntry: IExerciseEntry }) {
 
   return (
     <div
-      className="flex h-44 w-44 cursor-pointer items-center justify-center rounded-xl bg-secondary transition-colors hover:bg-card-hover"
+      className="bg-secondary hover:bg-card-hover hidden h-44 w-44 cursor-pointer items-center justify-center rounded-xl transition-colors sm:flex"
       onClick={handleReveal}
     >
       {isRevealed ? (

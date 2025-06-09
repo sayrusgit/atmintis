@@ -16,7 +16,7 @@ function ExerciseSessionFinished({ session, list }: { session: IExercise; list: 
       <div className="flex justify-between">
         <div>
           <h1 className="text-2xl leading-none">Exercise session</h1>
-          <p className="mt-xs text-sm text-muted-foreground">{finishedAt}</p>
+          <p className="mt-xs text-muted-foreground text-sm">{finishedAt}</p>
         </div>
         <Link href={'/collection/' + list}>
           <Button size="sm" variant="ghost">
@@ -24,7 +24,7 @@ function ExerciseSessionFinished({ session, list }: { session: IExercise; list: 
           </Button>
         </Link>
       </div>
-      <div className="mt-lg grid grid-cols-3 gap-sm">
+      <div className="mt-lg grud-cols-1 gap-sm xs:grid-cols-3 grid">
         <div className="flex flex-col items-center">
           <p>Correct answers:</p>
           <p className="mt-xs text-4xl font-medium">
